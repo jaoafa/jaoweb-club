@@ -1,0 +1,33 @@
+{
+  "name": "jaoweb-support-design",
+  "version": "0.0.1",
+  "description": "Design for jao Minecraft Server Support Website",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "author": "Hiratake",
+  "license": "none",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "autoprefixer": "^9.6.2",
+    "babel-loader": "^8.0.6",
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-ejs": "^4.1.2",
+    "gulp-imagemin": "^6.1.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^8.0.0",
+    "webpack": "^4.41.0",
+    "webpack-stream": "^5.2.1"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "Android >= 5"
+  ]
+}
