@@ -1,0 +1,51 @@
+//
+// Foundation > Variables
+// -----------------------------------------------------------------
+
+// Size
+// --------------------------
+
+// Gap
+$size-gap-base: 8px;
+
+
+// Border
+// --------------------------
+
+// Border Radius
+$border-radius-base: 8px;
+
+
+// Font
+// --------------------------
+
+// Font Size
+$font-size-base: 1rem;
+$font-size-l6: $font-size-base * 8 / 2;
+$font-size-l5: $font-size-base * 8 / 3;
+$font-size-l4: $font-size-base * 8 / 4;
+$font-size-l3: $font-size-base * 8 / 5;
+$font-size-l2: $font-size-base * 8 / 6;
+$font-size-l1: $font-size-base * 8 / 7;
+$font-size-s1: $font-size-base * 8 / 9;
+$font-size-s2: $font-size-base * 8 / 10;
+$font-size-s3: $font-size-base * 8 / 11;
+$font-size-s4: $font-size-base * 8 / 12;
+
+// Font Family
+$font-family-base: '游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic', 'ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','Meiryo','メイリオ','Meiryo UI',sans-serif;
+$font-family-en: sofia-pro, $font-family-base;
+$font-family-ico: "Font Awesome 5 Free", 'fontawesome', sans-serif;
+$font-family-code: source-code-pro, monospace;
+
+// Font Weight
+$font-weight-base: 500;
+$font-weight-bold: 700;
+$font-weight-ico: 600;
+
+
+// Transition
+// --------------------------
+
+// Transition Duration
+$transition-duration-base: .2s;

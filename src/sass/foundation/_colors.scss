@@ -1,0 +1,24 @@
+//
+// Foundation > Colors
+// -----------------------------------------------------------------
+
+$color-primary: #ffb41d;
+$color-primary-light: lighten( $color-primary, 10% );
+$color-primary-dark:  darken( $color-primary, 10% );
+
+$color-black:  #202020;
+$color-gray-1: #3c3c3c;
+$color-gray-3: #535353;
+$color-gray-5: #727272;
+$color-gray-8: #e0e0e0;
+$color-gray-9: #f0f0f0;
+$color-white:  #fff;
+
+$color-success: #73ee87;
+
+$color-brand-twitter:   #1da1f2;
+$color-brand-facebook:  #1877f2;
+$color-brand-hatena:    #008fde;
+$color-brand-line:      #00c300;
+$color-brand-discord:   #7289da;
+$color-brand-instagram: #cf2e92;
