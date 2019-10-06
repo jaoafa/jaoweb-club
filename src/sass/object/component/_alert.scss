@@ -4,8 +4,10 @@
 
 .c-alert {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto;
   grid-template-columns: 32px 1fr;
+  grid-auto-rows: auto;
+  grid-auto-columns: 32px 1fr;
   gap: $size-gap-base 0;
   align-items: center;
   padding: $size-gap-base*2 $size-gap-base*2;
