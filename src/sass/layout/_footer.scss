@@ -1,0 +1,35 @@
+//
+// Layout > Main
+// -----------------------------------------------------------------
+
+.l-footer {
+  width: 100%;
+  color: $color-white;
+  background: $color-black;
+}
+
+.l-footer__inner {
+  max-width: $width-main-max;
+  margin: auto;
+  padding: $size-gap-base*4 $size-gap-base*2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+
+  @include bp( md ) {
+    padding: $size-gap-base*4 $size-gap-base*3;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    text-align: left;
+  }
+}
+
+.l-footer__copyright {
+  width: 100%;
+
+  @include bp( md ) {
+    width: auto;
+  }
+}

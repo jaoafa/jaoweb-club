@@ -22,6 +22,7 @@
 // Layout
 // ==========================================================================
 
+@import "./layout/footer";
 @import "./layout/header";
 @import "./layout/main";
 
@@ -42,8 +43,10 @@
 // -----------------------------------------------------------------
 
 @import "./object/project/breadcrumb";
+@import "./object/project/copyright";
 @import "./object/project/form";
 @import "./object/project/heading";
+@import "./object/project/socialmedia";
 
 // -----------------------------------------------------------------
 // Utility
