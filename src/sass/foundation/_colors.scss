@@ -4,7 +4,7 @@
 
 $color-primary: #ffb41d;
 $color-primary-light: lighten( $color-primary, 10% );
-$color-primary-dark:  darken( $color-primary, 10% );
+$color-primary-dark:   darken( $color-primary, 10% );
 
 $color-black:   #202020;
 $color-gray-1:  #3c3c3c;
@@ -15,7 +15,9 @@ $color-gray-9:  #f0f0f0;
 $color-gray-10: #f8f8f8;
 $color-white:   #fff;
 
-$color-success: #73ee87;
+$color-success: #86e72a;
+$color-warning: #ffb41d;
+$color-error:   #ff3f1d;
 
 $color-brand-twitter:   #1da1f2;
 $color-brand-facebook:  #1877f2;

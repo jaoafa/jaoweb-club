@@ -1,0 +1,51 @@
+//
+// Object > Component > Alert
+// -----------------------------------------------------------------
+
+.c-alert {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 32px 1fr;
+  gap: $size-gap-base 0;
+  align-items: center;
+  padding: $size-gap-base*2 $size-gap-base*2;
+  border-radius: $border-radius-base;
+  font-size: $font-size-s2;
+
+  @include bp( md ) {
+    padding: $size-gap-base*2 $size-gap-base*3;
+    font-size: $font-size-s1;
+  }
+
+  &--success {
+    border: solid 2px $color-success;
+  }
+  &--warning {
+    border: solid 2px $color-warning;
+  }
+  &--error {
+    border: solid 2px $color-error;
+  }
+}
+
+.c-alert__icon {
+  @include ico();
+
+  &--success {
+    color: $color-success;
+  }
+  &--warning {
+    color: $color-warning;
+  }
+  &--error {
+    color: $color-error;
+  }
+}
+
+.c-alert__heading {
+  font-weight: $font-weight-bold;
+}
+
+.c-alert__message {
+  grid-column: 2 / 3;
+}
