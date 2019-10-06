@@ -343,6 +343,24 @@ a {
   border-bottom: solid 1px #e0e0e0;
 }
 
+.l-main__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: 24px 0;
+  color: #3c3c3c;
+}
+
+@media screen and (min-width: 768px) {
+  .l-main__inner {
+    padding: 32px 24px;
+    gap: 40px 0;
+  }
+}
+
 .c-logo {
   width: 100%;
 }
@@ -409,5 +427,10 @@ a {
 
 .p-breadcrumb__text:hover {
   text-decoration: none;
+}
+
+.p-heading {
+  padding: 8px 0;
+  border-bottom: solid 1px #e0e0e0;
 }
 /*# sourceMappingURL=style.css.map */

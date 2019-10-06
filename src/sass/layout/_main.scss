@@ -16,3 +16,19 @@
   background: $color-gray-9;
   border-bottom: solid 1px $color-gray-8;
 }
+
+.l-main__inner {
+  max-width: $width-main-max;
+  margin: 0 auto;
+  padding: $size-gap-base*3 $size-gap-base*2;
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: $size-gap-base*3 0;
+  color: $color-gray-1;
+
+  @include bp( md ) {
+    padding: $size-gap-base*4 $size-gap-base*3;
+    gap: $size-gap-base*5 0;
+  }
+}
