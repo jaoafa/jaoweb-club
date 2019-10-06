@@ -1,0 +1,39 @@
+//
+// Layout > Header
+// -----------------------------------------------------------------
+
+.l-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: $color-white;
+  border-bottom: solid 1px $color-gray-8;
+}
+
+.l-header__inner {
+  max-width: $width-main-max;
+  margin: auto;
+  padding: 0 $size-gap-base*2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include bp( md ) {
+    padding: 0 $size-gap-base*3;
+  }
+}
+
+.l-header__logo {
+  width: $width-header-logo-mobile;
+  padding: $size-gap-base*2 0;
+
+  @include bp( md ) {
+    width: $width-header-logo-pc;
+  }
+
+  &:hover {
+    color: $color-gray-1;
+  }
+}
