@@ -163,6 +163,9 @@ select::-ms-expand {
 select::-ms-value {
   color: currentColor;
 }
+fieldset {
+  border: 0;
+}
 legend {
   border: 0;
   color: inherit;
