@@ -107,6 +107,12 @@ button, [type="button"], [type="reset"], [type="submit"], [role="button"] {
 
 [type="number"] {
   width: auto;
+  -moz-appearance: textfield;
+}
+[type="number"]::-webkit-outer-spin-button,
+[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 [type="search"] {
   -webkit-appearance: textfield;

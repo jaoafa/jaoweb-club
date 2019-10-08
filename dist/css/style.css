@@ -114,6 +114,13 @@ button, [type="button"], [type="reset"], [type="submit"], [role="button"] {
 
 [type="number"] {
   width: auto;
+  -moz-appearance: textfield;
+}
+
+[type="number"]::-webkit-outer-spin-button,
+[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 [type="search"] {
@@ -542,7 +549,13 @@ a {
 }
 
 .c-formSection__row > * + * {
-  margin-left: 16px;
+  margin-left: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .c-formSection__row > * + * {
+    margin-left: 16px;
+  }
 }
 
 .c-formGrandSection {
@@ -550,6 +563,22 @@ a {
   grid-auto-columns: 100%;
   grid-auto-flow: row;
   gap: 24px 0;
+}
+
+.c-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 0.88889rem;
+}
+
+.c-input__number {
+  width: 72px;
+  padding: 4px 8px;
+  display: inline-block;
 }
 
 .c-inputGroup {

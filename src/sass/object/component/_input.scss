@@ -2,8 +2,14 @@
 // Object > Component > Input
 // -----------------------------------------------------------------
 
-// .c-input {
-//   padding: $size-gap-base/2 $size-gap-base;
-//   display: flex;
-//   align-items: center;
-// }
+.c-input {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-s1;
+}
+
+.c-input__number {
+  width: 72px;
+  padding: $size-gap-base/2 $size-gap-base;
+  display: inline-block;
+}

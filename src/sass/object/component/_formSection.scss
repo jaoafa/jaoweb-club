@@ -26,6 +26,10 @@
   flex-wrap: wrap;
 
   & > * + * {
-    margin-left: $size-gap-base*2;
+    margin-left: $size-gap-base;
+
+    @include bp( md ) {
+      margin-left: $size-gap-base*2;
+    }
   }
 }
