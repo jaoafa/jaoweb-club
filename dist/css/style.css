@@ -488,6 +488,26 @@ a {
   grid-column: 2 / 3;
 }
 
+.c-button {
+  padding: 4px;
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: inherit;
+  background: transparent;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-transition-duration: .2s;
+  transition-duration: .2s;
+}
+
+.c-button--action:hover {
+  opacity: .5;
+}
+
 .c-formSection__heading {
   padding: 0 0 8px;
 }
