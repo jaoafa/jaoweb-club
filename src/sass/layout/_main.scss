@@ -29,7 +29,7 @@
 
   @include bp( md ) {
     padding: $size-gap-base*4 $size-gap-base*3 $size-gap-base*8;
-    gap: $size-gap-base*3 0;
+    gap: $size-gap-base*4 0;
   }
 }
 

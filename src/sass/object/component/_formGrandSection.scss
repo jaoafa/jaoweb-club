@@ -2,4 +2,12 @@
 // Object > Component > Form Grand Section
 // -----------------------------------------------------------------
 
-
+.c-formGrandSection {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: $size-gap-base*3 0;
+}
+.c-formGrandSection__heading {
+  
+}

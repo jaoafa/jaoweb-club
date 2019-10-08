@@ -408,7 +408,7 @@ a {
 @media screen and (min-width: 768px) {
   .l-main__inner {
     padding: 32px 24px 64px;
-    gap: 24px 0;
+    gap: 32px 0;
   }
 }
 
@@ -417,6 +417,16 @@ a {
   grid-auto-columns: 100%;
   grid-auto-flow: row;
   gap: 16px;
+}
+
+.c-addon {
+  padding: 4px;
+}
+
+.c-addon__text {
+  padding: 0 8px;
+  color: #727272;
+  font-size: 0.8rem;
 }
 
 .c-alert {
@@ -476,6 +486,70 @@ a {
 
 .c-alert__message {
   grid-column: 2 / 3;
+}
+
+.c-formSection__heading {
+  padding: 0 0 8px;
+}
+
+.c-formSection__body--horizontal > * + * {
+  margin-left: 16px;
+}
+
+.c-formSection__body--vertical {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: 16px 0;
+}
+
+.c-formSection__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c-formSection__row > * + * {
+  margin-left: 16px;
+}
+
+.c-formGrandSection {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: 24px 0;
+}
+
+.c-inputGroup {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  border: solid 1px #e0e0e0;
+  border-radius: 8px;
+}
+
+.c-inputGroup > * + * {
+  border-left: solid 1px #e0e0e0;
+}
+
+.c-inputGroup > *:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.c-inputGroup > *:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.c-inputGroup__addon {
+  background: #f0f0f0;
 }
 
 .c-logo {

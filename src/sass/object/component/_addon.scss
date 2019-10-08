@@ -1,0 +1,13 @@
+//
+// Object > Component > Addon
+// -----------------------------------------------------------------
+
+.c-addon {
+  padding: $size-gap-base/2;
+}
+
+.c-addon__text {
+  padding: 0 $size-gap-base;
+  color: $color-gray-5;
+  font-size: $font-size-s2;
+}
