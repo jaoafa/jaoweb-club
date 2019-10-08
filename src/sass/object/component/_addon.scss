@@ -4,6 +4,9 @@
 
 .c-addon {
   padding: $size-gap-base/2;
+  display: flex;
+  align-items: center;
+  background: $color-gray-9;
 }
 
 .c-addon__text {
