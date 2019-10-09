@@ -575,8 +575,16 @@ a {
   font-size: 0.88889rem;
 }
 
-.c-input__number {
+.c-input--small {
   width: 72px;
+}
+
+.c-input--large {
+  width: 100%;
+}
+
+.c-input__text, .c-input__number {
+  width: 100%;
   padding: 4px 8px;
   display: inline-block;
 }
@@ -602,6 +610,10 @@ a {
 
 .c-inputGroup > *:last-child {
   border-radius: 0 8px 8px 0;
+}
+
+.c-inputGroup:focus-within {
+  border-color: #5be6ff;
 }
 
 .c-logo {

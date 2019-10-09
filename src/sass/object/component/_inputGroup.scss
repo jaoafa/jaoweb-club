@@ -17,4 +17,7 @@
   & > *:last-child {
     border-radius: 0 $border-radius-base $border-radius-base 0;
   }
+  &:focus-within {
+    border-color: $color-focus;
+  }
 }

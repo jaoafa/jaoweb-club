@@ -6,10 +6,17 @@
   display: flex;
   align-items: center;
   font-size: $font-size-s1;
+
+  &--small {
+    width: 72px;
+  }
+  &--large {
+    width: 100%;
+  }
 }
 
-.c-input__number {
-  width: 72px;
+.c-input__text, .c-input__number {
+  width: 100%;
   padding: $size-gap-base/2 $size-gap-base;
   display: inline-block;
 }
