@@ -528,8 +528,9 @@ a {
   padding: 0 0 8px;
 }
 
-.c-formSection__body--horizontal > * + * {
-  margin-left: 16px;
+.c-formSection__body--horizontal > *:not(:last-child) {
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .c-formSection__body--vertical {
@@ -579,6 +580,14 @@ a {
 
 .c-input--small {
   width: 72px;
+}
+
+.c-input--smallregular {
+  width: 152px;
+}
+
+.c-input--medium {
+  width: 200px;
 }
 
 .c-input--large {

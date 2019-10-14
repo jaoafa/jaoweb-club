@@ -9,8 +9,9 @@
 
 .c-formSection__body {
   &--horizontal {
-    & > * + * {
-      margin-left: $size-gap-base*2;
+    & > *:not(:last-child) {
+      margin-right: $size-gap-base*2;
+      margin-bottom: $size-gap-base*2;
     }
   }
   &--vertical {
