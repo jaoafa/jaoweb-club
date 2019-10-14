@@ -727,6 +727,27 @@ a {
   }
 }
 
+.p-form__split {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: 16px 0;
+}
+
+@media screen and (min-width: 768px) {
+  .p-form__split {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+  .p-form__split > * {
+    width: 48%;
+  }
+}
+
 .p-heading {
   padding: 8px 0;
   border-bottom: solid 1px #e0e0e0;
