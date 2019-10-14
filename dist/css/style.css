@@ -645,6 +645,10 @@ a {
   fill: currentColor;
 }
 
+.c-requiredMark {
+  margin-left: 4px;
+}
+
 .p-breadcrumb {
   max-width: 1200px;
   margin: auto;
