@@ -528,6 +528,10 @@ a {
   padding: 0 0 8px;
 }
 
+.c-formSection__body--horizontal {
+  margin-bottom: -16px;
+}
+
 .c-formSection__body--horizontal > *:not(:last-child) {
   margin-right: 16px;
   margin-bottom: 16px;
