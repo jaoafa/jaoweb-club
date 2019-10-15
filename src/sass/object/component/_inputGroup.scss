@@ -20,4 +20,14 @@
   &:focus-within {
     border-color: $color-focus;
   }
+
+  &--success {
+    border-color: $color-success;
+  }
+  &--warning {
+    border-color: $color-warning;
+  }
+  &--error {
+    border-color: $color-error;
+  }
 }

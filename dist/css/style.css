@@ -630,6 +630,18 @@ a {
   border-color: #5bc3ff;
 }
 
+.c-inputGroup--success {
+  border-color: #86e72a;
+}
+
+.c-inputGroup--warning {
+  border-color: #ffb41d;
+}
+
+.c-inputGroup--error {
+  border-color: #ff3f1d;
+}
+
 .c-logo {
   width: 100%;
 }
