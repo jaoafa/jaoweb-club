@@ -1,0 +1,10 @@
+//
+// Object > Component > Message
+// -----------------------------------------------------------------
+
+.c-message {
+  &--error {
+    color: $color-error;
+    font-size: $font-size-s2;
+  }
+}

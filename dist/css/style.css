@@ -522,9 +522,15 @@ a {
   opacity: .5;
 }
 
+.c-formSection {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: 8px 0;
+}
+
 .c-formSection__heading {
   display: inline-block;
-  padding: 0 0 8px;
 }
 
 .c-formSection__body--horizontal {
@@ -654,6 +660,11 @@ a {
   vertical-align: top;
   line-height: 1;
   fill: currentColor;
+}
+
+.c-message--error {
+  color: #ff3f1d;
+  font-size: 0.8rem;
 }
 
 .c-requiredMark {

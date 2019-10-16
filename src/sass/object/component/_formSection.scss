@@ -2,9 +2,15 @@
 // Object > Component > Form Section
 // -----------------------------------------------------------------
 
+.c-formSection {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: row;
+  gap: $size-gap-base 0;
+}
+
 .c-formSection__heading {
   display: inline-block;
-  padding: 0 0 $size-gap-base;
 }
 
 .c-formSection__body {
