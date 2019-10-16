@@ -11,6 +11,10 @@
 
 .c-formSection__heading {
   display: inline-block;
+
+  @at-root legend#{&} {
+    margin-bottom: $size-gap-base;
+  }
 }
 
 .c-formSection__body {

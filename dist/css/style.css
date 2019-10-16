@@ -533,6 +533,10 @@ a {
   display: inline-block;
 }
 
+legend.c-formSection__heading {
+  margin-bottom: 8px;
+}
+
 .c-formSection__body--horizontal {
   margin-bottom: -16px;
 }
