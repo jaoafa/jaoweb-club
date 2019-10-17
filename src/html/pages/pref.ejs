@@ -63,222 +63,220 @@
 
     <div class="l-main__form">
     <form class="p-form">
-      <div class="p-form__split">
-        <div class="p-form__section">
-        <section class="c-formGrandSection">
-          <h2 class="c-formGrandSection__heading">申請者</h2>
+      <div class="p-form__section">
+      <section class="c-formGrandSection">
+        <h2 class="c-formGrandSection__heading">申請者</h2>
 
-          <section class="c-formGrandSection__section">
-          <div class="c-formSection">
-            <label class="c-formSection__heading" for="minecraftid">
-              Minecraft ID
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </label>
+        <section class="c-formGrandSection__section">
+        <div class="c-formSection">
+          <label class="c-formSection__heading" for="minecraftid">
+            Minecraft ID
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </label>
 
-            <div class="c-formSection__body c-formSection__body--vertical">
-              <div class="c-inputGroup c-inputGroup--success">
-                <div class="c-input c-input--large">
-                  <input class="c-input__text" id="minecraftid" type="text" name="">
-                </div>
+          <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-inputGroup c-inputGroup--success">
+              <div class="c-input c-input--large">
+                <input class="c-input__text" id="minecraftid" type="text" name="">
               </div>
             </div>
           </div>
-          </section>
+        </div>
+        </section>
 
-          <section class="c-formGrandSection__section">
-          <fieldset class="c-formSection">
-            <legend class="c-formSection__heading" id="discordusername">
-              Discord ユーザ名
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </legend>
+        <section class="c-formGrandSection__section">
+        <fieldset class="c-formSection">
+          <legend class="c-formSection__heading" id="discordusername">
+            Discord ユーザ名
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </legend>
 
-            <div class="c-formSection__body c-formSection__body--horizontal">
-              <div class="c-inputGroup c-inputGroup--warning">
-                <div class="c-input c-input--smallregular">
-                  <input class="c-input__text" type="text" name="" aria-labelledby="discordusername">
-                </div>
+          <div class="c-formSection__body c-formSection__body--horizontal">
+            <div class="c-inputGroup c-inputGroup--warning">
+              <div class="c-input c-input--smallregular">
+                <input class="c-input__text" type="text" name="" aria-labelledby="discordusername">
               </div>
+            </div>
 
-              <div class="c-inputGroup c-inputGroup--warning">
+            <div class="c-inputGroup c-inputGroup--warning">
+              <span class="c-addon">
+                <span class="c-addon__text">#</span>
+              </span>
+              <div class="c-input c-input--small">
+                <input class="c-input__text" type="text" name="" aria-labelledby="discordusername">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        </section>
+
+        <section class="c-formGrandSection__section">
+        <div class="c-formSection">
+          <label class="c-formSection__heading" for="verificationcode">
+            認証コード
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </label>
+
+          <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-inputGroup c-inputGroup--error">
+              <div class="c-input c-input--large">
+                <input class="c-input__text" id="verificationcode" type="text" name="">
+              </div>
+            </div>
+          </div>
+
+          <div class="c-formSection__message">
+            <div class="c-message c-message--error">
+              <i class="c-message__icon fas fa-times-circle"></i>
+              <span class="c-message__body">入力された値が不正です。</span>
+            </div>
+          </div>
+        </div>
+        </section>
+      </section>
+      </div>
+
+      <div class="p-form__section">
+      <section class="c-formGrandSection">
+        <h2 class="c-formGrandSection__heading">自治体</h2>
+
+        <section class="c-formGrandSection__section">
+        <div class="c-formSection">
+          <label class="c-formSection__heading" for="prefname">
+            名称
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </label>
+
+          <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-inputGroup">
+              <div class="c-input c-input--large">
+                <input class="c-input__text" id="prefname" type="text" name="" placeholder="中央市">
+              </div>
+            </div>
+          </div>
+        </div>
+        </section>
+
+        <section class="c-formGrandSection__section">
+        <div class="c-formSection">
+          <label class="c-formSection__heading" for="prefnamekana">
+            名称読み方
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </label>
+
+          <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-inputGroup">
+              <div class="c-input c-input--large">
+                <input class="c-input__text" id="prefnamekana" type="text" name="" placeholder="ちゅうおうし">
+              </div>
+            </div>
+          </div>
+        </div>
+        </section>
+
+        <section class="c-formGrandSection__section">
+        <fieldset class="c-formSection">
+          <legend class="c-formSection__heading">
+            範囲
+            <abbr class="c-requiredMark" title="必須">*</abbr>
+          </legend>
+
+          <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-formSection__row">
+              <label class="c-label" id="position-1">#1:</label>
+              <div class="c-inputGroup">
                 <span class="c-addon">
-                  <span class="c-addon__text">#</span>
+                  <span class="c-addon__text">X</span>
                 </span>
                 <div class="c-input c-input--small">
-                  <input class="c-input__text" type="text" name="" aria-labelledby="discordusername">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-1">
                 </div>
               </div>
-            </div>
-          </fieldset>
-          </section>
-
-          <section class="c-formGrandSection__section">
-          <div class="c-formSection">
-            <label class="c-formSection__heading" for="verificationcode">
-              認証コード
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </label>
-  
-            <div class="c-formSection__body c-formSection__body--vertical">
-              <div class="c-inputGroup c-inputGroup--error">
-                <div class="c-input c-input--large">
-                  <input class="c-input__text" id="verificationcode" type="text" name="">
-                </div>
-              </div>
-            </div>
-
-            <div class="c-formSection__message">
-              <div class="c-message c-message--error">
-                <i class="c-message__icon fas fa-times-circle"></i>
-                <span class="c-message__body">入力された値が不正です。</span>
-              </div>
-            </div>
-          </div>
-          </section>
-        </section>
-        </div>
-
-        <div class="p-form__section">
-        <section class="c-formGrandSection">
-          <h2 class="c-formGrandSection__heading">自治体</h2>
-
-          <section class="c-formGrandSection__section">
-          <div class="c-formSection">
-            <label class="c-formSection__heading" for="prefname">
-              名称
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </label>
-
-            <div class="c-formSection__body c-formSection__body--vertical">
               <div class="c-inputGroup">
-                <div class="c-input c-input--large">
-                  <input class="c-input__text" id="prefname" type="text" name="" placeholder="中央市">
+                <span class="c-addon">
+                  <span class="c-addon__text">Z</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-1">
                 </div>
               </div>
+              <button class="c-button c-button--action" type="button" aria-label="削除">
+                <i class="c-button__icon fas fa-times"></i>
+              </button>
             </div>
-          </div>
-          </section>
 
-          <section class="c-formGrandSection__section">
-          <div class="c-formSection">
-            <label class="c-formSection__heading" for="prefnamekana">
-              名称読み方
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </label>
-
-            <div class="c-formSection__body c-formSection__body--vertical">
+            <div class="c-formSection__row">
+              <label class="c-label" id="position-2">#2:</label>
               <div class="c-inputGroup">
-                <div class="c-input c-input--large">
-                  <input class="c-input__text" id="prefnamekana" type="text" name="" placeholder="ちゅうおうし">
+                <span class="c-addon">
+                  <span class="c-addon__text">X</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-2">
                 </div>
               </div>
+              <div class="c-inputGroup">
+                <span class="c-addon">
+                  <span class="c-addon__text">Z</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-2">
+                </div>
+              </div>
+              <button class="c-button c-button--action" type="button" aria-label="削除">
+                <i class="c-button__icon fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="c-formSection__row">
+              <label class="c-label" id="position-3">#3:</label>
+              <div class="c-inputGroup">
+                <span class="c-addon">
+                  <span class="c-addon__text">X</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-3">
+                </div>
+              </div>
+              <div class="c-inputGroup">
+                <span class="c-addon">
+                  <span class="c-addon__text">Z</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-3">
+                </div>
+              </div>
+              <button class="c-button c-button--action" type="button" aria-label="削除">
+                <i class="c-button__icon fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="c-formSection__row">
+              <label class="c-label" id="position-4">#4:</label>
+              <div class="c-inputGroup">
+                <span class="c-addon">
+                  <span class="c-addon__text">X</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-4">
+                </div>
+              </div>
+              <div class="c-inputGroup">
+                <span class="c-addon">
+                  <span class="c-addon__text">Z</span>
+                </span>
+                <div class="c-input c-input--small">
+                  <input class="c-input__number" type="number" name="" aria-labelledby="position-4">
+                </div>
+              </div>
+              <button class="c-button c-button--action" type="button" aria-label="削除">
+                <i class="c-button__icon fas fa-times"></i>
+              </button>
             </div>
           </div>
-          </section>
-
-          <section class="c-formGrandSection__section">
-          <fieldset class="c-formSection">
-            <legend class="c-formSection__heading">
-              範囲
-              <abbr class="c-requiredMark" title="必須">*</abbr>
-            </legend>
-
-            <div class="c-formSection__body c-formSection__body--vertical">
-              <div class="c-formSection__row">
-                <label class="c-label" id="position-1">#1:</label>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">X</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-1">
-                  </div>
-                </div>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">Z</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-1">
-                  </div>
-                </div>
-                <button class="c-button c-button--action" type="button" aria-label="削除">
-                  <i class="c-button__icon fas fa-times"></i>
-                </button>
-              </div>
-
-              <div class="c-formSection__row">
-                <label class="c-label" id="position-2">#2:</label>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">X</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-2">
-                  </div>
-                </div>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">Z</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-2">
-                  </div>
-                </div>
-                <button class="c-button c-button--action" type="button" aria-label="削除">
-                  <i class="c-button__icon fas fa-times"></i>
-                </button>
-              </div>
-
-              <div class="c-formSection__row">
-                <label class="c-label" id="position-3">#3:</label>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">X</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-3">
-                  </div>
-                </div>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">Z</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-3">
-                  </div>
-                </div>
-                <button class="c-button c-button--action" type="button" aria-label="削除">
-                  <i class="c-button__icon fas fa-times"></i>
-                </button>
-              </div>
-
-              <div class="c-formSection__row">
-                <label class="c-label" id="position-4">#4:</label>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">X</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-4">
-                  </div>
-                </div>
-                <div class="c-inputGroup">
-                  <span class="c-addon">
-                    <span class="c-addon__text">Z</span>
-                  </span>
-                  <div class="c-input c-input--small">
-                    <input class="c-input__number" type="number" name="" aria-labelledby="position-4">
-                  </div>
-                </div>
-                <button class="c-button c-button--action" type="button" aria-label="削除">
-                  <i class="c-button__icon fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </fieldset>
-          </section>
+        </fieldset>
         </section>
-        </div>
+      </section>
       </div>
     </form>
     </div>

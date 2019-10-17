@@ -402,7 +402,7 @@ a {
 }
 
 .l-main__inner {
-  max-width: 1200px;
+  max-width: 880px;
   margin: 0 auto;
   padding: 24px 16px 48px;
   display: grid;
@@ -754,27 +754,6 @@ legend.c-formSection__heading {
 @media screen and (min-width: 768px) {
   .p-form {
     gap: 32px 0;
-  }
-}
-
-.p-form__split {
-  display: grid;
-  grid-auto-columns: 100%;
-  grid-auto-flow: row;
-  gap: 16px 0;
-}
-
-@media screen and (min-width: 768px) {
-  .p-form__split {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-  }
-  .p-form__split > * {
-    width: 48%;
   }
 }
 

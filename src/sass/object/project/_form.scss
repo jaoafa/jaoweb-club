@@ -12,19 +12,3 @@
     gap: $size-gap-base*4 0;
   }
 }
-
-.p-form__split {
-  display: grid;
-  grid-auto-columns: 100%;
-  grid-auto-flow: row;
-  gap: $size-gap-base*2 0;
-
-  @include bp( md ) {
-    display: flex;
-    justify-content: space-between;
-
-    & > * {
-      width: 48%;
-    }
-  }
-}
