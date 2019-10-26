@@ -503,7 +503,6 @@ a {
 }
 
 .c-button {
-  padding: 4px;
   display: inline-block;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -514,12 +513,44 @@ a {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  -webkit-transition-duration: .2s;
-  transition-duration: .2s;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+}
+
+.c-button--action {
+  padding: 4px;
 }
 
 .c-button--action:hover {
   opacity: .5;
+}
+
+.c-button--border {
+  padding: 4px 16px;
+  border: solid 2px #ffb41d;
+  font-size: 0.8rem;
+}
+
+.c-button--border > * + * {
+  margin-left: 4px;
+}
+
+.c-button--border:hover {
+  background: #ffb41d;
+}
+
+.c-button--painted {
+  padding: 4px 16px;
+  border: solid 2px #ffb41d;
+  font-size: 0.8rem;
+}
+
+.c-button--painted > * + * {
+  margin-left: 4px;
+}
+
+.c-button--painted:hover {
+  background: transparent;
 }
 
 .c-formSection {
