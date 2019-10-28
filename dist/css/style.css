@@ -503,7 +503,12 @@ a {
 }
 
 .c-button {
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -515,6 +520,10 @@ a {
   cursor: pointer;
   -webkit-transition-duration: 0.2s;
   transition-duration: 0.2s;
+}
+
+.c-button > * + * {
+  margin-left: 8px;
 }
 
 .c-button--action {
@@ -531,10 +540,6 @@ a {
   font-size: 0.8rem;
 }
 
-.c-button--border > * + * {
-  margin-left: 4px;
-}
-
 .c-button--border:hover {
   background: #ffb41d;
 }
@@ -544,10 +549,6 @@ a {
   background: #ffb41d;
   border: solid 2px #ffb41d;
   font-size: 0.8rem;
-}
-
-.c-button--painted > * + * {
-  margin-left: 4px;
 }
 
 .c-button--painted:hover {

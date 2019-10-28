@@ -3,7 +3,8 @@
 // -----------------------------------------------------------------
 
 .c-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   appearance: none;
   color: inherit;
   background: transparent;
@@ -12,6 +13,10 @@
   text-decoration: none;
   cursor: pointer;
   transition-duration: $transition-duration-base;
+
+  & > * + * {
+    margin-left: $size-gap-base;
+  }
 
   &--action {
     padding: $size-gap-base/2;
@@ -25,9 +30,6 @@
     border: solid 2px $color-primary;
     font-size: $font-size-s2;
 
-    & > * + * {
-      margin-left: $size-gap-base/2;
-    }
     &:hover {
       background: $color-primary;
     }
@@ -38,9 +40,6 @@
     border: solid 2px $color-primary;
     font-size: $font-size-s2;
 
-    & > * + * {
-      margin-left: $size-gap-base/2;
-    }
     &:hover {
       background: transparent;
     }
