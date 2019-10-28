@@ -541,6 +541,7 @@ a {
 
 .c-button--painted {
   padding: 4px 16px;
+  background: #ffb41d;
   border: solid 2px #ffb41d;
   font-size: 0.8rem;
 }

@@ -34,6 +34,7 @@
   }
   &--painted {
     padding: $size-gap-base/2 $size-gap-base*2;
+    background: $color-primary;
     border: solid 2px $color-primary;
     font-size: $font-size-s2;
 
