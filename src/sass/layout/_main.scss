@@ -20,7 +20,7 @@
 .l-main__inner {
   max-width: $width-form-max;
   margin: 0 auto;
-  padding: $size-gap-base*3 $size-gap-base*2 $size-gap-base*6;
+  padding: $size-gap-base*3 $size-gap-base*2 $size-gap-base*8;
   display: grid;
   grid-auto-columns: 100%;
   grid-auto-flow: row;
@@ -28,7 +28,7 @@
   color: $color-gray-1;
 
   @include bp( md ) {
-    padding: $size-gap-base*4 $size-gap-base*3 $size-gap-base*8;
+    padding: $size-gap-base*4 $size-gap-base*3 $size-gap-base*10;
     gap: $size-gap-base*4 0;
   }
 }

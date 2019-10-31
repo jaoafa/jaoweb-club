@@ -404,7 +404,7 @@ a {
 .l-main__inner {
   max-width: 880px;
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: 24px 16px 64px;
   display: grid;
   grid-auto-columns: 100%;
   grid-auto-flow: row;
@@ -414,7 +414,7 @@ a {
 
 @media screen and (min-width: 768px) {
   .l-main__inner {
-    padding: 32px 24px 64px;
+    padding: 32px 24px 80px;
     gap: 32px 0;
   }
 }
