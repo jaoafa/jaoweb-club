@@ -1,33 +1,46 @@
 {
-  "name": "jaoweb-support-design",
-  "version": "0.0.1",
-  "description": "Design for jao Minecraft Server Support Website",
-  "main": "index.js",
-  "scripts": {
-    "build": "gulp build"
-  },
-  "author": "Hiratake",
-  "license": "none",
+  "name": "jao-users",
+  "version": "1.0.0",
+  "description": "jao Minecraft Server Users Website",
+  "main": "main.js",
+  "author": "Hiratake <hiratake@hiratake.xyz>",
+  "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "autoprefixer": "^9.6.2",
-    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "autoprefixer": "^9.7.6",
+    "babel-loader": "^8.1.0",
     "browser-sync": "^2.26.7",
+    "css-loader": "^3.5.1",
+    "fibers": "^4.0.2",
+    "file-loader": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-ejs": "^4.1.2",
-    "gulp-imagemin": "^6.1.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.2",
+    "gulp-imagemin": "^7.1.0",
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-pngquant": "^8.0.0",
-    "webpack": "^4.41.0",
+    "node-gyp": "^6.1.0",
+    "node-sass": "^4.13.1",
+    "postcss-loader": "^3.0.0",
+    "sass": "^1.26.3",
+    "sass-loader": "^8.0.2",
+    "sass-resources-loader": "^2.0.1",
+    "vue-loader": "^15.9.1",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.42.1",
     "webpack-stream": "^5.2.1"
+  },
+  "dependencies": {
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
+  },
+  "scripts": {
+    "dev": "gulp dev",
+    "build": "gulp build",
+    "server": "gulp server"
   },
   "browserslist": [
     "last 2 versions",
-    "ie >= 11",
-    "Android >= 5"
+    "not ie < 12",
+    "not dead"
   ]
 }

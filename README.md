@@ -2,6 +2,11 @@
 
 [jao Minecraft Server](https://jaoafa.com) のお問い合わせ・各種申請用サイトのデザインモックアップ制作用リポジトリ。
 
+- `npm install` もしくは `yarn install` で必要なファイルを取得。
+- `npm run dev` もしくは `yarn dev` でローカルサーバ起動、ファイル保存時のビルド等の実行。
+- `npm run build` もしくは `yarn build` で本番用ファイル生成。
+- `npm run server` もしくは `yarn server` でローカルサーバ起動（その他の処理は行わない）。
+
 ## Forms
 
 - 自治体新規登録申請フォーム

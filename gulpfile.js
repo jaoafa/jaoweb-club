@@ -1,231 +1,250 @@
-/* -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- *
- *      =====================^==================^=====================      *
- *                     (c) 2019 jao Minecraft Server                        *
- *                           https://jaoafa.com                             *
- *      ==============================================================      *
- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- */
+// ================================================================================
+// (c) 2020 Hiratake
+// gulpfile.js
+// ================================================================================
 
 const gulp              = require( "gulp" );
-const fs                = require( "fs" );
 const browsersync       = require( "browser-sync" );
-const sass              = require( "gulp-sass" );
-const postcss           = require( "gulp-postcss" );
-const autoprefixer      = require( "autoprefixer" );
-const ejs               = require( "gulp-ejs" );
-const rename            = require( "gulp-rename" );
 const imagemin          = require( "gulp-imagemin" );
-const pngmin            = require( "imagemin-pngquant" );
-const jpgmin            = require( "imagemin-mozjpeg" );
+const minifyjpeg        = require( "imagemin-mozjpeg" );
+const minifypng         = require( "imagemin-pngquant");
 const webpack           = require( "webpack" );
 const webpackstream     = require( "webpack-stream" );
 
-const webpackconfig     = require( "./webpack.config" );
+const webpackconfig     = {
+  prod: require( "./webpack.config.prod" ),
+  dev:  require( "./webpack.config.dev" )
+};
 
 const paths = {
   html: {
-    src: {
-      all:        "./src/html/**/*.ejs",
-      components: "./src/html/components/**/*.ejs",
-      pages:      "./src/html/pages/**/!(_)*.ejs",
-      json:       "./src/html/data.json"
-    },
-    dest: "./dist"
+    src: "./src/html/**/*.html",
+    dest: "./build"
   },
-  styles: {
-    src:  "./src/sass/**/*.scss",
-    dest: "./dist/css"
+  css: {
+    src: "./src/sass/**/*.scss"
   },
   js: {
-    src:  "./src/js/**/*.js",
-    dest: "./dist/js"
+    src: "./src/js/**/*.js",
+    dest: "./build/js"
   },
   image: {
-    src:  "./src/img/**/*.{jpg,png,svg,gif}",
-    dest: "./dist/img"
+    src: "./src/img/**/*.{jpg,png,gif,svg}",
+    dest: "./build/img"
   },
-  asset: {
-    src: "./src/asset/**/*",
-    dest: "./dist/asset"
+  vue: {
+    src: "./src/vue/**/*.vue"
+  },
+  assets: {
+    src: "./src/assets/**/*",
+    dest: "./build/assets"
   }
-};
-
-
-// -----------------------------------------------------------------
-// Tasks
-// -----------------------------------------------------------------
+}
 
 // Start Browser Sync
-const startSync = ( cb ) => {
+const startSync = ( done ) => {
   browsersync({
     server: {
       baseDir: paths.html.dest,
       index: "index.html"
     },
+    ui: false,
+    open: false,
     notify: false
   });
-  cb();
+  done();
 };
 
 // Reload Browser
-const reloadBrowser = ( cb ) => {
+const reloadBrowser = ( done ) => {
   browsersync.reload();
-  cb();
+  done();
 };
 
-// Compile Sass Files
-const compileSass = () => {
+// Copy HTML Files
+const copyHTML = () => {
   return gulp
   .src(
-    paths.styles.src,
-    { sourcemaps: true }
-  )
-  .pipe(
-    sass({ outputStyle: "expanded" })
-  )
-  .pipe(
-    postcss([
-      autoprefixer({ cascade: false })
-    ])
+    paths.html.src
   )
   .pipe(
     gulp.dest(
-      paths.styles.dest,
-      { sourcemaps: "." }
+      paths.html.dest
     )
   );
-}
-
-// Compile EJS Files
-const compileEjs = () => {
-  let json = JSON.parse( fs.readFileSync( paths.html.src.json ) );
-  return gulp
-  .src( paths.html.src.pages )
-  .pipe(
-    ejs({ data: json })
-  )
-  .pipe(
-    rename({ extname: ".html" })
-  )
-  .pipe(
-    gulp.dest( paths.html.dest )
-  );
 };
-
+// Copy Assets Files
+const copyAssets = () => {
+  return gulp
+  .src(
+    paths.assets.src
+  )
+  .pipe(
+    gulp.dest(
+      paths.assets.dest
+    )
+  )
+};
 // Bundle JavaScript Files
-const bundleJS = () => {
-  return gulp
-  .src( paths.js.src )
-  .pipe(
-    webpackstream( webpackconfig, webpack )
-  )
-  .pipe(
-    gulp.dest( paths.js.dest )
-  );
+const bundleJS = {
+  prod: () => {
+    return gulp
+    .src(
+      paths.js.src
+    )
+    .pipe(
+      webpackstream(
+        webpackconfig.prod,
+        webpack
+      )
+    )
+    .pipe(
+      gulp.dest(
+        paths.js.dest
+      )
+    );
+  },
+  dev: () => {
+    return gulp
+    .src(
+      paths.js.src
+    )
+    .pipe(
+      webpackstream(
+        webpackconfig.dev,
+        webpack
+      )
+    )
+    .pipe(
+      gulp.dest(
+        paths.js.dest
+      )
+    );
+  }
 };
-
 // Minify Image Files
 const minifyImage = () => {
   return gulp
   .src(
     paths.image.src,
-    { since: gulp.lastRun( minifyImage ) }
+    {
+      since: gulp.lastRun( minifyImage )
+    }
   )
   .pipe(
     imagemin([
-      pngmin({ quality: [0.65, 0.8] }),
-      jpgmin({ quality: 85 }),
-      imagemin.gifsicle({
-        interlaced: false,
-        optimizationLevel: 1,
-        colors: 256
+      minifyjpeg({
+        quality: 80
       }),
-      imagemin.svgo({
-        plugins: [
-          { optimizationLevel: 3 },
-          { interlaced: true },
-          { removeViewBox: false },
-          { removeUselessStrokeAndFill: false },
-          { cleanupIDs: false }
-        ]
-      })
+      minifypng({
+        quality: [.7, .85],
+        speed: 1
+      }),
+      imagemin.svgo(),
+      imagemin.gifsicle()
     ])
   )
   .pipe(
-    gulp.dest( paths.image.dest )
-  );
+    gulp.dest(
+      paths.image.dest
+    )
+  )
 };
 
-// Copy Asset Files
-const copyAsset = () => {
-  return gulp
-  .src( paths.asset.src )
-  .pipe(
-    gulp.dest( paths.asset.dest )
+// Watch HTML Files
+const watchHTML = ( done ) => {
+  gulp
+  .watch(
+    paths.html.src,
+    gulp.series(
+      copyHTML,
+      reloadBrowser
+    )
   );
+  done();
 };
-
+// Watch Assets Files
+const watchAssets = ( done ) => {
+  gulp
+  .watch(
+    paths.assets.src,
+    gulp.series(
+      copyAssets,
+      reloadBrowser
+    )
+  );
+  done();
+};
 // Watch Sass Files
-const watchSass = ( cb ) => {
+const watchSass = ( done ) => {
   gulp
   .watch(
-    paths.styles.src,
-    gulp.series( compileSass, reloadBrowser )
+    paths.css.src,
+    gulp.series(
+      bundleJS.dev,
+      reloadBrowser
+    )
   );
-  cb();
+  done();
 };
-
-// Watch EJS Files
-const watchEjs = ( cb ) => {
-  gulp
-  .watch(
-    paths.html.src.all,
-    gulp.series( compileEjs, reloadBrowser )
-  );
-  cb();
-}
-
 // Watch JavaScript Files
-const watchJS = ( cb ) => {
+const watchJS = ( done ) => {
   gulp
   .watch(
     paths.js.src,
-    gulp.series( bundleJS, reloadBrowser )
+    gulp.series(
+      bundleJS.dev,
+      reloadBrowser
+    )
   );
-  cb();
+  done();
 };
-
+// Watch Vue Files
+const watchVue = ( done ) => {
+  gulp
+  .watch(
+    paths.vue.src,
+    gulp.series(
+      bundleJS.dev,
+      reloadBrowser
+    )
+  );
+  done();
+};
 // Watch Image Files
-const watchImage = ( cb ) => {
+const watchImage = ( done ) => {
   gulp
   .watch(
     paths.image.src,
-    gulp.series( minifyImage, reloadBrowser )
+    gulp.series(
+      minifyImage,
+      reloadBrowser
+    )
   );
-  cb();
+  done();
 };
 
-// Watch Asset Files
-const watchAsset = ( cb ) => {
-  gulp
-  .watch(
-    paths.asset.src,
-    gulp.series( copyAsset, reloadBrowser )
-  );
-  cb();
-};
-
-
-// -----------------------------------------------------------------
-// Exports
-// -----------------------------------------------------------------
-
-exports.build = gulp.series(
+exports.dev = gulp.series(
+  gulp.parallel(
+    copyHTML,
+    bundleJS.dev,
+    minifyImage,
+    copyAssets
+  ),
   startSync,
   gulp.parallel(
     watchSass,
-    watchEjs,
+    watchHTML,
     watchJS,
+    watchVue,
     watchImage,
-    watchAsset
+    watchAssets
   )
 );
+exports.build = gulp.parallel(
+  copyHTML,
+  bundleJS.prod,
+  minifyImage,
+  copyAssets
+);
+exports.server = startSync;
