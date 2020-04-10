@@ -43,12 +43,7 @@
 
 ## GitHub Pages
 
-- 自治体新規登録申請フォーム
-  - https://jaoafa.github.io/jaoweb-support-design/dist/pref.html
-- 自治体範囲変更申請フォーム
-- 自治体名称変更申請フォーム
-- 自治体情報変更申請フォーム
-- 自治体登録解除申請フォーム
+- https://jaoafa.github.io/jaoweb-support-design/build/
 
 
 ### Request
