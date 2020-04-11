@@ -41,7 +41,11 @@
       </template>
     </ul>
     <div class="InputRegion__Footer">
-      <span class="InputRegion__Counter">{{ blocksCount }} Blocks</span>
+      <span
+        class="InputRegion__Counter"
+        :class="{'_over': blocksCount > 250000}">
+        {{ blocksCount }} Blocks
+      </span>
       <!-- <template v-if="points.length > 4"> -->
         <button
           class="InputRegion__AddButton"
@@ -60,9 +64,14 @@ export default {
   data() {
     return {
       blocksCount: 0,
-      points: [
-        { id: 1, x: '0', z: '0' }
-      ]
+      error: false,
+      points: []
+    }
+  },
+  created() {
+    this.points = this.value;
+    if( this.points.length === 0 ) {
+      this.addPoint( '0', '0' );
     }
   },
   props: {
@@ -77,13 +86,25 @@ export default {
     required: {
       type: Boolean,
       required: true
+    },
+    value: {
+      type: Array,
+      required: true
     }
   },
   methods: {
+    emitData() {
+      this.$emit( 'change', {
+        error: this.error,
+        name: this.name,
+        value: this.points,
+        count: this.blocksCount
+      });
+    },
     addPoint( x, z ) {
       let max = this.points.reduce( ( a, b ) => {
         return a.id > b.id ? a : b;
-      });
+      }, { id: 0 });
       this.points.push({
         id: ( max.id + 1 ),
         x: x,
@@ -117,6 +138,7 @@ export default {
     points: {
       handler( newPoints, oldValues ) {
         this.countBlocks();
+        this.emitData();
       },
       deep: true
     }
@@ -250,6 +272,10 @@ export default {
   &__Counter {
     color: $color-gray-3;
     font-size: $font-size-s1;
+
+    &._over {
+      color: $color-red;
+    }
   }
 }
 </style>

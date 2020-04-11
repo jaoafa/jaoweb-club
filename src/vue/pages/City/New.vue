@@ -50,7 +50,9 @@
         <input-region
           :label="'範囲'"
           :name="'region'"
-          :required="true" />
+          :required="true"
+          :value="input.region.value"
+          @change="changeValue" />
         <input-text
           :label="'規定ブロックを超える理由'"
           :name="'reason'"
@@ -70,7 +72,8 @@
         class="Cities__Button"
         type="button"
         :class="{'_disabled': error}"
-        :disabled="error">
+        :disabled="error"
+        @click="postData">
         送信
       </button>
     </div>
@@ -105,6 +108,11 @@ export default {
         summary: {
           error: true,
           value: ''
+        },
+        region: {
+          error: true,
+          value: [],
+          count: 0
         },
         reason: {
           error: false,
@@ -151,6 +159,30 @@ export default {
     changeValue( res ) {
       this.input[res.name].value = res.value;
       this.input[res.name].error = res.error;
+      if( 'count' in this.input[res.name] ) {
+        this.input[res.name].count = res.count;
+      }
+    },
+    postData() {
+      let data = {
+        verificationCode: this.input.verificationCode.value,
+        cityName: this.input.cityName.value,
+        cityNameKana: this.input.cityNameKana.value,
+        origin: this.input.origin.value,
+        summary: this.input.summary.value,
+        region: this.input.region.value,
+        count: this.input.region.count,
+        reason: this.input.reason.value,
+        remarks: this.input.remarks.value
+      };
+      this.$axios.post( 'https://api.jaoafa.com', JSON.stringify( data ) )
+        .then( res => {
+          console.log( 'success' );
+          console.log( JSON.stringify( res.data ) );
+        })
+        .catch( res => {
+          console.log( 'failed' );
+        });
     }
   },
   components: {
