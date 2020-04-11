@@ -9,9 +9,15 @@ import Cities       from '@/vue/pages/Cities.vue';
 import CitiesCreate from '@/vue/pages/Cities/Create.vue';
 import Home       from '@/vue/pages/Home.vue';
 
+let mode = 'hash';
+if( process.env.NODE_ENV === 'production' ) {
+  mode = 'history';
+}
+
 Vue.use( VueRouter );
 
 const router = new VueRouter({
+  mode: mode,
   routes: [
     {
       component: Home,

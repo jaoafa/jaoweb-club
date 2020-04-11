@@ -4,6 +4,8 @@
 // ================================================================================
 
 $color-primary: #ffb41d;
+$color-primary-light: lighten( $color-primary, 16% );
+$color-prmary-dark: darken( $color-primary, 16% );
 
 $color-black:   #1c1c1c;
 $color-gray-1:  #3c3c3c;

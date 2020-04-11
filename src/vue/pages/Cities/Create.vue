@@ -68,14 +68,11 @@
           :value="input.remarks.value"
           @change="changeValue" />
       </section>
-      <button
-        class="Create__Button"
-        type="button"
-        :class="{'_disabled': error}"
+      <submit-button
         :disabled="error"
-        @click="postData">
-        送信
-      </button>
+        :label="'送信'"
+        :loading="button.loading"
+        @click="postData" />
     </div>
   </div>
 </template>
@@ -84,6 +81,7 @@
 // Components
 import InputRegion  from '@/vue/components/Common/InputRegion';
 import InputText    from '@/vue/components/Common/InputText';
+import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
   data() {
@@ -122,6 +120,9 @@ export default {
           error: false,
           value: ''
         }
+      },
+      button: {
+        loading: false
       }
     }
   },
@@ -164,30 +165,34 @@ export default {
       }
     },
     postData() {
-      let data = {
-        verificationCode: this.input.verificationCode.value,
-        cityName: this.input.cityName.value,
-        cityNameKana: this.input.cityNameKana.value,
-        origin: this.input.origin.value,
-        summary: this.input.summary.value,
-        region: this.input.region.value,
-        count: this.input.region.count,
-        reason: this.input.reason.value,
-        remarks: this.input.remarks.value
-      };
-      this.$axios.post( 'https://api.jaoafa.com/v1/cities/create', JSON.stringify( data ) )
-        .then( res => {
-          console.log( 'success' );
-          console.log( JSON.stringify( res.data ) );
-        })
-        .catch( res => {
-          console.log( 'failed' );
-        });
+      if( !this.button.loading && !this.error ) {
+        this.button.loading = true;
+        let data = {
+          verificationCode: this.input.verificationCode.value,
+          cityName: this.input.cityName.value,
+          cityNameKana: this.input.cityNameKana.value,
+          origin: this.input.origin.value,
+          summary: this.input.summary.value,
+          region: this.input.region.value,
+          count: this.input.region.count,
+          reason: this.input.reason.value,
+          remarks: this.input.remarks.value
+        };
+        this.$axios.post( 'https://api.jaoafa.com/v1/cities/create', JSON.stringify( data ) )
+          .then( res => {
+            console.log( JSON.stringify( res.data ) );
+          })
+          .catch( error => {
+            console.log( error );
+          });
+        // this.button.loading = false;
+      }
     }
   },
   components: {
     InputRegion,
-    InputText
+    InputText,
+    SubmitButton
   }
 }
 </script>
@@ -215,26 +220,6 @@ export default {
     grid-template-columns: 100%;
     grid-auto-rows: auto;
     gap: $size-base*3;
-  }
-  &__Button {
-    width: $size-base*12;
-    padding: $size-base*1/2;
-    background: $color-primary;
-    border: solid 1px $color-primary;
-    border-radius: $size-base*1;
-    font-size: $font-size-s1;
-    text-align: center;
-    transition-duration: $transition-duration-base;
-
-    &:hover {
-      opacity: .8;
-    }
-    &._disabled {
-      cursor: not-allowed;
-      color: $color-gray-4;
-      background: $color-gray-6;
-      border-color: $color-gray-5;
-    }
   }
 }
 </style>

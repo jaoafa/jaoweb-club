@@ -122,12 +122,8 @@ export default {
         let size = 0;
         let side = 0;
         this.points.reduce( ( a, b ) => {
-          let x1 = parseInt( a.x, 10 );
-          let x2 = parseInt( b.x, 10 );
-          let z1 = parseInt( a.z, 10 );
-          let z2 = parseInt( b.z, 10 );
-          size += ( x1 * z2 ) - ( x2 * z1 );
-          side += Math.abs( x1 - x2 ) + Math.abs( z1 - z2 );
+          size += ( (a.x-0) * (b.z-0) ) - ( (b.x-0) * (a.z-0) );
+          side += Math.abs( (a.x-0) - (b.x-0) ) + Math.abs( (a.z-0) - (b.z-0) );
           return b;
         }, this.points.slice(-1)[0]);
         this.blocksCount = Math.abs( size / 2 ) + ( side / 2 ) + 1;
@@ -173,11 +169,9 @@ export default {
     counter-increment: regionPoint;
   }
   &__PointLabel {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
     width: 100%;
     height: 100%;
-    min-height: $size-base*6;
+    min-height: $size-base*7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -214,7 +208,7 @@ export default {
   }
   &__PointItemInput {
     width: 100%;
-    padding: $size-base*1/2 $size-base*1;
+    padding: $size-base*1 $size-base*1;
     display: block;
     outline: none;
     font-size: $font-size-s2;
@@ -229,12 +223,9 @@ export default {
     }
   }
   &__AddButton {
-    display: grid;
-    grid-template-columns: repeat( 2, auto );
-    grid-template-rows: auto;
-    gap: $size-base*1;
-    align-items: center;
     padding: $size-base*1/2 $size-base*2;
+    display: flex;
+    align-items: baseline;
     color: $color-gray-3;
     background: $color-white;
     font-size: $font-size-s2;
@@ -244,6 +235,10 @@ export default {
 
     &:hover {
       border-color: $color-gray-3;
+    }
+
+    span {
+      padding-left: $size-base*1;
     }
   }
   &__Error {
@@ -260,6 +255,7 @@ export default {
   }
   &__Footer {
     padding: $size-base*1 $size-base*2;
+    margin-top: $size-base*1;
     display: grid;
     grid-template-columns: repeat( 2, auto ) 1fr;
     grid-template-rows: auto;
