@@ -3,10 +3,10 @@
 // router.js
 // ================================================================================
 
-import Vue        from 'vue';
-import VueRouter  from 'vue-router';
-import City      from '@/vue/pages/City.vue';
-import CityNew     from '@/vue/pages/City/New.vue';
+import Vue          from 'vue';
+import VueRouter    from 'vue-router';
+import Cities       from '@/vue/pages/Cities.vue';
+import CitiesCreate from '@/vue/pages/Cities/Create.vue';
 import Home       from '@/vue/pages/Home.vue';
 
 Vue.use( VueRouter );
@@ -22,20 +22,20 @@ const router = new VueRouter({
       path: '/'
     },
     {
-      component: City,
+      component: Cities,
       meta: {
-        label: '自治体申請'
+        label: '自治体'
       },
-      name: 'city',
-      path: '/city'
+      name: 'cities',
+      path: '/cities'
     },
     {
-      component: CityNew,
+      component: CitiesCreate,
       meta: {
         label: '新規自治体申請'
       },
-      name: 'city_new',
-      path: '/city/new'
+      name: 'cities_create',
+      path: '/cities/create'
     }
   ]
 });

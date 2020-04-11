@@ -1,10 +1,10 @@
 <template>
-  <div class="Cities">
-    <h2 class="Cities__Heading">{{ this.$route.meta.label }}</h2>
-    <div class="Cities__Form">
+  <div class="Create">
+    <h2 class="Create__Heading">{{ this.$route.meta.label }}</h2>
+    <div class="Create__Form">
 
-      <section class="Cities__Section">
-        <h3 class="Cities__SectionHeading">申請者情報</h3>
+      <section class="Create__Section">
+        <h3 class="Create__SectionHeading">申請者情報</h3>
         <input-text
           :errorMessage="'半角英字10桁の認証コードを入力してください。'"
           :label="'認証コード'"
@@ -15,8 +15,8 @@
           :value="input.verificationCode.value"
           @change="changeValue" />
       </section>
-      <section class="Cities__Section">
-        <h3 class="Cities__SectionHeading">自治体情報</h3>
+      <section class="Create__Section">
+        <h3 class="Create__SectionHeading">自治体情報</h3>
         <input-text
           :label="'名称'"
           :name="'cityName'"
@@ -69,7 +69,7 @@
           @change="changeValue" />
       </section>
       <button
-        class="Cities__Button"
+        class="Create__Button"
         type="button"
         :class="{'_disabled': error}"
         :disabled="error"
@@ -132,8 +132,8 @@ export default {
         label: "Home"
       },
       {
-        path: "/city",
-        label: "自治体申請"
+        path: "/cities",
+        label: "自治体"
       },
       {
         path: "",
@@ -175,7 +175,7 @@ export default {
         reason: this.input.reason.value,
         remarks: this.input.remarks.value
       };
-      this.$axios.post( 'https://api.jaoafa.com', JSON.stringify( data ) )
+      this.$axios.post( 'https://api.jaoafa.com/v1/cities/create', JSON.stringify( data ) )
         .then( res => {
           console.log( 'success' );
           console.log( JSON.stringify( res.data ) );
@@ -193,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Cities {
+.Create {
   &__Heading {
     padding-bottom: $size-base*1;
     font-size: $font-size-l4;

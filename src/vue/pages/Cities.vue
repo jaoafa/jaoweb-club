@@ -1,5 +1,5 @@
 <template>
-  <div class="Apply"></div>
+  <div class="Cities"></div>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
       },
       {
         path: "",
-        label: "自治体申請"
+        label: "自治体"
       }
     ]);
   },
