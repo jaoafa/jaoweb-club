@@ -12,7 +12,7 @@ export default {
       },
       {
         path: "",
-        label: "各種申請"
+        label: "自治体申請"
       }
     ]);
   },

@@ -32,12 +32,25 @@
           :value="input.cityNameKana.value"
           @change="changeValue" />
         <input-text
+          :label="'名称の由来'"
+          :name="'origin'"
+          :placeholder="'爆発の始まり。爆発の根源。中心地。つまり爆心地。新しいので爆新地。'"
+          :required="true"
+          :textarea="true"
+          :value="input.origin.value"
+          @change="changeValue" />
+        <input-text
           :label="'概要'"
           :name="'summary'"
-          :placeholder="'jao鯖の中心に広がる、創造力爆発の地。'"
+          :placeholder="'Jao_Afaワールドの中心に位置する運営が管理する自治体'"
           :required="true"
+          :textarea="true"
           :value="input.summary.value"
           @change="changeValue" />
+        <input-region
+          :label="'範囲'"
+          :name="'region'"
+          :required="true" />
         <input-text
           :label="'規定ブロックを超える理由'"
           :name="'reason'"
@@ -66,7 +79,8 @@
 
 <script>
 // Components
-import InputText  from '@/vue/components/Common/InputText';
+import InputRegion  from '@/vue/components/Common/InputRegion';
+import InputText    from '@/vue/components/Common/InputText';
 
 export default {
   data() {
@@ -81,6 +95,10 @@ export default {
           value: ''
         },
         cityNameKana: {
+          error: true,
+          value: ''
+        },
+        origin: {
           error: true,
           value: ''
         },
@@ -106,12 +124,12 @@ export default {
         label: "Home"
       },
       {
-        path: "/apply",
-        label: "各種申請"
+        path: "/city",
+        label: "自治体申請"
       },
       {
         path: "",
-        label: "自治体申請"
+        label: "新規自治体申請"
       }
     ]);
   },
@@ -136,6 +154,7 @@ export default {
     }
   },
   components: {
+    InputRegion,
     InputText
   }
 }

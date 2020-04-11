@@ -5,8 +5,8 @@
 
 import Vue        from 'vue';
 import VueRouter  from 'vue-router';
-import Apply      from '@/vue/pages/Apply.vue';
-import Cities     from '@/vue/pages/Cities.vue';
+import City      from '@/vue/pages/City.vue';
+import CityNew     from '@/vue/pages/City/New.vue';
 import Home       from '@/vue/pages/Home.vue';
 
 Vue.use( VueRouter );
@@ -22,20 +22,20 @@ const router = new VueRouter({
       path: '/'
     },
     {
-      component: Apply,
-      meta: {
-        label: '各種申請'
-      },
-      name: 'apply',
-      path: '/apply'
-    },
-    {
-      component: Cities,
+      component: City,
       meta: {
         label: '自治体申請'
       },
-      name: 'apply_cities',
-      path: '/apply/cities'
+      name: 'city',
+      path: '/city'
+    },
+    {
+      component: CityNew,
+      meta: {
+        label: '新規自治体申請'
+      },
+      name: 'city_new',
+      path: '/city/new'
     }
   ]
 });

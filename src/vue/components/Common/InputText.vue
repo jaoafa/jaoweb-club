@@ -2,7 +2,7 @@
   <div class="InputText">
     <label class="InputText__Label">{{ label }}
       <template v-if="required">
-        <abbr class="InputText__Required" title="必須">*</abbr>
+        <abbr class="InputText__Required" title="(必須)">*</abbr>
       </template>
     </label>
     <template v-if="textarea">
@@ -22,7 +22,7 @@
     </template>
     <template v-if="error">
       <p class="InputText__Error">
-        <i class="fas fa-times-circle"></i>
+        <i class="fas fa-exclamation-triangle"></i>
         <span>{{ errorMessage }}</span>
       </p>
     </template>
@@ -121,15 +121,13 @@ export default {
   &__Label {
     font-size: $font-size-s1;
   }
-  &__Required {
-    text-decoration: none;
-  }
   &__Input {
     width: 100%;
     padding: $size-base*1/2 $size-base*1;
     display: block;
     border: solid 1px $color-gray-4;
     border-radius: $size-base*1;
+    outline: none;
     font-size: $font-size-s2;
 
     &::placeholder {
