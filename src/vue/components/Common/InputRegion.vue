@@ -163,7 +163,7 @@ export default {
       const rotationError = '時計回りもしくは反時計回りとなるように座標を入力してください。';
       const samePointError = '同じ座標が入力されています。';
       this.points.reduce( ( prev, current, index ) => {
-        if( !( ( current.x === '0' ) && ( current.z === '0' ) ) ) {
+        if( !( ( current.x === '0' ) && ( current.z === '0' ) && ( length < 4 ) ) ) {
           if( ( prev.x !== current.x ) && ( prev.z !== current.z ) ) {
             this.errors[index].error = true;
             this.errors[index].message = rotationError;

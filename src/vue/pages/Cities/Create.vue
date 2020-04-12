@@ -178,14 +178,24 @@ export default {
           reason: this.input.reason.value,
           remarks: this.input.remarks.value
         };
-        this.$axios.post( 'https://api.jaoafa.com/v1/cities/create', JSON.stringify( data ) )
-          .then( res => {
-            console.log( JSON.stringify( res.data ) );
-          })
-          .catch( error => {
-            console.log( error );
+        window.grecaptcha.ready(() => {
+          grecaptcha.execute(
+            '6Ld--owUAAAAAAWRqAy6hCfEDmV4TRh__KD20npl',
+            { action: 'login' }
+          ).then( ( token ) => {
+            data.token = token;
+            this.$axios.post(
+              // 'https://api.jaoafa.com/v1/cities/create',
+              'https://api.jaoafa.com',
+              JSON.stringify( data )
+            ).then( res => {
+              console.log( JSON.stringify( res.data ) );
+            }).catch( error => {
+              console.log( error );
+            });
+            this.button.loading = false;
           });
-        // this.button.loading = false;
+        });
       }
     }
   },
