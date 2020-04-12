@@ -1,11 +1,21 @@
 # ![jMS-logo](https://user-images.githubusercontent.com/23224932/42416047-36adc45a-829f-11e8-9d05-46d566c437e8.png)
 
-[jao Minecraft Server](https://jaoafa.com) のお問い合わせ・各種申請用サイトのデザインモックアップ制作用リポジトリ。
+[jao Minecraft Server](https://jaoafa.com) のお問い合わせ・各種申請用サイトのリポジトリ。
 
 - `npm install` もしくは `yarn install` で必要なファイルを取得。
 - `npm run dev` もしくは `yarn dev` でローカルサーバ起動、ファイル保存時のビルド等の実行。
 - `npm run build` もしくは `yarn build` で本番用ファイル生成。
 - `npm run server` もしくは `yarn server` でローカルサーバ起動（その他の処理は行わない）。
+
+## Members
+
+|![](https://avatars0.githubusercontent.com/u/23224932?s=80&v=4)|![](https://avatars2.githubusercontent.com/u/8929706?s=80&v=4)|
+|:--:|:--:|
+|[Hiratake](https://github.com/Hiratake)<br />Admin / Designer|[Tomachi](https://github.com/book000)<br />Admin / Developer|
+
+## GitHub Pages
+
+- https://jaoafa.github.io/jaoweb-support-design/build/
 
 ## Forms
 
@@ -41,19 +51,8 @@
   - 自治体 解除理由
   - 備考
 
-## GitHub Pages
-
-- https://jaoafa.github.io/jaoweb-support-design/build/
-
-
-### Request
+## Request
 
 - それぞれの送信ボタンの直前に注意事項を示す表示エリアが欲しい。
 - すべてのinputタグの次行に警告や注意を示す表示エリア(これは数値じゃないとダメですよとかの表示)が欲しい。
 - フォームの送信処理をajaxで行い、送信時画面遷移をしないようにする(送信後に遷移するかは相談)ので、送信時ローディングの編集禁止、ポップアップ処理を行えるようにしてほしい。
-
-## Members
-
-|![](https://avatars0.githubusercontent.com/u/23224932?s=80&v=4)|![](https://avatars2.githubusercontent.com/u/8929706?s=80&v=4)|
-|:--:|:--:|
-|[Hiratake](https://github.com/Hiratake)<br />Admin / Designer|[Tomachi](https://github.com/book000)<br />Admin / Developer|

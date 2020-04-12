@@ -1,7 +1,7 @@
 {
-  "name": "jao-users",
+  "name": "jaoweb-club",
   "version": "1.0.0",
-  "description": "jao Minecraft Server Users Website",
+  "description": "jao Minecraft Server Members Club",
   "main": "main.js",
   "author": "Hiratake <hiratake@hiratake.xyz>",
   "license": "MIT",
