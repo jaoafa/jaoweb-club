@@ -33,10 +33,12 @@
               <i class="fas fa-times-circle"></i>
             </button>
           </template>
-          <!-- <p class="InputRegion__Error">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>エラーメッセージ</span>
-          </p> -->
+          <template v-if="errors[index].error">
+            <p class="InputRegion__Error">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ errors[index].message }}</span>
+            </p>
+          </template>
         </li>
       </template>
     </ul>
@@ -46,7 +48,13 @@
         :class="{'_over': blocksCount > 250000}">
         {{ blocksCount }} Blocks
       </span>
-      <!-- <template v-if="points.length > 4"> -->
+      <template v-if="points.length <= 2">
+        <span>「#1」と「#2」を入力してください。</span>
+      </template>
+      <template v-else-if="points.length === 3">
+        <span>「#3」を入力してください。</span>
+      </template>
+      <template v-else>
         <button
           class="InputRegion__AddButton"
           type="button"
@@ -54,7 +62,7 @@
           <i class="fas fa-plus-circle"></i>
           <span>座標を追加する</span>
         </button>
-      <!-- </template> -->
+      </template>
     </div>
   </div>
 </template>
@@ -64,13 +72,15 @@ export default {
   data() {
     return {
       blocksCount: 0,
-      error: false,
-      points: []
+      errors: [],
+      points: [],
+      validating: false
     }
   },
   created() {
     this.points = this.value;
     if( this.points.length === 0 ) {
+      this.addPoint( '0', '0' );
       this.addPoint( '0', '0' );
     }
   },
@@ -92,6 +102,19 @@ export default {
       required: true
     }
   },
+  computed: {
+    error() {
+      if( this.errors.length < 4 ) {
+        return true;
+      }
+      else {
+        return this.errors.some( ( item ) => {
+          return ( item.error === true );
+        });
+      }
+      return false;
+    }
+  },
   methods: {
     emitData() {
       this.$emit( 'change', {
@@ -109,10 +132,15 @@ export default {
         id: ( max.id + 1 ),
         x: x,
         z: z
+      });
+      this.errors.push({
+        error: false,
+        message: ''
       })
     },
     removePoint( index ) {
       this.points.splice( index, 1 );
+      this.errors.splice( index, 1 );
     },
     countBlocks() {
       if( this.points.length < 4 ) {
@@ -128,11 +156,59 @@ export default {
         }, this.points.slice(-1)[0]);
         this.blocksCount = Math.abs( size / 2 ) + ( side / 2 ) + 1;
       }
+    },
+    validateValue() {
+      let rotation = '';
+      let length = this.points.length;
+      const rotationError = '時計回りもしくは反時計回りとなるように座標を入力してください。';
+      const samePointError = '同じ座標が入力されています。';
+      this.points.reduce( ( prev, current, index ) => {
+        if( !( ( current.x === '0' ) && ( current.z === '0' ) ) ) {
+          if( ( prev.x !== current.x ) && ( prev.z !== current.z ) ) {
+            this.errors[index].error = true;
+            this.errors[index].message = rotationError;
+          }
+          else if( ( prev.x === current.x ) && ( prev.z === current.z ) ) {
+            this.errors[index].error = true;
+            this.errors[index].message = samePointError;
+          }
+          else {
+            if( index === 1 ) {
+              if( prev.x === current.x ) {
+                rotation = false;
+              }
+              else {
+                rotation = true;
+              }
+            }
+            if( ( rotation === true ) && ( prev.z !== current.z ) ) {
+              this.errors[index].error = true;
+              this.errors[index].message = rotationError;
+            }
+            else if( ( rotation === false ) && ( prev.x !== current.x ) ) {
+              this.errors[index].error = true;
+              this.errors[index].message = rotationError;
+            }
+            else {
+              this.errors[index].error = false;
+              this.errors[index].message = '';
+              if( ( ( index + 1 ) === length ) && ( length < 4 ) ) {
+                this.addPoint( '0', '0' );
+              }
+            }
+          }
+        }
+        if( rotation !== '' ) {
+          rotation = !rotation;
+        }
+        return current;
+      });
     }
   },
   watch: {
     points: {
       handler( newPoints, oldValues ) {
+        this.validateValue();
         this.countBlocks();
         this.emitData();
       },
@@ -162,7 +238,7 @@ export default {
   }
   &__Point {
     display: grid;
-    grid-template-columns: $size-base*4 repeat( 2, $size-base*20 ) $size-base*2;
+    grid-template-columns: $size-base*4 repeat( 2, $size-base*20 ) $size-base*2 1fr;
     grid-template-rows: repeat( 2, auto );
     gap: 0 $size-base*3;
     align-items: center;
@@ -242,14 +318,14 @@ export default {
     }
   }
   &__Error {
-    grid-column: 2 / 5;
+    grid-column: 2 / 6;
     grid-row: 2 / 3;
     margin-top: $size-base*1;
     display: grid;
     grid-template-columns: $size-base*2 1fr;
     grid-template-rows: auto;
     gap: $size-base*1;
-    align-items: center;
+    align-items: baseline;
     color: $color-red;
     font-size: $font-size-s2;
   }
@@ -261,14 +337,13 @@ export default {
     grid-template-rows: auto;
     gap: $size-base*2;
     align-items: center;
+    color: $color-gray-3;
     background: $color-gray-6;
     border: solid 1px $color-gray-5;
     border-radius: $size-base*1;
+    font-size: $font-size-s1;
   }
   &__Counter {
-    color: $color-gray-3;
-    font-size: $font-size-s1;
-
     &._over {
       color: $color-red;
     }
