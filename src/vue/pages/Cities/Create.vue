@@ -185,8 +185,7 @@ export default {
           ).then( ( token ) => {
             data.token = token;
             this.$axios.post(
-              // 'https://api.jaoafa.com/v1/cities/create',
-              'https://api.jaoafa.com',
+              'https://api.jaoafa.com/v1/cities/create',
               JSON.stringify( data )
             ).then( res => {
               console.log( JSON.stringify( res.data ) );
