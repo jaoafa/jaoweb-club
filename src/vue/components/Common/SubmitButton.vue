@@ -2,7 +2,11 @@
   <div class="SubmitButton">
     <button
       class="SubmitButton__Button"
-      :class="{'_disabled': disabled, '_loading': loading}"
+      :class="{
+        '_disabled': disabled,
+        '_loading': loading,
+        '_success': success
+      }"
       @click="clickButton">
       <span class="SubmitButton__Label">{{ label }}</span>
     </button>
@@ -22,8 +26,11 @@ export default {
     },
     loading: {
       type: Boolean,
-      required: false,
-      default: false
+      required: true
+    },
+    success: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
@@ -40,6 +47,7 @@ export default {
     width: $size-base*18;
     padding: $size-base*1 0;
     position: relative;
+    z-index: 0;
     background: $color-primary;
     border: solid 1px $color-primary;
     border-radius: $size-base*1;
@@ -63,7 +71,7 @@ export default {
       background: $color-primary-light;
       border-color: $color-primary-light;
 
-      &::after {
+      &::before {
         content: "";
         width: $size-base*3;
         height: $size-base*3;
@@ -74,15 +82,47 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
+        z-index: 10;
         border: solid 2px $color-white;
         border-bottom-color: transparent;
         border-radius: 50%;
-        animation: rotate .75s 0s linear infinite;
+        opacity: 1;
+        animation: loading .75s 0s linear infinite;
+      }
+      &::after {
+        opacity: 0;
+      }
+    }
+    &._success {
+      cursor: not-allowed;
+      color: transparent;
+      background: $color-primary;
+      border-color: $color-primary;
+
+      &::before {
+        opacity: 0;
+      }
+      &::after {
+        content: "";
+        width: $size-base*3;
+        height: $size-base*2;
+        margin: auto;
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: $size-base*2/3;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        border-bottom: solid 4px $color-white;
+        border-left: solid 4px $color-white;
+        opacity: 1;
+        animation: success .3s 0s linear forwards;
       }
     }
   }
 }
-@keyframes rotate {
+@keyframes loading {
   0% {
     transform: rotate(0) scale(1);
   }
@@ -91,6 +131,17 @@ export default {
   }
   100% {
     transform: rotate(360deg) scale(1);
+  }
+}
+@keyframes success {
+  0% {
+    transform: rotate(0) scale(.8);
+  }
+  40% {
+    transform: rotate(180deg) scale(.8);
+  }
+  100% {
+    transform: rotate(305deg) scale(1);
   }
 }
 </style>

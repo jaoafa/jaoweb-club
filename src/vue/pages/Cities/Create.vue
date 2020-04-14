@@ -70,8 +70,10 @@
       </section>
       <submit-button
         :disabled="error"
+        :failure="button.failure"
         :label="'送信'"
         :loading="button.loading"
+        :success="button.success"
         @click="postData" />
     </div>
   </div>
@@ -122,7 +124,8 @@ export default {
         }
       },
       button: {
-        loading: false
+        loading: false,
+        success: false
       }
     }
   },
@@ -165,7 +168,7 @@ export default {
       }
     },
     postData() {
-      if( !this.button.loading && !this.error ) {
+      if( !this.button.loading && !this.error && !this.button.success ) {
         this.button.loading = true;
         let data = {
           verificationCode: this.input.verificationCode.value,
@@ -189,10 +192,12 @@ export default {
               JSON.stringify( data )
             ).then( res => {
               console.log( JSON.stringify( res.data ) );
+              this.button.loading = false;
+              this.button.success = true;
             }).catch( error => {
               console.log( error );
+              this.button.loading = false;
             });
-            this.button.loading = false;
           });
         });
       }
