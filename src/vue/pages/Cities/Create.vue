@@ -194,13 +194,30 @@ export default {
               console.log( JSON.stringify( res.data ) );
               this.button.loading = false;
               this.button.success = true;
+              this.addPopup(
+                '送信成功',
+                '送信に成功しました。',
+                'success'
+              );
             }).catch( error => {
               console.log( error );
               this.button.loading = false;
+              this.addPopup(
+                '送信失敗',
+                '送信に失敗しました。',
+                'error'
+              );
             });
           });
         });
       }
+    },
+    addPopup( title, body, type ) {
+      this.$emit( 'addPopup', {
+        title: title,
+        body: body,
+        type: type
+      });
     }
   },
   components: {

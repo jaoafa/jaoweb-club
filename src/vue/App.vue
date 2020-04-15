@@ -7,9 +7,15 @@
       </template>
       <wrap class="App__Container">
         <navigation />
-        <router-view @breadcrumbs="setBreadcrumbs" />
+        <router-view
+          @breadcrumbs="setBreadcrumbs"
+          @addPopup="addPopup" />
       </wrap>
     </div>
+    <popups
+      class="App__Popups"
+      :popups="popups"
+      @removePopup="removePopup" />
   </div>
 </template>
 
@@ -18,23 +24,41 @@
 import Breadcrumbs      from '@/vue/components/Common/Breadcrumbs';
 import HeaderContainer  from '@/vue/components/Common/HeaderContainer';
 import Navigation       from '@/vue/components/Common/Navigation';
+import Popups           from '@/vue/components/Common/Popups';
 import Wrap             from '@/vue/components/Common/Wrap';
 
 export default {
   data() {
     return {
-      breadcrumbs: []
+      breadcrumbs: [],
+      popups: [
+      ]
     }
   },
   methods: {
     setBreadcrumbs( value ) {
       this.breadcrumbs = value;
+    },
+    addPopup( value ) {
+      let max = this.popups.reduce( ( a, b ) => {
+        return a.id > b.id ? a : b;
+      }, { id: 0 });
+      this.popups.unshift({
+        id: ( max.id + 1 ),
+        title: value.title,
+        body: value.body,
+        type: value.type
+      });
+    },
+    removePopup( index ) {
+      this.popups.splice( index, 1 );
     }
   },
   components: {
     Breadcrumbs,
     HeaderContainer,
     Navigation,
+    Popups,
     Wrap
   }
 }
@@ -42,6 +66,8 @@ export default {
 
 <style lang="scss" scoped>
 .App {
+  position: relative;
+
   &__Main {
     margin-top: $size-base*10;
   }
