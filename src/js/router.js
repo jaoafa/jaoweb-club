@@ -5,9 +5,13 @@
 
 import Vue          from 'vue';
 import VueRouter    from 'vue-router';
-import Cities       from '@/vue/pages/Cities.vue';
-import CitiesCreate from '@/vue/pages/Cities/Create.vue';
-import Home       from '@/vue/pages/Home.vue';
+import store        from './store';
+import Container    from '@/vue/Container';
+import Cities       from '@/vue/pages/Cities';
+import CitiesCreate from '@/vue/pages/Cities/Create';
+import Home         from '@/vue/pages/Home';
+import SignIn       from '@/vue/pages/SignIn';
+import SignUp       from '@/vue/pages/SignUp';
 
 let mode = 'hash';
 if( process.env.NODE_ENV === 'production' ) {
@@ -20,30 +24,70 @@ const router = new VueRouter({
   mode: mode,
   routes: [
     {
-      component: Home,
-      meta: {
-        label: 'Home'
-      },
-      name: 'home',
-      path: '/'
+      children: [
+        {
+          component: Home,
+          meta: {
+            group: 'home',
+            icon: 'home',
+            label: 'ホーム'
+          },
+          name: 'home',
+          path: 'home'
+        },
+        {
+          component: Cities,
+          meta: {
+            group: 'cities',
+            icon: 'vector-square',
+            label: '自治体'
+          },
+          name: 'cities',
+          path: 'cities'
+        },
+        {
+          component: CitiesCreate,
+          meta: {
+            group: 'cities',
+            icon: '',
+            label: '新規自治体申請'
+          },
+          name: 'cities_create',
+          path: 'cities/create'
+        }
+      ],
+      component: Container,
+      path: '/',
+      redirect: '/home'
     },
     {
-      component: Cities,
+      component: SignIn,
       meta: {
-        label: '自治体'
+        label: 'ログイン',
+        public: true
       },
-      name: 'cities',
-      path: '/cities'
+      name: 'signin',
+      path: '/signin'
     },
     {
-      component: CitiesCreate,
+      component: SignUp,
       meta: {
-        label: '新規自治体申請'
+        label: '新規登録',
+        public: true
       },
-      name: 'cities_create',
-      path: '/cities/create'
+      name: 'signup',
+      path: '/signup'
     }
   ]
+});
+
+router.beforeEach( ( to, from, next ) => {
+  if( to.matched.some( record => !record.meta.public ) && !store.getters.login ) {
+    next({ name: 'signin' });
+  }
+  else {
+    next();
+  }
 });
 
 export default router;

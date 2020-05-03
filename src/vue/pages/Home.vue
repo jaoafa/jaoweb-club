@@ -8,7 +8,7 @@ export default {
     this.$emit( 'breadcrumbs', []);
   },
   title() {
-    return 'jao Minecraft Server';
+    return this.pageTitle+' - jao Minecraft Server';
   }
 }
 </script>

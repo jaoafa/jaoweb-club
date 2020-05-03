@@ -44,13 +44,13 @@ export default {
 <style lang="scss" scoped>
 .SubmitButton {
   &__Button {
-    width: $size-base*18;
+    width: 100%;
     padding: $size-base*1 0;
     position: relative;
     z-index: 0;
     background: $color-primary;
     border: solid 1px $color-primary;
-    border-radius: $size-base*1;
+    border-radius: $size-border-radius-base;
     font-size: $font-size-s1;
     text-align: center;
     transition-duration: $transition-duration-base;

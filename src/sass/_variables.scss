@@ -5,8 +5,9 @@
 
 // Size
 // --------------------------------------------------------------------------------
-$size-base:       8px;
-$size-width-max:  1200px;
+$size-base:               8px;
+$size-border-radius-base: 2px;
+$size-width-max:          1200px;
 
 // Font
 // --------------------------------------------------------------------------------
@@ -23,6 +24,7 @@ $font-size-s3:    $font-size-base * 8 / 11;
 $font-size-s4:    $font-size-base * 8 / 12;
 
 $font-family-base: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', '游ゴシック', sans-serif;
+$font-family-en: 'Sofia Pro', sans-serif;
 $font-family-icon: 'Font Awesome 5 Free', 'fontawesome', sans-serif;
 
 $font-weight-normal:  400;

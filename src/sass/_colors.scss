@@ -6,18 +6,22 @@
 $color-primary: #ffb41d;
 $color-primary-light: lighten( $color-primary, 16% );
 $color-prmary-dark: darken( $color-primary, 16% );
+$color-secondary: #c72a48;
+$color-secondary-light: lighten( $color-secondary, 16% );
+$color-secondary-dark: darken( $color-secondary, 16% );
 
 $color-black:   #1c1c1c;
 $color-gray-1:  #3c3c3c;
 $color-gray-2:  #535353;
 $color-gray-3:  #727272;
-$color-gray-4:  #e0e0e0;
+$color-gray-4:  #bdbdbd;
 $color-gray-5:  #f0f0f0;
 $color-gray-6:  #f8f8f8;
 $color-white:   #ffffff;
 
-$color-shadow: rgba( 0, 0, 0, .3);
+$color-shadow:  rgba( 28, 28, 28, .1);
 
 $color-red:     #ff1d1d;
+$color-orange:  #ff531d;
 $color-blue:    #1d99ff;
 $color-green:   #10c437;

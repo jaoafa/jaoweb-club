@@ -7,20 +7,11 @@
           :key="route.name">
           <router-link
             class="Navigation__Link"
-            :to="route.to">{{ route.label }}</router-link>
-          <template v-if="route.children.length > 0">
-            <ul class="Navigation__ChildContainer">
-              <template v-for="( item ) in route.children">
-                <li
-                  class="Navigation__ChildItem" 
-                  :key="item.name">
-                  <router-link
-                    class="Navigation__Link"
-                    :to="item.to">{{ item.label }}</router-link>
-                </li>
-              </template>
-            </ul>
-          </template>
+            :class="{'_current': currentPath[0] === route.group}"
+            :to="'/'+route.to">
+            <i class="Navigation__Icon fas" :class="'fa-'+route.icon"></i>
+            <span class="Navigation__Text">{{ route.label }}</span>
+          </router-link>
         </li>
       </template>
     </ul>
@@ -31,8 +22,12 @@
 export default {
   computed: {
     routes() {
-      let routes = ( this.$router.options.routes ).map( ( route ) => {
+      let routes = ( this.$router.options.routes ).filter( ( route ) => {
+        return ( route.path === '/' );
+      })[0].children.map( ( route ) => {
         return {
+          group: route.meta.group,
+          icon: route.meta.icon,
           label: route.meta.label,
           name: route.name,
           path: route.path.split('/').filter( ( item ) => { return ( item !== '' ) }),
@@ -50,6 +45,7 @@ export default {
           })) && ( item.path.length >= 2 ) );
         }).map( ( item ) => {
           return {
+            group: item.group,
             label: item.label,
             name: item.name,
             to: item.to
@@ -57,11 +53,16 @@ export default {
         });
         return {
           children: children,
+          group: route.group,
+          icon: route.icon,
           label: route.label,
           name: route.name,
           to: route.to
         }
       });
+    },
+    currentPath() {
+      return this.$route.path.split('/').filter( ( item ) => { return ( item !== '' ) });
     }
   }
 }
@@ -69,39 +70,50 @@ export default {
 
 <style lang="scss" scoped>
 .Navigation {
+  height: calc( 100vh - #{$size-base}*8 );
+  padding: $size-base*4 0;
   position: sticky;
-  top: $size-base*13;
-  overflow: hidden;
-  border: solid 1px $color-gray-4;
-  border-radius: $size-base*1;
+  top: $size-base*8;
+  background: $color-white;
+  box-shadow: 0 0 $size-base*1 $color-shadow;
 
   &__Container {
-    position: relative;
     list-style: none;
   }
   &__ChildContainer {
     list-style: none;
   }
   &__Item {
-    background: $color-white;
-
-    &:not(:first-child) {
-      border-top: solid 1px $color-gray-4;
-    }
+    background: transparent;
   }
   &__ChildItem {
     background: $color-gray-5;
-    border-top: solid 1px $color-gray-4;
   }
   &__Link {
-    padding: $size-base*1 $size-base*2;
+    padding: 0 $size-base*1 0 $size-base*5;
     display: block;
-    color: inherit;
+    color: $color-gray-4;
+    background: transparent;
     font-size: $font-size-s1;
+    text-decoration: none;
+    line-height: $size-base*6;
+    border-left: solid 4px transparent;
+    transition-duration: $transition-duration-base;
 
     &:hover {
-      text-decoration: none;
+      color: $color-primary;
+      background: $color-gray-6;
     }
+    &._current {
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+  }
+  &__Icon {
+    padding-right: $size-base*3;
+  }
+  &__Text {
+    color: $color-gray-1;
   }
 }
 </style>
