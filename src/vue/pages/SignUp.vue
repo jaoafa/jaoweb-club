@@ -1,49 +1,59 @@
 <template>
   <div class="SignUp">
     <div class="SignUp__Container">
-      <div class="SignUp__Visual"></div>
       <div class="SignUp__Form">
-        <h1 class="SignUp__Title">新規登録</h1>
-        <div class="SignUp__FormItemContainer">
-          <div class="SignUp__FormItem">
-            <label class="SignUp__Label">Verification Code</label>
-            <input
-              class="SignUp__Input"
-              type="text"
-              v-model="verificationCode" />
-          </div>
-          <div class="SignUp__FormItem">
-            <label class="SignUp__Label">Password</label>
-            <input
-              class="SignUp__Input"
-              type="password"
-              v-model="password" />
-          </div>
+        <div class="SignUp__FormHeader">
+          <h1 class="SignUp__Title">新規登録</h1>
+          <template v-if="error!==''">
+            <p class="SignUp__Error">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ error }}</span>
+            </p>
+          </template>
         </div>
-        <submit-button
-          class="SignUp__Button"
-          :disabled="error"
-          :label="'アカウントを作成'"
-          :loading="button.loading"
-          :success="button.success"
-          @click="doLogin" />
+        <div class="SignUp__FormBody">
+          <input-string
+            :label="'認証コード'"
+            :required="true"
+            :type="'text'"
+            v-model="inputs.verificationCode" />
+          <input-string
+            :label="'Password'"
+            :required="true"
+            :type="'password'"
+            v-model="inputs.password" />
+        </div>
+        <div class="SignUp__FormFooter">
+          <submit-button
+            class="SignUp__Button"
+            :disabled="empty"
+            :label="'アカウントを作成'"
+            :loading="button.loading"
+            :success="button.success"
+            @click="doRegister" />
+        </div>
       </div>
+      <div class="SignUp__Visual"></div>
     </div>
   </div>
 </template>
 
 <script>
 // Components
+import InputString  from '@/vue/components/Common/InputString';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
   data() {
     return {
-      verificationCode: '',
-      password: '',
       button: {
         loading: false,
         success: false
+      },
+      error: '',
+      inputs: {
+        verificationCode: '',
+        password: ''
       }
     }
   },
@@ -51,8 +61,8 @@ export default {
     return this.pageTitle+' - jao Minecraft Server';
   },
   computed: {
-    error() {
-      if( ( this.verificationCode === '' ) || ( this.password === '' ) ) {
+    empty() {
+      if( ( this.inputs.verificationCode === '' ) || ( this.inputs.password === '' ) ) {
         return true;
       }
       else {
@@ -61,11 +71,14 @@ export default {
     }
   },
   methods: {
-    doLogin() {
-      if( !this.error && !this.button.loading && !this.button.success ) {
+    doRegister() {
+      if( !this.empty && !this.button.loading && !this.button.success ) {
         this.button.loading = true;
+
+        // reCAPTCHA取得
         this.$recaptchaLoaded().then( () => {
           this.$recaptcha( 'login' ).then( ( token ) => {
+            // 登録処理
             this.$axios.post(
               'https://api.jaoafa.com/v1/club/register',
               JSON.stringify({
@@ -75,16 +88,47 @@ export default {
               })
             ).then( res => {
               if( res.data.status ) {
-                this.button.success = true;
-                this.button.loading = false;
-                this.$store.dispatch( 'doLogin', res.data.usertoken );
-                this.$router.push({ name: 'home' });
+                let usertoken = res.data.usertoken;
+
+                // ユーザ情報取得
+                this.$axios.get(
+                  'https://api.jaoafa.com/v1/club/@me',
+                  {
+                    params: {
+                      usertoken: usertoken
+                    }
+                  }
+                ).then( res => {
+                  if( res.data.status ) {
+                    this.button.success = true;
+                    this.button.loading = false;
+
+                    // UserToken, Minecraft ID, ニックネーム, 権限グループ情報を保持
+                    this.$store.dispatch( 'doLogin', {
+                      usertoken:  usertoken,
+                      id:         res.data.data.mcid,
+                      nickname:   res.data.data.nickname,
+                      group:      res.data.data.group
+                    })
+
+                    // homeに遷移
+                    this.$router.push({ name: 'home' });
+                  }
+                  else {
+                    // signinに遷移
+                    this.$router.push({ name: 'signin' });
+                  }
+                }).catch( error => {
+                  // signinに遷移
+                  this.$router.push({ name: 'signin' });
+                });
               }
               else {
+                this.error = '登録に失敗しました。もう一度お試しください。';
                 this.button.loading = false;
               }
             }).catch( error => {
-              console.log( error );
+              this.error = '登録に失敗しました。もう一度お試しください。';
               this.button.loading = false;
             })
           })
@@ -93,6 +137,7 @@ export default {
     }
   },
   components: {
+    InputString,
     SubmitButton
   }
 }
@@ -116,50 +161,40 @@ export default {
     border-radius: $size-border-radius-base;
     box-shadow: 0 0 $size-base*1 $color-shadow;
   }
-  &__Visual {
-    background: linear-gradient(
-      135deg,
-      $color-primary 24%,
-      $color-orange 120%
-    );
-  }
   &__Form {
     padding: $size-base*10 $size-base*6;
-  }
-  &__Title {
-    font-size: $font-size-l3;
-  }
-  &__FormItemContainer {
-    margin-top: $size-base*4;
     display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: auto;
     grid-auto-flow: row;
+    gap: $size-base*4;
+  }
+  &__FormHeader, &__FormBody, &__FormFooter {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: auto;
+    grid-auto-flow: row;
+  }
+  &__FormHeader {
+    gap: $size-base*1;
+  }
+  &__FormBody {
     gap: $size-base*2;
   }
-  &__FormItem {
-    color: $color-gray-1;
-    font-family: $font-family-en;
-    font-weight: $font-weight-normal;
+  &__FormFooter {
+    gap: $size-base*1
   }
-  &__Label {
-    display: block;
+  &__Title {
+    font-size: $font-size-l3;
+  }
+  &__Error {
+    display: grid;
+    grid-template-columns: $size-base*2 1fr;
+    grid-template-rows: auto;
+    gap: $size-base*1;
+    align-items: baseline;
+    color: $color-secondary;
     font-size: $font-size-s2;
-  }
-  &__Input {
-    width: 100%;
-    padding: $size-base*1/2 $size-base*2;
-    display: block;
-    font-size: $font-size-s1;
-    border: solid 1px $color-gray-4;
-    border-radius: $size-border-radius-base;
-
-    &:focus {
-      border-color: $color-blue;
-    }
-  }
-  &__Button {
-    margin-top: $size-base*4;
   }
   &__Link {
     text-align: right;
@@ -171,6 +206,13 @@ export default {
     &:hover {
       text-decoration: none;
     }
+  }
+  &__Visual {
+    background: linear-gradient(
+      135deg,
+      $color-primary 24%,
+      $color-orange 120%
+    );
   }
 }
 </style>

@@ -4,9 +4,6 @@
 
 <script>
 export default {
-  created() {
-    this.$emit( 'breadcrumbs', []);
-  },
   title() {
     return this.pageTitle+' - jao Minecraft Server';
   }

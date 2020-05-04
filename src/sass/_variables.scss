@@ -6,7 +6,7 @@
 // Size
 // --------------------------------------------------------------------------------
 $size-base:               8px;
-$size-border-radius-base: 2px;
+$size-border-radius-base: 4px;
 $size-width-max:          1200px;
 
 // Font
@@ -30,6 +30,8 @@ $font-family-icon: 'Font Awesome 5 Free', 'fontawesome', sans-serif;
 $font-weight-normal:  400;
 $font-weight-bold:    700;
 $font-weight-icon:    600;
+
+$font-line-height-base: 1.75;
 
 // Transition
 // --------------------------------------------------------------------------------
