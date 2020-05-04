@@ -4,7 +4,9 @@
       <logo />
     </router-link>
     <div class="HeaderContainer__Login">
-      <template v-if="login"></template>
+      <template v-if="login">
+        <user-container />
+      </template>
       <template v-else>
         <login-container />
       </template>
@@ -16,6 +18,7 @@
 // Components
 import LoginContainer from '@/vue/components/Common/LoginContainer';
 import Logo           from '@/vue/components/Common/Logo';
+import UserContainer  from '@/vue/components/Common/UserContainer';
 
 export default {
   computed: {
@@ -25,7 +28,8 @@ export default {
   },
   components: {
     LoginContainer,
-    Logo
+    Logo,
+    UserContainer
   }
 }
 </script>

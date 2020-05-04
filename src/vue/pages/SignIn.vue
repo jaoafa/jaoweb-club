@@ -112,12 +112,17 @@ export default {
                     this.button.success = true;
                     this.button.loading = false;
 
-                    // UserToken, Minecraft ID, ニックネーム, 権限グループ情報を保持
+                    // UserToken, Minecraft ID, UUID, ニックネーム, 権限グループ情報を保持
+                    let nickname = res.data.data.mcid;
+                    if( res.data.data.nickname ) {
+                      nickname = res.data.data.nickname;
+                    }
                     this.$store.dispatch( 'doLogin', {
                       usertoken:  usertoken,
-                      id:         res.data.data.mcid,
-                      nickname:   res.data.data.nickname,
-                      group:      res.data.data.group
+                      mcid:       res.data.data.mcid,
+                      uuid:       res.data.data.uuid,
+                      nickname:   nickname,
+                      permission: res.data.data.permission
                     });
 
                     // homeに遷移

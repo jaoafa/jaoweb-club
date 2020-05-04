@@ -111,6 +111,7 @@ export default {
   }
   &__Icon {
     padding-right: $size-base*3;
+    text-align: center;
   }
   &__Text {
     color: $color-gray-1;

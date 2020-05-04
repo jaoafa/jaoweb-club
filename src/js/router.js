@@ -10,6 +10,7 @@ import Container    from '@/vue/Container';
 import Cities       from '@/vue/pages/Cities';
 import CitiesCreate from '@/vue/pages/Cities/Create';
 import Home         from '@/vue/pages/Home';
+import Settings     from '@/vue/pages/Settings';
 import SignIn       from '@/vue/pages/SignIn';
 import SignUp       from '@/vue/pages/SignUp';
 
@@ -54,6 +55,16 @@ const router = new VueRouter({
           },
           name: 'cities_create',
           path: 'cities/create'
+        },
+        {
+          component: Settings,
+          meta: {
+            group: 'settings',
+            icon: 'cog',
+            label: '設定'
+          },
+          name: 'settings',
+          path: 'settings'
         }
       ],
       component: Container,
