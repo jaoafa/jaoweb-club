@@ -26,10 +26,9 @@
         <div class="SignIn__FormFooter">
           <submit-button
             class="SignIn__Button"
-            :disabled="empty"
+            :disabled="!validateInputs()"
             :label="'ログイン'"
-            :loading="button.loading"
-            :success="button.success"
+            :status="button.status"
             @click="doLogin" />
           <div class="SignIn__Link">
             <router-link
@@ -54,8 +53,7 @@ export default {
   data() {
     return {
       button: {
-        loading: false,
-        success: false
+        status: 'default'
       },
       error: '',
       inputs: {
@@ -67,21 +65,10 @@ export default {
   title() {
     return this.pageTitle;
   },
-  computed: {
-    empty() {
-      if( ( this.inputs.username === '' ) || ( this.inputs.password === '' ) ) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-  },
   methods: {
     doLogin() {
-      if( !this.empty && !this.button.loading && !this.button.success ) {
-        this.button.loading = true;
-
+      if( this.validateInputs() && this.button.status==='default' ) {
+        this.button.status = 'loading';
         // reCAPTCHA取得
         this.$recaptchaLoaded().then( () => {
           this.$recaptcha( 'login' ).then( ( token ) => {
@@ -97,8 +84,8 @@ export default {
               }
             ).then( res => {
               if( res.data.status ) {
+                // 成功時
                 let usertoken = res.data.usertoken;
-
                 // ユーザ情報取得
                 this.$axios.get(
                   'https://api.jaoafa.com/v1/club/@me',
@@ -109,9 +96,8 @@ export default {
                   }
                 ).then( res => {
                   if( res.data.status ) {
-                    this.button.success = true;
-                    this.button.loading = false;
-
+                    // 成功時
+                    this.button.status = 'success';
                     // UserToken, Minecraft ID, UUID, ニックネーム, 権限グループ情報を保持
                     let nickname = res.data.data.mcid;
                     if( res.data.data.nickname ) {
@@ -124,29 +110,40 @@ export default {
                       nickname:   nickname,
                       permission: res.data.data.permission
                     });
-
                     // homeに遷移
                     this.$router.push({ name: 'home' });
                   }
                   else {
+                    // 失敗時
                     this.error = 'ユーザ情報の取得に失敗しました。もう一度お試しください。';
-                    this.button.loading = false;
+                    this.button.status = 'default';
                   }
                 }).catch( error => {
+                  // エラー
                   this.error = 'ユーザ情報の取得に失敗しました。もう一度お試しください。';
-                  this.button.loading = false;
+                  this.button.status = 'default';
                 });
               }
               else {
+                // 失敗時
                 this.error = 'Minecraft ID もしくは Password が間違っています。';
-                this.button.loading = false;
+                this.button.status = 'default';
               }
             }).catch( error => {
+              // エラー
               this.error = 'Minecraft ID もしくは Password が間違っています。';
-              this.button.loading = false;
+              this.button.status = 'default';
             })
           })
         })
+      }
+    },
+    validateInputs() {
+      if( ( this.inputs.username === '' ) || ( this.inputs.password === '' ) ) {
+        return false;
+      }
+      else {
+        return true;
       }
     }
   },

@@ -69,7 +69,7 @@ export default {
       required: true,
       default: 'text',
       validator: ( ( value ) => {
-        return [ 'text', 'textarea', 'number', 'password' ].indexOf( value ) !== -1
+        return [ 'text', 'textarea', 'number', 'password' ].indexOf( value ) !== -1;
       })
     },
     initValue: {

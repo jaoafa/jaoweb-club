@@ -58,14 +58,20 @@ const store = new Vuex.Store({
       state.user.uuid       = '';
       state.user.nickname   = '';
       state.user.permission = '';
+    },
+    setNickname( state, { nickname } ) {
+      state.user.nickname = nickname;
     }
   },
   actions: {
-    doLogin( { commit }, token ) {
-      commit( 'setLogin', token );
+    doLogin( { commit }, payload ) {
+      commit( 'setLogin', payload );
     },
     doLogout( { commit } ) {
       commit( 'setLogout' );
+    },
+    changeNickname( { commit }, payload ) {
+      commit( 'setNickname', payload );
     }
   }
 });

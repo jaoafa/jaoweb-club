@@ -4,8 +4,8 @@
       class="SubmitButton__Button"
       :class="{
         '_disabled': disabled,
-        '_loading': loading,
-        '_success': success
+        '_loading' : status==='loading',
+        '_success' : status==='success'
       }"
       @click="clickButton">
       <span class="SubmitButton__Label">{{ label }}</span>
@@ -17,20 +17,25 @@
 export default {
   props: {
     disabled: {
+      // 無効
       type: Boolean,
-      required: true
+      required: true,
+      default: true
     },
     label: {
+      // ラベル
       type: String,
-      required: true
+      required: true,
+      default: ''
     },
-    loading: {
-      type: Boolean,
-      required: true
-    },
-    success: {
-      type: Boolean,
-      required: true
+    status: {
+      // 状態
+      type: String,
+      required: true,
+      default: 'default',
+      validator: ( ( value ) => {
+        return [ 'default', 'loading', 'success' ].indexOf( value ) !== -1;
+      })
     }
   },
   methods: {
