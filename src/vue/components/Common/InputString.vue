@@ -82,7 +82,7 @@ export default {
   computed: {
     inputValue: {
       get() {
-        return this.value;
+        return this.initValue;
       },
       set( value ) {
         this.$emit( 'value', value );

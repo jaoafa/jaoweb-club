@@ -62,7 +62,7 @@ const router = new VueRouter({
           meta: {
             group: 'cities',
             icon: '',
-            label: '自治体変更申請'
+            label: '自治体情報変更申請'
           },
           name: 'cities_edit',
           path: 'cities/edit/:id(\\d+)',

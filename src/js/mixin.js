@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     pageTitle() {
-      let title = 'jao Minecraft Server';
+      let title = 'jao Members Club';
       let label = this.$route.meta.label;
       if( label ) {
         return label+' - '+title;

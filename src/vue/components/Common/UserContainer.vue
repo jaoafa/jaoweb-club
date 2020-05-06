@@ -84,6 +84,8 @@ export default {
   &__ToggleButton {
     width: $size-base*5;
     height: 100%;
+    overflow: hidden;
+    border-radius: $size-border-radius-base;
     cursor: pointer;
     transition-duration: $transition-duration-base;
 

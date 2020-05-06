@@ -31,6 +31,7 @@ export default {
   gap: $size-base*3;
   background: $color-white;
   box-shadow: 0 0 $size-base*1 $color-shadow;
+  border-radius: $size-border-radius-base;
 
   &__Heading {
     display: inline-block;
