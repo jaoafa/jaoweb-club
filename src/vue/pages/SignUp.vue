@@ -58,7 +58,7 @@ export default {
     }
   },
   title() {
-    return this.pageTitle+' - jao Minecraft Server';
+    return this.pageTitle;
   },
   computed: {
     empty() {

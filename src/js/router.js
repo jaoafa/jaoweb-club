@@ -9,6 +9,7 @@ import store        from './store';
 import Container    from '@/vue/Container';
 import Cities       from '@/vue/pages/Cities';
 import CitiesCreate from '@/vue/pages/Cities/Create';
+import CitiesEdit   from '@/vue/pages/Cities/Edit';
 import Home         from '@/vue/pages/Home';
 import Settings     from '@/vue/pages/Settings';
 import SignIn       from '@/vue/pages/SignIn';
@@ -55,6 +56,17 @@ const router = new VueRouter({
           },
           name: 'cities_create',
           path: 'cities/create'
+        },
+        {
+          component: CitiesEdit,
+          meta: {
+            group: 'cities',
+            icon: '',
+            label: '自治体変更申請'
+          },
+          name: 'cities_edit',
+          path: 'cities/edit/:id(\\d+)',
+          props: route => ({ id: Number( route.params.id ) })
         },
         {
           component: Settings,

@@ -13,7 +13,14 @@ export default {
   },
   computed: {
     pageTitle() {
-      return this.$route.meta.label;
+      let title = 'jao Minecraft Server';
+      let label = this.$route.meta.label;
+      if( label ) {
+        return label+' - '+title;
+      }
+      else {
+        return title;
+      }
     }
   }
 };

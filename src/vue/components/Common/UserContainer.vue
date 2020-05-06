@@ -44,9 +44,6 @@ export default {
       toggle: false
     }
   },
-  created() {
-    console.log( this.me );
-  },
   computed: {
     me() {
       return this.$store.getters.me;
@@ -177,6 +174,7 @@ export default {
   &__Menu {
     padding: $size-base*2 $size-base*4;
     list-style: none;
+    background: $color-white;
   }
   &__MenuItem {
     padding: $size-base*1 0;
