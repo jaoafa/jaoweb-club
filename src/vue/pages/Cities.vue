@@ -36,7 +36,12 @@ export default {
   created() {
     // 所有自治体一覧取得
     this.$axios.get(
-      'https://api.jaoafa.com/cities/'+this.uuid
+      'https://api.jaoafa.com/cities/'+this.uuid,
+      {
+        params: {
+          usertoken: this.usertoken
+        }
+      }
     ).then( res => {
       if( res.data.status ) {
         res.data.data.forEach( item => {
@@ -51,6 +56,9 @@ export default {
   computed: {
     me() {
       return this.$store.getters.me;
+    },
+    usertoken() {
+      return this.me.usertoken;
     },
     uuid() {
       return this.me.uuid;
