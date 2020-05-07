@@ -91,6 +91,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
+
   &__Item {
     width: $size-base*29;
     height: $size-base*29;
@@ -109,6 +110,7 @@ export default {
       border-color: $color-primary;
     }
   }
+
   &__ItemHeader {
     display: grid;
     grid-template-columns: 1fr $size-base*2;
@@ -126,6 +128,7 @@ export default {
       font-size: $font-size-s2;
     }
   }
+
   &__ItemBody {
     width: 100%;
     height: 100%;

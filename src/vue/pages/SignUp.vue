@@ -161,6 +161,7 @@ export default {
     border-radius: $size-border-radius-base;
     box-shadow: 0 0 $size-base*1 $color-shadow;
   }
+
   &__Form {
     padding: $size-base*10 $size-base*6;
     display: grid;
@@ -169,24 +170,30 @@ export default {
     grid-auto-flow: row;
     gap: $size-base*4;
   }
+
   &__FormHeader, &__FormBody, &__FormFooter {
     display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: auto;
     grid-auto-flow: row;
   }
+
   &__FormHeader {
     gap: $size-base*1;
   }
+
   &__FormBody {
     gap: $size-base*2;
   }
+
   &__FormFooter {
     gap: $size-base*1
   }
+
   &__Title {
     font-size: $font-size-l3;
   }
+
   &__Error {
     display: grid;
     grid-template-columns: $size-base*2 1fr;
@@ -196,9 +203,11 @@ export default {
     color: $color-secondary;
     font-size: $font-size-s2;
   }
+
   &__Link {
     text-align: right;
   }
+
   &__LinkText {
     color: $color-gray-3;
     font-size: $font-size-s2;
@@ -207,6 +216,7 @@ export default {
       text-decoration: none;
     }
   }
+
   &__Visual {
     background: linear-gradient(
       135deg,

@@ -140,6 +140,7 @@ export default {
     grid-auto-flow: row;
     gap: $size-base*3;
   }
+
   &__FormBody {
     display: grid;
     grid-template-columns: minmax( $size-base*1, auto );

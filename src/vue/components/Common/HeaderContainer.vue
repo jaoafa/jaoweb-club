@@ -60,6 +60,7 @@ export default {
       color: $color-gray-1;
     }
   }
+
   &__Login {
     grid-row: 1 / 2;
     grid-column: 3 / 4;

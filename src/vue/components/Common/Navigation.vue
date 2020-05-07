@@ -80,15 +80,19 @@ export default {
   &__Container {
     list-style: none;
   }
+
   &__ChildContainer {
     list-style: none;
   }
+
   &__Item {
     background: transparent;
   }
+
   &__ChildItem {
     background: $color-gray-5;
   }
+
   &__Link {
     padding: 0 $size-base*1 0 $size-base*5;
     display: block;
@@ -109,10 +113,12 @@ export default {
       border-color: $color-primary;
     }
   }
+
   &__Icon {
     padding-right: $size-base*3;
     text-align: center;
   }
+
   &__Text {
     color: $color-gray-1;
   }

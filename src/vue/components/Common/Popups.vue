@@ -75,15 +75,18 @@ export default {
       opacity: 0;
     }
   }
+
   &__Remove {
     position: absolute;
     top: $size-base*1;
     right: $size-base*2;
   }
+
   &__Heading {
     font-size: $font-size-l1;
     line-height: 1.25;
   }
+
   &__Body {
     font-size: $font-size-s2;
     white-space: pre-wrap;

@@ -1,33 +1,41 @@
 <template>
   <div class="InputString">
-    <label class="InputString__Label">
-      {{ label }}
-      <template v-if="required">
-        <abbr class="InputString__Required" title="(必須)">*</abbr>
-      </template>
-    </label>
+    <template v-if="label">
+      <div class="InputString__Header">
+        <label class="InputString__Label">
+          {{ label }}
+          <template v-if="required">
+            <abbr class="InputString__Required" title="(必須)">*</abbr>
+          </template>
+        </label>
+      </div>
+    </template>
 
-    <template v-if="type==='textarea'">
-      <textarea
-        class="InputString__Input InputString__Input--Textarea"
-        :class="{'_error': error!==''}"
-        :placeholder="placeholder"
-        v-model="inputValue"></textarea>
-    </template>
-    <template v-else>
-      <input
-        class="InputString__Input InputString__Input--Text"
-        :class="{'_error': error!==''}"
-        :placeholder="placeholder"
-        :type="type"
-        v-model="inputValue" />
-    </template>
+    <div class="InputString__Body">
+      <template v-if="type==='textarea'">
+        <textarea
+          class="InputString__Input InputString__Input--Textarea"
+          :class="{'_error': error!==''}"
+          :placeholder="placeholder"
+          v-model="inputValue"></textarea>
+      </template>
+      <template v-else>
+        <input
+          class="InputString__Input InputString__Input--Text"
+          :class="{'_error': error!==''}"
+          :placeholder="placeholder"
+          :type="type"
+          v-model="inputValue" />
+      </template>
+    </div>
 
     <template v-if="error!==''">
-      <p class="InputString__Error">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>{{ error }}</span>
-      </p>
+      <div class="InputString__Footer">
+        <p class="InputString__Error">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>{{ error }}</span>
+        </p>
+      </div>
     </template>
   </div>
 </template>
@@ -45,10 +53,16 @@ export default {
       required: false,
       default: ''
     },
+    initValue: {
+      // 初期値
+      type: String,
+      required: true,
+      default: ''
+    },
     label: {
       // 入力欄上に表示するラベル
       type: String,
-      required: true,
+      required: false,
       default: ''
     },
     placeholder: {
@@ -71,12 +85,6 @@ export default {
       validator: ( ( value ) => {
         return [ 'text', 'textarea', 'number', 'password' ].indexOf( value ) !== -1;
       })
-    },
-    initValue: {
-      // 初期値
-      type: String,
-      required: true,
-      default: ''
     }
   },
   computed: {
@@ -96,7 +104,8 @@ export default {
 .InputString {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  grid-auto-flow: row;
   gap: $size-base*1;
 
   &__Label {
@@ -113,6 +122,9 @@ export default {
     font-size: $font-size-s2;
     line-height: $font-size-s2 * $font-line-height-base;
 
+    &._error {
+      border-color: $color-error;
+    }
     &::placeholder {
       color: $color-gray-3;
     }
@@ -122,9 +134,6 @@ export default {
       &::placeholder {
         color: transparent;
       }
-    }
-    &._error {
-      border-color: $color-error;
     }
     &[type='password'] {
       font-size: $font-size-s4;

@@ -44,6 +44,7 @@ export default {
       opacity: .65;
     }
   }
+
   &__SignIn {
     color: $color-white;
     background: linear-gradient(
@@ -52,6 +53,7 @@ export default {
       $color-prmary-dark 120%
     );
   }
+
   &__SignUp {
     color: $color-gray-1;
     border: solid 1px $color-gray-4;

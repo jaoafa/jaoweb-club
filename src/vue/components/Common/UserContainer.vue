@@ -93,11 +93,13 @@ export default {
       filter: brightness( .8 );
     }
   }
+
   &__Image {
     width: 100%;
     height: 100%;
     display: block;
   }
+
   &__MenuContainer {
     width: $size-base*50;
     position: absolute;
@@ -116,6 +118,7 @@ export default {
       opacity: 0;
     }
   }
+
   &__UserInfo {
     padding: $size-base*3 $size-base*4;
     display: grid;
@@ -129,6 +132,7 @@ export default {
       $color-prmary-dark 120%
     );
   }
+
   &__UserIcon {
     grid-row: 1 / 3;
     grid-column: 1 / 2;
@@ -136,6 +140,7 @@ export default {
     border-radius: $size-border-radius-base;
     box-shadow: 0 0 $size-base*1 $color-shadow;
   }
+
   &__UserName {
     grid-row: 1 / 2;
     grid-column: 2 / 3;
@@ -149,12 +154,14 @@ export default {
     font-weight: $font-weight-bold;
     line-height: 1.0;
   }
+
   &__UserNameText {
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
   &__UserPermission {
     margin-top: $size-base*1/2;
     padding: $size-base*1/2 $size-base*1;
@@ -166,6 +173,7 @@ export default {
     text-align: center;
     border-radius: $size-border-radius-base;
   }
+
   &__UserId {
     grid-row: 2 / 3;
     grid-column: 2 / 3;
@@ -173,11 +181,13 @@ export default {
     font-family: $font-family-en;
     font-size: $font-size-s2;
   }
+
   &__Menu {
     padding: $size-base*2 $size-base*4;
     list-style: none;
     background: $color-white;
   }
+
   &__MenuItem {
     padding: $size-base*1 0;
     display: grid;

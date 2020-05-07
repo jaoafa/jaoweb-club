@@ -1,6 +1,6 @@
 <template>
   <div class="Create">
-    <h2 class="Create__Heading">{{ this.$route.meta.label }}</h2>
+    <!-- <h2 class="Create__Heading">{{ this.$route.meta.label }}</h2>
     <div class="Create__Form">
 
       <section class="Create__Section">
@@ -75,15 +75,15 @@
         :loading="button.loading"
         :success="button.success"
         @click="postData" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 // Components
-import InputRegion  from '@/vue/components/Common/InputRegion';
-import InputText    from '@/vue/components/Common/InputText';
-import SubmitButton from '@/vue/components/Common/SubmitButton';
+// import InputRegion  from '@/vue/components/Common/InputRegion';
+// import InputText    from '@/vue/components/Common/InputText';
+// import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
   data() {
@@ -221,9 +221,9 @@ export default {
     }
   },
   components: {
-    InputRegion,
-    InputText,
-    SubmitButton
+    // InputRegion,
+    // InputText,
+    // SubmitButton
   }
 }
 </script>

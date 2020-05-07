@@ -32,6 +32,11 @@
             :required="true"
             :type="'textarea'"
             v-model="inputs.summary.value" />
+          <input-region
+            :label="'自治体範囲'"
+            :required="true"
+            v-model="inputs.region.value"
+            @count="setCount" />
           <input-string
             :error="inputs.reason.error"
             :label="'規定ブロック数を超える理由'"
@@ -53,6 +58,7 @@
 <script>
 // Components
 import ContentBox   from '@/vue/components/Common/ContentBox';
+import InputRegion  from '@/vue/components/Common/InputRegion';
 import InputString  from '@/vue/components/Common/InputString';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
 
@@ -79,6 +85,10 @@ export default {
         region: {
           error: '',
           value: []
+        },
+        count: {
+          error: '',
+          value: 0
         },
         reason: {
           error: '',
@@ -111,7 +121,7 @@ export default {
         this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
         this.inputs.origin.value = data.name_origin ? data.name_origin : '';
         this.inputs.summary.value = data.summary ? data.summary : '';
-        // this.inputs.region.value = data.region ? data.region : [];
+        this.inputs.region.value = data.region ? data.region : [];
         this.inputs.reason.value = data.reason ? data.reason : '';
         this.inputs.remarks.value = data.remarks ? data.remarks : '';
       }
@@ -149,8 +159,14 @@ export default {
       return this.me.usertoken;
     }
   },
+  methods: {
+    setCount( value ) {
+      this.inputs.count.value = value;
+    }
+  },
   components: {
     ContentBox,
+    InputRegion,
     InputString,
     SubmitButton
   }
@@ -168,6 +184,7 @@ export default {
     grid-auto-flow: row;
     gap: $size-base*3;
   }
+
   &__FormBody {
     display: grid;
     grid-template-columns: minmax( $size-base*1, auto );
