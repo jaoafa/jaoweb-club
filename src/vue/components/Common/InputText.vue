@@ -134,13 +134,13 @@ export default {
       color: $color-gray-3;
     }
     &:focus,&:active {
-      border-color: $color-blue;
+      border-color: $color-focus;
       &::placeholder {
         color: transparent;
       }
     }
     &._error {
-      border-color: $color-red;
+      border-color: $color-error;
     }
   }
   &__Textarea {
@@ -153,7 +153,7 @@ export default {
     grid-template-rows: auto;
     gap: $size-base*1;
     align-items: center;
-    color: $color-red;
+    color: $color-error;
     font-size: $font-size-s2;
   }
 }

@@ -82,14 +82,29 @@ export default {
                 this.$store.dispatch( 'changeNickname', {
                   nickname: this.inputs.nickname.value
                 });
-              }
-              else {
-                // 失敗時
-                this.button.status = 'default';
+                this.$store.dispatch( 'addPopup', {
+                  type: 'success',
+                  title: '保存完了',
+                  text: '入力された設定の保存が完了しました。'
+                });
               }
             }).catch( error => {
               // エラー
               this.button.status = 'default';
+              if( error.response.status === 401 ) {
+                this.$store.dispatch( 'addPopup', {
+                  type: 'error',
+                  title: '保存失敗',
+                  text: '入力された設定の保存に失敗しました。\n一度ログアウトし、再度ログインをしてからもう一度お試しください。'
+                });
+              }
+              else {
+                this.$store.dispatch( 'addPopup', {
+                  type: 'error',
+                  title: '保存失敗',
+                  text: '入力された設定の保存に失敗しました。\nもう一度お試しください。'
+                });
+              }
             });
           });
         });

@@ -3,10 +3,10 @@
 // colors.scss
 // ================================================================================
 
-$color-primary: #ffb41d;
-$color-primary-light: lighten( $color-primary, 16% );
-$color-prmary-dark: darken( $color-primary, 16% );
-$color-secondary: #c72a48;
+$color-primary:       #ffb41d;
+$color-primary-light: #ffcf6f;
+$color-prmary-dark:   #ff531d;
+$color-secondary:     #c72a48;
 $color-secondary-light: lighten( $color-secondary, 16% );
 $color-secondary-dark: darken( $color-secondary, 16% );
 
@@ -21,7 +21,8 @@ $color-white:   #ffffff;
 
 $color-shadow:  rgba( 28, 28, 28, .1);
 
-$color-red:     #ff1d1d;
-$color-orange:  #ff531d;
-$color-blue:    #1d99ff;
-$color-green:   #10c437;
+$color-error:     $color-secondary;
+$color-warning:   $color-primary;
+$color-success:   #0fb95c;
+
+$color-focus:     #1d99ff;

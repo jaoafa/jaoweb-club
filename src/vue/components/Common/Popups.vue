@@ -1,5 +1,5 @@
 <template>
-  <div class="Popups">
+  <transition-group tag="div" class="Popups">
     <div
       class="Popups__Item"
       v-for="( popup, index ) in popups"
@@ -11,22 +11,23 @@
         <i class="fas fa-times-circle"></i>
       </button>
       <span class="Popups__Heading">{{ popup.title }}</span>
-      <p class="Popups__Body">{{ popup.body }}</p>
+      <p class="Popups__Body">{{ popup.text }}</p>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
 export default {
-  props: {
-    popups: {
-      type: Array,
-      required: true
+  computed: {
+    popups() {
+      return this.$store.getters.popups;
     }
   },
   methods: {
     removePopup( index ) {
-      this.$emit( 'removePopup', index );
+      this.$store.dispatch( 'removePopup', {
+        index: index
+      });
     }
   }
 }
@@ -43,7 +44,7 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 120;
+  z-index: 140;
 
   &__Item {
     width: 100%;
@@ -54,19 +55,24 @@ export default {
     gap: $size-base*1;
     position: relative;
     color: $color-white;
-    border-radius: $size-base*1;
-    box-shadow: $size-base*1/4 $size-base*1/4 $size-base*1 $color-shadow;
+    border-radius: $size-border-radius-base;
+    box-shadow: 0 0 $size-base*1 $color-shadow;
+    transform: translateY($size-base*2) translateX($size-base*(-2));
     transition-duration: $transition-duration-base*2;
-    animation: slidein .3s 0s ease-out forwards;
+    opacity: 1;
 
-    &:hover {
-      box-shadow: 0 0 0 $color-shadow;;
-    }
     &._error {
-      background: $color-red;
+      background: $color-error;
+    }
+    &._warning {
+      background: $color-warning;
     }
     &._success {
-      background: $color-green;
+      background: $color-success;
+    }
+    &.v-enter, &.v-leave-to {
+      transform: translateY($size-base*(0)) translateX($size-base*2);
+      opacity: 0;
     }
   }
   &__Remove {
@@ -80,16 +86,8 @@ export default {
   }
   &__Body {
     font-size: $font-size-s2;
-  }
-}
-@keyframes slidein {
-  0% {
-    transform: translateY($size-base*(0)) translateX($size-base*2);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY($size-base*2) translateX($size-base*(-2));
-    opacity: .7;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 }
 </style>

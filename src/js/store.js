@@ -16,14 +16,15 @@ const store = new Vuex.Store({
     //   uuid: '39cf878b-ef0b-44fc-a2c6-de3d540a4728',
     //   nickname: 'ひらたけ',
     //   permission: 'Admin'
-    // }
+    // },
     user: {
       token: '',
       mcid: '',
       uuid: '',
       nickname: '',
       permission: ''
-    }
+    },
+    popups: []
   },
   getters: {
     login( state ) {
@@ -42,6 +43,9 @@ const store = new Vuex.Store({
         nickname:   state.user.nickname,
         permission: state.user.permission
       };
+    },
+    popups( state ) {
+      return state.popups;
     }
   },
   mutations: {
@@ -61,6 +65,20 @@ const store = new Vuex.Store({
     },
     setNickname( state, { nickname } ) {
       state.user.nickname = nickname;
+    },
+    addPopup( state, { type, title, text } ) {
+      let max = state.popups.reduce( ( a, b ) => {
+        return a.id > b.id ? a : b;
+      }, { id: 0 });
+      state.popups.unshift({
+        id: ( max.id + 1 ),
+        type: type,
+        title: title,
+        text: text
+      });
+    },
+    removePopup( state, { index } ) {
+      state.popups.splice( index, 1 );
     }
   },
   actions: {
@@ -72,6 +90,12 @@ const store = new Vuex.Store({
     },
     changeNickname( { commit }, payload ) {
       commit( 'setNickname', payload );
+    },
+    addPopup( { commit }, payload ) {
+      commit( 'addPopup', payload );
+    },
+    removePopup( { commit }, payload ) {
+      commit( 'removePopup', payload );
     }
   }
 });

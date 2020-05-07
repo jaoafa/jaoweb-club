@@ -117,14 +117,14 @@ export default {
       color: $color-gray-3;
     }
     &:focus, &:active {
-      border-color: $color-blue;
+      border-color: $color-focus;
 
       &::placeholder {
         color: transparent;
       }
     }
     &._error {
-      border-color: $color-secondary;
+      border-color: $color-error;
     }
     &[type='password'] {
       font-size: $font-size-s4;
@@ -143,7 +143,7 @@ export default {
     grid-template-rows: auto;
     gap: $size-base*1;
     align-items: baseline;
-    color: $color-secondary;
+    color: $color-error;
     font-size: $font-size-s2;
   }
 }

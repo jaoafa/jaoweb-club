@@ -2,16 +2,19 @@
   <div class="Container">
     <navigation />
     <router-view />
+    <popups />
   </div>
 </template>
 
 <script>
 // Components
 import Navigation from '@/vue/components/Common/Navigation';
+import Popups     from '@/vue/components/Common/Popups';
 
 export default {
   components: {
-    Navigation
+    Navigation,
+    Popups
   }
 }
 </script>
@@ -22,5 +25,6 @@ export default {
   display: grid;
   grid-template-columns: $size-base*35 1fr;
   grid-template-rows: auto;
+  position: relative;
 }
 </style>

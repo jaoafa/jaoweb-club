@@ -267,10 +267,10 @@ export default {
     border-radius: $size-base*1;
 
     &:focus-within,&:active {
-      border-color: $color-blue;
+      border-color: $color-focus;
     }
     &._error {
-      border-color: $color-red;
+      border-color: $color-error;
     }
   }
   &__PointItemText {
@@ -295,7 +295,7 @@ export default {
     transition-duration: $transition-duration-base;
 
     &:hover {
-      color: $color-red;
+      color: $color-error;
     }
   }
   &__AddButton {
@@ -326,7 +326,7 @@ export default {
     grid-template-rows: auto;
     gap: $size-base*1;
     align-items: baseline;
-    color: $color-red;
+    color: $color-error;
     font-size: $font-size-s2;
   }
   &__Footer {
@@ -345,7 +345,7 @@ export default {
   }
   &__Counter {
     &._over {
-      color: $color-red;
+      color: $color-error;
     }
   }
 }

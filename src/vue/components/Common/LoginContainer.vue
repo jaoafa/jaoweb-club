@@ -49,7 +49,7 @@ export default {
     background: linear-gradient(
       135deg,
       $color-primary 24%,
-      $color-orange 120%
+      $color-prmary-dark 120%
     );
   }
   &__SignUp {

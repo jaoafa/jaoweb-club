@@ -54,6 +54,7 @@
 // Components
 import ContentBox   from '@/vue/components/Common/ContentBox';
 import InputString  from '@/vue/components/Common/InputString';
+import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
   data() {
@@ -111,11 +112,26 @@ export default {
         this.inputs.origin.value = data.name_origin ? data.name_origin : '';
         this.inputs.summary.value = data.summary ? data.summary : '';
         // this.inputs.region.value = data.region ? data.region : [];
-        // this.inputs.reason.value = data.reason ? data.reason : '';
+        this.inputs.reason.value = data.reason ? data.reason : '';
         this.inputs.remarks.value = data.remarks ? data.remarks : '';
       }
-      else {}
-    }).catch( error => {})
+    }).catch( error => {
+      // エラー
+      if( error.response.status === 401 ) {
+        this.$store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: '自治体情報の取得に失敗しました。\n一度ログアウトし、再度ログインをしてからもう一度お試しください。'
+        });
+      }
+      else {
+        this.$store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: '自治体情報の取得に失敗しました。\nもう一度お試しください。'
+        });
+      }
+    })
   },
   props: {
     id: {
@@ -135,7 +151,8 @@ export default {
   },
   components: {
     ContentBox,
-    InputString
+    InputString,
+    SubmitButton
   }
 }
 </script>
