@@ -5,7 +5,7 @@
       <div class="Cities__List">
         <template v-for="( item ) in list">
           <router-link
-            class="Cities__Item"
+            class="Cities__Item Cities__Item--Edit"
             :to="'/cities/edit/'+item.id"
             :key="'cities_'+item.id">
             <h3 class="Cities__ItemHeader">
@@ -15,6 +15,12 @@
             <p class="Cities__ItemBody">{{ item.summary }}</p>
           </router-link>
         </template>
+        <router-link
+          class="Cities__Item Cities__Item--Create"
+          :to="'/cities/create'">
+          <h3>新しい自治体を申請</h3>
+          <i class="fas fa-plus"></i>
+        </router-link>
       </div>
     </content-box>
   </div>
@@ -85,9 +91,8 @@ export default {
 
 <style lang="scss" scoped>
 .Cities {
-  padding: $size-base*4 $size-base*5;
-
   &__List {
+    margin: $size-base*(-3) 0 0 $size-base*(-3);
     display: flex;
     flex-wrap: wrap;
   }
@@ -95,11 +100,8 @@ export default {
   &__Item {
     width: $size-base*29;
     height: $size-base*29;
+    margin: $size-base*3 0 0 $size-base*3;
     padding: $size-base*2 $size-base*3;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: auto 1fr;
-    gap: $size-base*1;
     color: inherit;
     text-decoration: none;
     border: solid 1px $color-gray-4;
@@ -108,6 +110,34 @@ export default {
 
     &:hover {
       border-color: $color-primary;
+    }
+
+    &--Edit {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: auto 1fr;
+      gap: $size-base*1;
+      background: $color-white;
+    }
+
+    &--Create {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: $color-gray-6;
+      text-align: center;
+
+      h3 {
+        color: $color-gray-2;
+        font-size: $font-size-base;
+        font-weight: $font-weight-normal;
+      }
+      i {
+        margin-top: $size-base*1;
+        color: $color-gray-4;
+        font-size: $font-size-l6;
+      }
     }
   }
 

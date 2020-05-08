@@ -18,6 +18,7 @@
         :key="'regionPoint_'+point.id">
         <label class="InputRegion__PointLabel">#</label>
         <input-point
+          :error="point.error"
           :initValue="point"
           @value="updatePoint" />
         <button
@@ -26,14 +27,20 @@
           @click="removePoint( index )">
           <i class="fas fa-times-circle"></i>
         </button>
+        <template v-if="point.error">
+          <p class="InputRegion__Error">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>{{ point.error }}</span>
+          </p>
+        </template>
       </li>
     </ul>
 
     <div class="InputRegion__Footer">
       <span
         class="InputRegion__Counter"
-        :class="{'_over': countBlocks() > 250000}">
-        {{ countBlocks().toLocaleString() }} Blocks
+        :class="{'_over': countBlocks > 250000}">
+        {{ countBlocks.toLocaleString() }} Blocks
       </span>
       <button
         class="InputRegion__Add"
@@ -53,9 +60,6 @@ import InputPoint from '@/vue/components/Common/InputPoint';
 export default {
   created() {
     if( this.initValue.length === 0 ) {
-      this.addPoint( '0', '0' );
-      this.addPoint( '0', '0' );
-      this.addPoint( '0', '0' );
       this.addPoint( '0', '0' );
     }
   },
@@ -84,13 +88,28 @@ export default {
     }
   },
   computed: {
+    countBlocks() {
+      let count = 0;
+      if( this.validateInputs( this.inputValue ).result ) {
+        let size  = 0;
+        let side  = 0;
+        this.inputValue.reduce( ( a, b ) => {
+          size += ( (a.x-0) * (b.z-0) ) - ( (b.x-0) * (a.z-0) );
+          side += Math.abs( (a.x-0) - (b.x-0) ) + Math.abs( (a.z-0) - (b.z-0) );
+          return b;
+        }, this.inputValue.slice(-1)[0] );
+        count = Math.abs( size / 2 ) + ( side / 2 ) + 1;
+      }
+      this.$emit( 'count', count );
+      return count;
+    },
     inputValue: {
       get() {
         return this.initValue;
       },
       set( value ) {
-        this.$emit( 'points', value );
-        this.$emit( 'count', this.countBlocks( value ) );
+        let validate  = this.validateInputs( value );
+        this.$emit( 'points', validate.value );
       }
     }
   },
@@ -101,6 +120,7 @@ export default {
         return a.id > b.id ? a : b;
       }, { id: 0 } );
       points.push({
+        error: '',
         id: ( max.id + 1 ),
         x: x,
         z: z
@@ -123,33 +143,75 @@ export default {
       });
       this.inputValue = points;
     },
-    countBlocks( points = this.inputValue ) {
-      if( !this.validateInputs( points ) ) {
-        return 0;
-      }
-      else {
-        let size  = 0;
-        let side  = 0;
-        points.reduce( ( a, b ) => {
-          size += ( (a.x-0) * (b.z-0) ) - ( (b.x-0) * (a.z-0) );
-          side += Math.abs( (a.x-0) - (b.x-0) ) + Math.abs( (a.z-0) - (b.z-0) );
-          return b;
-        }, points.slice(-1)[0] );
-        return Math.abs( size / 2 ) + ( side / 2 ) + 1;
-      }
-    },
-    validateInputs( points = this.inputValue ) {
+    validateInputs( points ) {
+      let result = true;
+      let rotation = true;
+      const message = {
+        inputTypeError: '数値以外の文字が入力されているか、座標が入力されていません。',
+        rotationError: '時計回りもしくは反時計回りとなるように座標を入力してください。',
+        samePointError: '同じ座標が入力されています。'
+      };
       if( points.length < 4 ) {
         // 座標の数が 4 未満
-        return false;
+        result = false;
       }
-      else if( ( points.length % 2 ) !== 0 ) {
-        // 座標の数が奇数個
-        return false;
+      else if( points.length % 2 !== 0 ) {
+        // 座標の数が奇数
+        result = false;
       }
-      else {
-        return true;
-      }
+      points.reduce( ( prev, current, index ) => {
+        if( ( current.x.search(/^[-]?([1-9]\d*|0)$/) < 0 ) || 
+            ( current.z.search(/^[-]?([1-9]\d*|0)$/) < 0 ) ) {
+          // 数値以外の文字が入力されている もしくは 何も入力されていない
+          points[index].error = message.inputTypeError;
+          result = false;
+        }
+        else if( index > 0 ) {
+          if( ( prev.x === current.x ) && ( prev.z === current.z ) ) {
+            // 同じ座標が入力されている
+            points[index].error = message.samePointError;
+            result = false;
+          }
+          else if( ( prev.x !== current.x ) && ( prev.z !== current.z ) ) {
+            // X, Z の両方が異なっている
+            points[index].error = message.rotationError;
+            result = false;
+          }
+          else {
+            if( index === 1 ) {
+              rotation = ( prev.x === current.x ) ? false : true;
+              points[index].error = '';
+            }
+            else if(( !rotation && ( prev.x !== current.x ) ) ||
+                    (  rotation && ( prev.z !== current.z ) )) {
+              // 時計回りもしくは反時計回りではない
+              points[index].error = message.rotationError;
+              result = false;
+            }
+            else if(( points.length >= 4 ) &&
+                    ( points.length % 2 === 0 ) &&
+                    ( index + 1 === points.length ) &&
+                    ( (  rotation && ( current.x !== points[0].x ) ) ||
+                      ( !rotation && ( current.z !== points[0].z ) ) ) ) {
+              // 時計回りもしくは反時計回りではない
+              points[index].error = message.rotationError;
+              result = false;
+            }
+            else {
+              points[index].error = '';
+            }
+          }
+        }
+        else {
+          points[index].error = '';
+        }
+        rotation = !rotation;
+        return current;
+      }, { id: 0, x: '0', z: '0' });
+      return {
+        value: points,
+        result: result
+      };
     }
   },
   components: {
@@ -195,7 +257,7 @@ export default {
 
   &__PointContainer {
     display: grid;
-    grid-template-columns: $size-base*4 $size-base*43 $size-base*2 1fr;
+    grid-template-columns: $size-base*5 $size-base*43 $size-base*2 1fr;
     grid-template-rows: $size-base*7 auto;
     gap: 0 $size-base*3;
     align-items: center;
@@ -244,6 +306,18 @@ export default {
     &:hover {
       color: $color-error;
     }
+  }
+
+  &__Error {
+    grid-column: 2 / 5;
+    grid-row: 2 / 3;
+    display: grid;
+    grid-template-columns: $size-base*2 1fr;
+    grid-template-rows: auto;
+    gap: $size-base*1;
+    align-items: baseline;
+    color: $color-error;
+    font-size: $font-size-s2;
   }
 
   &__Counter {

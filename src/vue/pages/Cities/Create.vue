@@ -1,256 +1,208 @@
 <template>
   <div class="Create">
-    <!-- <h2 class="Create__Heading">{{ this.$route.meta.label }}</h2>
-    <div class="Create__Form">
-
-      <section class="Create__Section">
-        <h3 class="Create__SectionHeading">申請者情報</h3>
-        <input-text
-          :errorMessage="'半角英字10桁の認証コードを入力してください。'"
-          :label="'認証コード'"
-          :name="'verificationCode'"
-          :pattern="/^[a-zA-Z]{10}$/g"
-          :placeholder="'XXXXXXXXXX'"
-          :required="true"
-          :value="input.verificationCode.value"
-          @change="changeValue" />
-      </section>
-      <section class="Create__Section">
-        <h3 class="Create__SectionHeading">自治体情報</h3>
-        <input-text
-          :label="'名称'"
-          :name="'cityName'"
-          :placeholder="'爆新地'"
-          :required="true"
-          :value="input.cityName.value"
-          @change="changeValue" />
-        <input-text
-          :label="'名称（かな）'"
-          :name="'cityNameKana'"
-          :placeholder="'ばくしんち'"
-          :required="true"
-          :value="input.cityNameKana.value"
-          @change="changeValue" />
-        <input-text
-          :label="'名称の由来'"
-          :name="'origin'"
-          :placeholder="'爆発の始まり。爆発の根源。中心地。つまり爆心地。新しいので爆新地。'"
-          :required="true"
-          :textarea="true"
-          :value="input.origin.value"
-          @change="changeValue" />
-        <input-text
-          :label="'概要'"
-          :name="'summary'"
-          :placeholder="'Jao_Afaワールドの中心に位置する運営が管理する自治体'"
-          :required="true"
-          :textarea="true"
-          :value="input.summary.value"
-          @change="changeValue" />
-        <input-region
-          :label="'範囲'"
-          :name="'region'"
-          :required="true"
-          :value="input.region.value"
-          @change="changeValue" />
-        <input-text
-          :label="'規定ブロックを超える理由'"
-          :name="'reason'"
-          :required="false"
-          :textarea="true"
-          :value="input.reason.value"
-          @change="changeValue" />
-        <input-text
-          :label="'備考'"
-          :name="'remarks'"
-          :required="false"
-          :textarea="true"
-          :value="input.remarks.value"
-          @change="changeValue" />
-      </section>
-      <submit-button
-        :disabled="error"
-        :failure="button.failure"
-        :label="'送信'"
-        :loading="button.loading"
-        :success="button.success"
-        @click="postData" />
-    </div> -->
+    <content-box
+      :heading="'新規自治体申請'">
+      <div class="Create__Form">
+        <div class="Create__FormBody">
+          <input-string
+            :error="inputs.cityName.error"
+            :label="'自治体名称'"
+            :placeholder="'（例）爆新地'"
+            :required="true"
+            :type="'text'"
+            v-model="inputs.cityName.value" />
+          <input-string
+            :error="inputs.cityNameKana.error"
+            :label="'自治体名称（かな）'"
+            :placeholder="'（例）ばくしんち'"
+            :required="true"
+            :type="'text'"
+            v-model="inputs.cityNameKana.value" />
+          <input-string
+            :error="inputs.origin.error"
+            :label="'自治体名称の由来'"
+            :placeholder="'（例）爆発の始まり。爆発の根源。中心地。つまり爆心地。新しいので爆新地。'"
+            :required="true"
+            :type="'textarea'"
+            v-model="inputs.origin.value" />
+          <input-string
+            :error="inputs.summary.error"
+            :label="'自治体概要'"
+            :placeholder="'（例）Jao_Afaワールドの中心に位置する運営が管理する自治体。'"
+            :required="true"
+            :type="'textarea'"
+            v-model="inputs.summary.value" />
+          <input-region
+            :label="'自治体範囲'"
+            :required="true"
+            v-model="inputs.region.value"
+            @count="setCount" />
+          <input-string
+            :error="inputs.reason.error"
+            :label="'規定ブロック数を超える理由'"
+            :required="true"
+            :type="'textarea'"
+            v-show="inputs.count.value > 250000"
+            v-model="inputs.reason.value" />
+          <input-string
+            :error="inputs.remarks.error"
+            :label="'備考'"
+            :required="false"
+            :type="'textarea'"
+            v-model="inputs.remarks.value" />
+        </div>
+        <div class="Create__FormFooter">
+          <submit-button
+            :disabled="!validateInputs()"
+            :label="'設定を保存'"
+            :status="button.status"
+            @click="postRequest" />
+          </div>
+      </div>
+    </content-box>
   </div>
 </template>
 
 <script>
 // Components
-// import InputRegion  from '@/vue/components/Common/InputRegion';
-// import InputText    from '@/vue/components/Common/InputText';
-// import SubmitButton from '@/vue/components/Common/SubmitButton';
+import ContentBox   from '@/vue/components/Common/ContentBox';
+import InputRegion  from '@/vue/components/Common/InputRegion';
+import InputString  from '@/vue/components/Common/InputString';
+import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
   data() {
     return {
-      input: {
-        verificationCode: {
-          error: true,
-          value: ''
-        },
+      button: {
+        status: 'default'
+      },
+      inputs: {
         cityName: {
-          error: true,
+          error: '',
           value: ''
         },
         cityNameKana: {
-          error: true,
+          error: '',
           value: ''
         },
         origin: {
-          error: true,
+          error: '',
           value: ''
         },
         summary: {
-          error: true,
+          error: '',
           value: ''
         },
         region: {
-          error: true,
-          value: [],
-          count: 0
+          error: '',
+          value: []
+        },
+        count: {
+          error: '',
+          value: 0
         },
         reason: {
-          error: false,
+          error: '',
           value: ''
         },
         remarks: {
-          error: false,
+          error: '',
           value: ''
-        }
-      },
-      button: {
-        loading: false,
-        success: false
+        },
       }
     }
-  },
-  created() {
-    this.$emit( 'breadcrumbs', [
-      {
-        path: "/",
-        label: "Home"
-      },
-      {
-        path: "/cities",
-        label: "自治体"
-      },
-      {
-        path: "",
-        label: "新規自治体申請"
-      }
-    ]);
   },
   title() {
     return this.pageTitle;
   },
   computed: {
-    error() {
-      let error = false;
-      Object.keys( this.input ).forEach( ( key ) => {
-        if( this.input[key].error ) {
-          error = true;
-        }
-      });
-      return error;
+    me() {
+      return this.$store.getters.me;
+    },
+    usertoken() {
+      return this.me.usertoken;
     }
   },
   methods: {
-    changeValue( res ) {
-      this.input[res.name].value = res.value;
-      this.input[res.name].error = res.error;
-      if( 'count' in this.input[res.name] ) {
-        this.input[res.name].count = res.count;
-      }
+    setCount( value ) {
+      this.inputs.count.value = value;
     },
-    postData() {
-      if( !this.button.loading && !this.error && !this.button.success ) {
-        this.button.loading = true;
-        let data = {
-          verificationCode: this.input.verificationCode.value,
-          cityName: this.input.cityName.value,
-          cityNameKana: this.input.cityNameKana.value,
-          origin: this.input.origin.value,
-          summary: this.input.summary.value,
-          region: this.input.region.value,
-          count: this.input.region.count,
-          reason: this.input.reason.value,
-          remarks: this.input.remarks.value
-        };
-        window.grecaptcha.ready(() => {
-          grecaptcha.execute(
-            '6Ld--owUAAAAAAWRqAy6hCfEDmV4TRh__KD20npl',
-            { action: 'login' }
-          ).then( ( token ) => {
-            data.token = token;
-            this.$axios.post(
-              'https://api.jaoafa.com/v1/cities/create',
-              JSON.stringify( data )
-            ).then( res => {
-              console.log( JSON.stringify( res.data ) );
-              this.button.loading = false;
-              this.button.success = true;
-              this.addPopup(
-                '送信成功',
-                '送信に成功しました。',
-                'success'
-              );
-            }).catch( error => {
-              console.log( error );
-              this.button.loading = false;
-              this.addPopup(
-                '送信失敗',
-                '送信に失敗しました。',
-                'error'
-              );
-            });
-          });
-        });
+    postRequest() {},
+    validateInputs() {
+      let result = true;
+      // 自治体名称
+      if( this.inputs.cityName.value === '' ) {
+        this.inputs.cityName.error = '自治体名称が入力されていません。';
+        result = false;
       }
-    },
-    addPopup( title, body, type ) {
-      this.$emit( 'addPopup', {
-        title: title,
-        body: body,
-        type: type
-      });
+      else {
+        this.inputs.cityName.error = '';
+      }
+      // 自治体名称（かな）
+      if( this.inputs.cityNameKana.value === '' ) {
+        this.inputs.cityNameKana.error = '自治体名称（かな）が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.cityNameKana.error = '';
+      }
+      // 自治体名称の由来
+      if( this.inputs.origin.value === '' ) {
+        this.inputs.origin.error = '自治体名称の由来が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.origin.error = '';
+      }
+      // 自治体概要
+      if( this.inputs.summary.value === '' ) {
+        this.inputs.summary.error = '自治体概要が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.summary.error = '';
+      }
+      // 自治体範囲
+      if( this.inputs.count.value === 0 ) {
+        result = false;
+      }
+      // 規定ブロック数を超える理由
+      if( ( this.inputs.count.value > 250000 ) &&
+          ( this.inputs.reason.value === '' ) ) {
+        this.inputs.reason.error = '規定ブロック数を超える理由が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.reason.error = '';
+      }
+      return result;
     }
   },
   components: {
-    // InputRegion,
-    // InputText,
-    // SubmitButton
+    ContentBox,
+    InputRegion,
+    InputString,
+    SubmitButton
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .Create {
-  &__Heading {
-    padding-bottom: $size-base*1;
-    font-size: $font-size-l4;
-    border-bottom: solid 1px $color-gray-4;
-    line-height: 1.5;
-  }
-  &__SectionHeading {
-    font-size: $font-size-l2;
-  }
   &__Form {
-    margin-top: $size-base*3;
     display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: auto;
-    gap: $size-base*5;
+    grid-auto-flow: row;
+    gap: $size-base*4;
   }
-  &__Section {
+
+  &__FormBody {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: minmax( $size-base*1, auto );
     grid-auto-rows: auto;
-    gap: $size-base*3;
+    grid-auto-flow: row;
+    gap: $size-base*2;
   }
 }
 </style>

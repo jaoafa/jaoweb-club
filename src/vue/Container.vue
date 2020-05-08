@@ -1,7 +1,7 @@
 <template>
   <div class="Container">
     <navigation />
-    <router-view />
+    <router-view class="Container__Main" />
     <popups />
   </div>
 </template>
@@ -26,5 +26,9 @@ export default {
   grid-template-columns: $size-base*35 1fr;
   grid-template-rows: auto;
   position: relative;
+
+  &__Main {
+    padding: $size-base*4 $size-base*5;
+  }
 }
 </style>

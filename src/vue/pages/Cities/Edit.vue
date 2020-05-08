@@ -175,8 +175,6 @@ export default {
 
 <style lang="scss" scoped>
 .Edit {
-  padding: $size-base*4 $size-base*5;
-
   &__Form {
     display: grid;
     grid-template-columns: 100%;

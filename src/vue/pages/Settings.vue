@@ -131,14 +131,12 @@ export default {
 
 <style lang="scss" scoped>
 .Settings {
-  padding: $size-base*4 $size-base*5;
-
   &__Form {
     display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: auto;
     grid-auto-flow: row;
-    gap: $size-base*3;
+    gap: $size-base*4;
   }
 
   &__FormBody {
