@@ -7,6 +7,7 @@ import Vue          from 'vue';
 import VueRouter    from 'vue-router';
 import store        from './store';
 import Container    from '@/vue/Container';
+import Admin        from '@/vue/pages/Admin';
 import Cities       from '@/vue/pages/Cities';
 import CitiesCreate from '@/vue/pages/Cities/Create';
 import CitiesEdit   from '@/vue/pages/Cities/Edit';
@@ -69,6 +70,17 @@ const router = new VueRouter({
           props: route => ({ id: Number( route.params.id ) })
         },
         {
+          component: Admin,
+          meta: {
+            group: 'admin',
+            icon: 'user-lock',
+            label: '管理者用機能',
+            allow: [ 'Admin', 'Moderator' ]
+          },
+          name: 'admin',
+          path: 'admin'
+        },
+        {
           component: Settings,
           meta: {
             group: 'settings',
@@ -107,6 +119,13 @@ const router = new VueRouter({
 router.beforeEach( ( to, from, next ) => {
   if( to.matched.some( record => !record.meta.public ) && !store.getters.login ) {
     next({ name: 'signin' });
+  }
+  else if(  ( to.meta.allow ) &&
+            ( !to.meta.allow.some( item => {
+                return ( item === store.getters.me.permission );
+              })
+            ) ) {
+    next({ name: 'home' });
   }
   else {
     next();

@@ -26,6 +26,7 @@ export default {
         return ( route.path === '/' );
       })[0].children.map( ( route ) => {
         return {
+          allow: route.meta.allow,
           group: route.meta.group,
           icon: route.meta.icon,
           label: route.meta.label,
@@ -35,6 +36,15 @@ export default {
         };
       }).filter( ( route ) => {
         return ( route.path.length > 0 );
+      }).filter( ( route ) => {
+        if( route.allow ) {
+          return ( route.allow.some( ( item ) => {
+            return ( item === this.permission );
+          }));
+        }
+        else {
+          return true;
+        }
       });
       return routes.filter( ( route ) => {
         return ( route.path.length === 1 );
@@ -63,6 +73,12 @@ export default {
     },
     currentPath() {
       return this.$route.path.split('/').filter( ( item ) => { return ( item !== '' ) });
+    },
+    me() {
+      return this.$store.getters.me;
+    },
+    permission() {
+      return this.me.permission;
     }
   }
 }
