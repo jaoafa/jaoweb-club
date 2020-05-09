@@ -113,25 +113,35 @@ export default {
           usertoken: this.usertoken
         }
       }
-    ).then( res => {
-      if( res.data.status ) {
-        // 初期値設定
-        let data = res.data.data;
-        this.inputs.region.value.splice( 0 );
-        data.corners.forEach( ( item ) => {
-          item.x = item.x + '';
-          item.z = item.z + '';
-          this.inputs.region.value.push( item );
+    )
+    .then( res => {
+      // 表示確認
+      let data = res.data.data;
+      if( ( this.permission !== 'Admin' ) &&
+          ( this.permission !== 'Moderator' ) &&
+          ( this.uuid !== data.uuid ) ) {
+        this.$store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: '編集しようとした自治体を編集する権限がありません。'
         });
-        this.inputs.cityName.value = data.name ? data.name : '';
-        this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
-        this.inputs.origin.value = data.name_origin ? data.name_origin : '';
-        this.inputs.summary.value = data.summary ? data.summary : '';
-        this.inputs.reason.value = data.reason ? data.reason : '';
-        this.inputs.remarks.value = data.remarks ? data.remarks : '';
+        this.$router.push({ name: 'cities' });
       }
-    }).catch( error => {
-      // エラー
+      // 初期値設定
+      this.inputs.region.value.splice( 0 );
+      data.corners.forEach( ( item ) => {
+        item.x = item.x + '';
+        item.z = item.z + '';
+        this.inputs.region.value.push( item );
+      });
+      this.inputs.cityName.value = data.name ? data.name : '';
+      this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+      this.inputs.origin.value = data.name_origin ? data.name_origin : '';
+      this.inputs.summary.value = data.summary ? data.summary : '';
+      this.inputs.reason.value = data.reason ? data.reason : '';
+      this.inputs.remarks.value = data.remarks ? data.remarks : '';
+    })
+    .catch( error => {
       if( error.response.status === 401 ) {
         this.$store.dispatch( 'addPopup', {
           type: 'error',
@@ -162,6 +172,12 @@ export default {
     },
     usertoken() {
       return this.me.usertoken;
+    },
+    uuid() {
+      return this.me.uuid;
+    },
+    permission() {
+      return this.me.permission;
     }
   },
   methods: {
