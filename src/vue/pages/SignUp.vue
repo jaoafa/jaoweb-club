@@ -62,69 +62,67 @@ export default {
     doRegister() {
       if( this.validateInputs() && this.button.status==='default' ) {
         this.button.status = 'loading';
-        // reCAPTCHA取得
-        this.$recaptchaLoaded().then( () => {
-          this.$recaptcha( 'login' ).then( ( token ) => {
+        let usertoken = '';
+        this.$recaptchaLoaded()
+          .then( () => {
+            // reCAPTCHA取得
+            console.log( 'reCAPTCHA取得開始' );
+            return this.$recaptcha( 'login' );
+          })
+          .then( ( token ) => {
             // 登録処理
-            this.$axios.post(
+            console.log( '登録処理開始' );
+            return this.$axios.post(
               'https://api.jaoafa.com/v1/club/register',
               JSON.stringify({
-                verificationCode: this.verificationCode,
-                password: this.password,
+                verificationCode: this.inputs.verificationCode,
+                password: this.inputs.password,
                 recaptcha: token
               })
-            ).then( res => {
-              if( res.data.status ) {
-                // 成功時
-                let usertoken = res.data.usertoken;
-                // ユーザ情報取得
-                this.$axios.get(
-                  'https://api.jaoafa.com/v1/club/@me',
-                  {
-                    params: {
-                      usertoken: usertoken
-                    }
-                  }
-                ).then( res => {
-                  if( res.data.status ) {
-                    // 成功時
-                    this.button.status = 'success';
-                    // UserToken, Minecraft ID, UUID, ニックネーム, 権限グループ情報を保持
-                    let nickname = res.data.data.mcid;
-                    if( res.data.data.nickname ) {
-                      nickname = res.data.data.nickname;
-                    }
-                    this.$store.dispatch( 'doLogin', {
-                      usertoken:  usertoken,
-                      mcid:       res.data.data.mcid,
-                      uuid:       res.data.data.uuid,
-                      nickname:   nickname,
-                      permission: res.data.data.permission
-                    })
-                    // homeに遷移
-                    this.$router.push({ name: 'home' });
-                  }
-                  else {
-                    // signinに遷移
-                    this.$router.push({ name: 'signin' });
-                  }
-                }).catch( error => {
-                  // signinに遷移
-                  this.$router.push({ name: 'signin' });
-                });
+            );
+          })
+          .then( ( res ) => {
+            // ユーザ情報取得
+            console.log( 'ユーザ情報取得開始' );
+            usertoken = res.data.usertoken;
+            return this.$axios.get(
+              'https://api.jaoafa.com/v1/club/@me',
+              {
+                params: {
+                  usertoken: usertoken
+                }
               }
-              else {
-                // 失敗時
-                this.error = '登録に失敗しました。もう一度お試しください。';
-                this.button.status = 'default';
-              }
-            }).catch( error => {
-              // エラー
+            );
+          })
+          .then( ( res ) => {
+            // UserToken, Minecraft ID, UUID, ニックネーム, 権限情報を保持
+            this.button.status = 'success';
+            let data = res.data.data;
+            let nickname = data.mcid;
+            if( data.nickname ) {
+              nickname = data.nickname;
+            }
+            this.$store.dispatch( 'doLogin', {
+              usertoken:  usertoken,
+              mcid:       data.mcid,
+              uuid:       data.uuid,
+              nickname:   nickname,
+              permission: data.permission
+            })
+            // homeに遷移
+            this.$router.push({ name: 'home' });
+          })
+          .catch( ( error ) => {
+            if( usertoken === '' ) {
               this.error = '登録に失敗しました。もう一度お試しください。';
               this.button.status = 'default';
-            })
-          });
-        });
+            }
+            else {
+              // signinに遷移
+              this.$router.push({ name: 'signin' });
+            }
+          }
+        );
       }
     },
     validateInputs() {

@@ -142,10 +142,9 @@ export default {
     postRequest() {
       if( this.validateInputs() && this.button.status === 'default' ) {
         this.button.status = 'loading';
-        // reCAPTCHA取得
         this.$recaptchaLoaded()
           .then( () => {
-            // token取得
+            // reCAPTCHA取得
             return this.$recaptcha( 'login' );
           })
           .then( ( token ) => {
@@ -168,7 +167,6 @@ export default {
             );
           })
           .then( ( res ) => {
-            // 成功時
             this.button.status = 'success';
             this.$store.dispatch( 'addPopup', {
               type: 'success',
@@ -177,7 +175,6 @@ export default {
             });
           })
           .catch( ( error ) => {
-            // 失敗時
             this.button.status = 'default';
             if( error.response.status === 401 ) {
               this.$store.dispatch( 'addPopup', {
@@ -197,7 +194,8 @@ export default {
                 text: message
               });
             }
-          });
+          }
+        );
       }
     },
     validateInputs() {

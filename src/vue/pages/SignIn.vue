@@ -69,11 +69,15 @@ export default {
     doLogin() {
       if( this.validateInputs() && this.button.status==='default' ) {
         this.button.status = 'loading';
-        // reCAPTCHA取得
-        this.$recaptchaLoaded().then( () => {
-          this.$recaptcha( 'login' ).then( ( token ) => {
+        let usertoken = '';
+        this.$recaptchaLoaded()
+          .then( () => {
+            // reCAPTCHA取得
+            return this.$recaptcha( 'login' );
+          })
+          .then( ( token ) => {
             // UserToken取得
-            this.$axios.get(
+            return this.$axios.get(
               'https://api.jaoafa.com/v1/club/token',
               {
                 params: {
@@ -82,60 +86,43 @@ export default {
                   recaptcha: token
                 }
               }
-            ).then( res => {
-              if( res.data.status ) {
-                // 成功時
-                let usertoken = res.data.usertoken;
-                // ユーザ情報取得
-                this.$axios.get(
-                  'https://api.jaoafa.com/v1/club/@me',
-                  {
-                    params: {
-                      usertoken: usertoken
-                    }
-                  }
-                ).then( res => {
-                  if( res.data.status ) {
-                    // 成功時
-                    this.button.status = 'success';
-                    // UserToken, Minecraft ID, UUID, ニックネーム, 権限グループ情報を保持
-                    let nickname = res.data.data.mcid;
-                    if( res.data.data.nickname ) {
-                      nickname = res.data.data.nickname;
-                    }
-                    this.$store.dispatch( 'doLogin', {
-                      usertoken:  usertoken,
-                      mcid:       res.data.data.mcid,
-                      uuid:       res.data.data.uuid,
-                      nickname:   nickname,
-                      permission: res.data.data.permission
-                    });
-                    // homeに遷移
-                    this.$router.push({ name: 'home' });
-                  }
-                  else {
-                    // 失敗時
-                    this.error = 'ユーザ情報の取得に失敗しました。もう一度お試しください。';
-                    this.button.status = 'default';
-                  }
-                }).catch( error => {
-                  // エラー
-                  this.error = 'ユーザ情報の取得に失敗しました。もう一度お試しください。';
-                  this.button.status = 'default';
-                });
-              }
-              else {
-                // 失敗時
-                this.error = 'Minecraft ID もしくは Password が間違っています。';
-                this.button.status = 'default';
-              }
-            }).catch( error => {
-              // エラー
-              this.error = 'Minecraft ID もしくは Password が間違っています。';
-              this.button.status = 'default';
-            })
+            );
           })
-        })
+          .then( ( res ) => {
+            // ユーザ情報取得
+            usertoken = res.data.usertoken;
+            return this.$axios.get(
+              'https://api.jaoafa.com/v1/club/@me',
+              {
+                params: {
+                  usertoken: usertoken
+                }
+              }
+            );
+          })
+          .then( ( res ) => {
+            // UserToken, Minecraft ID, UUID, ニックネーム, 権限情報を保持
+            this.button.status = 'success';
+            let data = res.data.data;
+            let nickname = data.mcid;
+            if( data.nickname ) {
+              nickname = data.nickname;
+            }
+            this.$store.dispatch( 'doLogin', {
+              usertoken:  usertoken,
+              mcid:       data.mcid,
+              uuid:       data.uuid,
+              nickname:   nickname,
+              permission: data.permission
+            });
+            // homeに遷移
+            this.$router.push({ name: 'home' });
+          })
+          .catch( ( error ) => {
+            this.error = 'Minecraft ID もしくは Password が間違っています。';
+            this.button.status = 'default';
+          }
+        );
       }
     },
     validateInputs() {

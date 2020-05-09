@@ -1,7 +1,7 @@
 <template>
   <div class="Edit">
     <content-box
-      :heading="'自治体情報変更'">
+      :heading="'自治体情報変更申請'">
       <div class="Edit__Form">
         <div class="Edit__FormBody">
           <input-string

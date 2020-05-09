@@ -48,14 +48,15 @@ export default {
           usertoken: this.usertoken
         }
       }
-    ).then( res => {
+    )
+    .then( ( res ) => {
       if( res.data.status ) {
         res.data.data.forEach( item => {
           this.list.push( item );
         });
       }
-    }).catch( error => {
-      // エラー
+    })
+    .catch( ( error ) => {
       if( error.response.status === 401 ) {
         this.$store.dispatch( 'addPopup', {
           type: 'error',
