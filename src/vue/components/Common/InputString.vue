@@ -8,6 +8,9 @@
             <abbr class="InputString__Required" title="(必須)">*</abbr>
           </template>
         </label>
+        <template v-if="text">
+          <p class="InputString__Text">{{ text }}</p>
+        </template>
       </div>
     </template>
 
@@ -77,6 +80,12 @@ export default {
       required: false,
       default: false
     },
+    text: {
+      // ラベル下に表示するテキスト
+      type: String,
+      required: false,
+      default: ''
+    },
     type: {
       // 入力の種類
       type: String,
@@ -110,6 +119,13 @@ export default {
 
   &__Label {
     font-size: $font-size-s2;
+  }
+
+  &__Text {
+    color: $color-gray-3;
+    font-size: $font-size-s2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   &__Input {

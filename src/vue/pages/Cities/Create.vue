@@ -19,6 +19,14 @@
             :type="'text'"
             v-model="inputs.cityNameKana.value" />
           <input-string
+            :error="inputs.cityNameEnglish.error"
+            :label="'自治体名称（英語）'"
+            :placeholder="'（例）bakushinchi'"
+            :required="true"
+            :text="'※ WorldGuardの保護名として使用されます。\n※ 半角小文字英字のみで入力してください。'"
+            :type="'text'"
+            v-model="inputs.cityNameEnglish.value" />
+          <input-string
             :error="inputs.origin.error"
             :label="'自治体名称の由来'"
             :placeholder="'（例）爆発の始まり。爆発の根源。中心地。つまり爆心地。新しいので爆新地。'"
@@ -35,7 +43,7 @@
           <input-region
             :label="'自治体範囲'"
             :required="true"
-            v-model="inputs.region.value"
+            v-model="inputs.corners.value"
             @count="setCount" />
           <input-string
             :error="inputs.reason.error"
@@ -54,7 +62,7 @@
         <div class="Create__FormFooter">
           <submit-button
             :disabled="!validateInputs()"
-            :label="'設定を保存'"
+            :label="'申請する'"
             :status="button.status"
             @click="postRequest" />
           </div>
@@ -85,6 +93,10 @@ export default {
           error: '',
           value: ''
         },
+        cityNameEnglish: {
+          error: '',
+          value: ''
+        },
         origin: {
           error: '',
           value: ''
@@ -93,7 +105,7 @@ export default {
           error: '',
           value: ''
         },
-        region: {
+        corners: {
           error: '',
           value: []
         },
@@ -127,7 +139,67 @@ export default {
     setCount( value ) {
       this.inputs.count.value = value;
     },
-    postRequest() {},
+    postRequest() {
+      if( this.validateInputs() && this.button.status === 'default' ) {
+        this.button.status = 'loading';
+        // reCAPTCHA取得
+        this.$recaptchaLoaded()
+          .then( () => {
+            // token取得
+            return this.$recaptcha( 'login' );
+          })
+          .then( ( token ) => {
+            // 申請送信
+            return this.$axios.post(
+              'https://api.jaoafa.com/v1/cities/create',
+              JSON.stringify({
+                usertoken: this.usertoken,
+                cityName: this.inputs.cityName.value,
+                cityNameKana: this.inputs.cityNameKana.value,
+                regionName: this.inputs.cityNameEnglish.value,
+                summary: this.inputs.summary.value,
+                origin: this.inputs.origin.value,
+                corners: this.inputs.corners.value,
+                count: this.inputs.count.value,
+                reason: this.inputs.reason.value,
+                remarks: this.inputs.remarks.value,
+                recaptcha: token
+              })
+            );
+          })
+          .then( ( res ) => {
+            // 成功時
+            this.button.status = 'success';
+            this.$store.dispatch( 'addPopup', {
+              type: 'success',
+              title: '申請完了',
+              text: '新規自治体の申請が完了しました。\n運営にて審議いたしますので、しばらくお待ち下さい。'
+            });
+          })
+          .catch( ( error ) => {
+            // 失敗時
+            this.button.status = 'default';
+            if( error.response.status === 401 ) {
+              this.$store.dispatch( 'addPopup', {
+                type: 'error',
+                  title: '申請失敗',
+                  text: '新規自治体の申請に失敗しました。\n一度ログアウトし、再度ログインをしてからもう一度お試しください。'
+              });
+            }
+            else {
+              let message = error.response.data.message;
+              if( error.response.data.message_ja ) {
+                message = error.response.data.message_ja;
+              }
+              this.$store.dispatch( 'addPopup', {
+                type: 'error',
+                title: '申請失敗',
+                text: message
+              });
+            }
+          });
+      }
+    },
     validateInputs() {
       let result = true;
       // 自治体名称
@@ -145,6 +217,22 @@ export default {
       }
       else {
         this.inputs.cityNameKana.error = '';
+      }
+      // 自治体名称（英語）
+      if( this.inputs.cityNameEnglish.value === '' ) {
+        this.inputs.cityNameEnglish.error = '自治体名称（英語）が入力されていません。';
+        result = false;
+      }
+      else if( this.inputs.cityNameEnglish.value.search(/^[A-Za-z]+$/)) {
+        this.inputs.cityNameEnglish.error = '英字以外の文字が入力されています。';
+        result = false;
+      }
+      else if( this.inputs.cityNameEnglish.value.search(/^[a-z]+$/)) {
+        this.inputs.cityNameEnglish.error = '小文字英字のみで入力してください。';
+        result = false;
+      }
+      else {
+        this.inputs.cityNameEnglish.error = '';
       }
       // 自治体名称の由来
       if( this.inputs.origin.value === '' ) {
