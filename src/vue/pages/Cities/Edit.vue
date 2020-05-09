@@ -117,11 +117,16 @@ export default {
       if( res.data.status ) {
         // 初期値設定
         let data = res.data.data;
+        this.inputs.region.value.splice( 0 );
+        data.corners.forEach( ( item ) => {
+          item.x = item.x + '';
+          item.z = item.z + '';
+          this.inputs.region.value.push( item );
+        });
         this.inputs.cityName.value = data.name ? data.name : '';
         this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
         this.inputs.origin.value = data.name_origin ? data.name_origin : '';
         this.inputs.summary.value = data.summary ? data.summary : '';
-        this.inputs.region.value = data.region ? data.region : [];
         this.inputs.reason.value = data.reason ? data.reason : '';
         this.inputs.remarks.value = data.remarks ? data.remarks : '';
       }
