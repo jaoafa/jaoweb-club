@@ -375,7 +375,7 @@ export default {
           this.$store.dispatch( 'addPopup', {
             type: 'success',
             title: '申請完了',
-            text: '自治体情報変更の申請が完了しました。\n運営にて審議いたしますので、しばらくお待ち下さい。'
+            text: '自治体情報変更の申請が完了しました。（リクエストID：'+res.data.request_id+'）\n運営にて審議いたしますので、しばらくお待ち下さい。'
           });
         })
         .catch( ( error ) => {
