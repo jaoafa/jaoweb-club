@@ -77,7 +77,10 @@ const copyHTML = () => {
 const copyAssets = () => {
   return gulp
   .src(
-    paths.assets.src
+    paths.assets.src,
+    {
+      sinse: gulp.lastRun( copyAssets )
+    }
   )
   .pipe(
     gulp.dest(
