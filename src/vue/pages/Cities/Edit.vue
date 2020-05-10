@@ -91,10 +91,12 @@ export default {
       inputs: {
         cityName: {
           error: '',
+          original: '',
           value: ''
         },
         cityNameKana: {
           error: '',
+          original: '',
           value: ''
         },
         cityNameEnglish: {
@@ -103,14 +105,17 @@ export default {
         },
         origin: {
           error: '',
+          original: '',
           value: ''
         },
         summary: {
           error: '',
+          original: '',
           value: ''
         },
         corners: {
           error: '',
+          original: [],
           value: []
         },
         count: {
@@ -119,6 +124,7 @@ export default {
         },
         reason: {
           error: '',
+          original: '',
           value: ''
         },
         remarks: {
@@ -159,13 +165,19 @@ export default {
           item.x = item.x + '';
           item.z = item.z + '';
           vm.inputs.corners.value.push( item );
+          vm.inputs.corners.original.push( item );
         });
-        vm.inputs.cityName.value = data.name ? data.name : '';
-        vm.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+        vm.inputs.cityName.value    = data.name ? data.name : '';
+        vm.inputs.cityName.original = data.name ? data.name : '';
+        vm.inputs.cityNameKana.value    = data.namekana ? data.namekana : '';
+        vm.inputs.cityNameKana.original = data.namekana ? data.namekana : '';
         vm.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
-        vm.inputs.origin.value = data.name_origin ? data.name_origin : '';
-        vm.inputs.summary.value = data.summary ? data.summary : '';
-        vm.inputs.reason.value = data.reason ? data.reason : '';
+        vm.inputs.origin.value    = data.name_origin ? data.name_origin : '';
+        vm.inputs.origin.original = data.name_origin ? data.name_origin : '';
+        vm.inputs.summary.value     = data.summary ? data.summary : '';
+        vm.inputs.summary.original  = data.summary ? data.summary : '';
+        vm.inputs.reason.value    = data.reason ? data.reason : '';
+        vm.inputs.reason.original = data.reason ? data.reason : '';
       });
     })
     .catch( ( error ) => {
@@ -217,13 +229,19 @@ export default {
         item.x = item.x + '';
         item.z = item.z + '';
         this.inputs.corners.value.push( item );
+        this.inputs.corners.original.push( item );
       });
-      this.inputs.cityName.value = data.name ? data.name : '';
-      this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+      this.inputs.cityName.value    = data.name ? data.name : '';
+      this.inputs.cityName.original = data.name ? data.name : '';
+      this.inputs.cityNameKana.value    = data.namekana ? data.namekana : '';
+      this.inputs.cityNameKana.original = data.namekana ? data.namekana : '';
       this.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
-      this.inputs.origin.value = data.name_origin ? data.name_origin : '';
-      this.inputs.summary.value = data.summary ? data.summary : '';
-      this.inputs.reason.value = data.reason ? data.reason : '';
+      this.inputs.origin.value    = data.name_origin ? data.name_origin : '';
+      this.inputs.origin.original = data.name_origin ? data.name_origin : '';
+      this.inputs.summary.value     = data.summary ? data.summary : '';
+      this.inputs.summary.original  = data.summary ? data.summary : '';
+      this.inputs.reason.value    = data.reason ? data.reason : '';
+      this.inputs.reason.original = data.reason ? data.reason : '';
       next();
     })
     .catch( ( error ) => {
@@ -275,7 +293,115 @@ export default {
     setCount( value ) {
       this.inputs.count.value = value;
     },
-    postRequest() {},
+    postRequest() {
+      if( this.validateInputs() && this.button.status === 'default' ) {
+        this.button.status = 'loading';
+        let send = {};
+        new Promise( ( resolve, reject ) => {
+          let change = {
+            corners: false,
+            info: false
+          };
+          let points = this.inputs.corners.value.map( ( point, index ) => {
+            if( ( ( !this.inputs.corners.original[index] ) ||
+                  ( point.x !== this.inputs.corners.original[index].x ) ||
+                  ( point.z !== this.inputs.corners.original[index].z ) ) &&
+                ( change.corners === false ) ) {
+              change.corners = true;
+            }
+            return {
+              id: index + 1,
+              x: point.x,
+              z: point.z
+            }
+          });
+          if( change.corners ) {
+            send.corners  = points;
+            send.count    = this.inputs.count.value;
+          }
+          if( this.inputs.cityName.value !== this.inputs.cityName.original ) {
+            send.cityName = this.inputs.cityName.value;
+            change.info = true;
+          }
+          if( this.inputs.cityNameKana.value !== this.inputs.cityNameKana.original ) {
+            send.cityNameKana = this.inputs.cityNameKana.value;
+            change.info = true;
+          }
+          if( this.inputs.origin.value !== this.inputs.origin.original ) {
+            send.origin = this.inputs.origin.value;
+            change.info = true;
+          }
+          if( this.inputs.summary.value !== this.inputs.summary.original ) {
+            send.summary = this.inputs.summary.value;
+            change.info = true;
+          }
+          if( this.inputs.reason.value !== this.inputs.reason.original ) {
+            send.reason = this.inputs.reason.value;
+            change.info = true;
+          }
+          if( change.corners && change.info ) {
+            reject({
+              response: {
+                status: 418,
+                data: {
+                  message: '',
+                  message_ja: '情報変更と範囲変更を同時に申請することはできません。'
+                }
+              }
+            });
+          }
+          else {
+            resolve();
+          }
+        })
+        .then( () => {
+          return this.$recaptchaLoaded()
+        })
+        .then( () => {
+          // reCAPTCHA取得
+          return this.$recaptcha( 'login' );
+        })
+        .then( ( token ) => {
+          // 申請送信
+          send.usertoken = this.usertoken;
+          send.recaptcha = token;
+          return this.$axios.patch(
+            'https://api.jaoafa.com/v1/cities/edit/'+this.id,
+            JSON.stringify( send )
+          );
+        })
+        .then( ( res ) => {
+          this.button.status = 'success';
+          this.$store.dispatch( 'addPopup', {
+            type: 'success',
+            title: '申請完了',
+            text: '自治体情報変更の申請が完了しました。\n運営にて審議いたしますので、しばらくお待ち下さい。'
+          });
+        })
+        .catch( ( error ) => {
+          this.button.status = 'default';
+          if( error.response && error.response.status === 401 ) {
+            this.$store.dispatch( 'addPopup', {
+              type: 'error',
+                title: '申請失敗',
+                text: '自治体情報変更の申請に失敗しました。\n一度ログアウトし、再度ログインをしてからもう一度お試しください。'
+            });
+          }
+          else {
+            let message = '自治体情報変更の申請に失敗しました。\nもう一度お試しください。';
+            if( error.response ) {
+              let data = error.response.data;
+              message = data.message_ja ? data.message_ja : data.message;
+            }
+            this.$store.dispatch( 'addPopup', {
+              type: 'error',
+              title: '申請失敗',
+              text: message
+            });
+          }
+        });
+      }
+    },
     validateInputs() {
       let result = true;
       // 自治体名称
