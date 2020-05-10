@@ -151,6 +151,13 @@ export default {
           })
           .then( ( token ) => {
             // 申請送信
+            let corners = this.inputs.corners.value.map( ( corner, index ) => {
+              return {
+                id: index + 1,
+                x: corner.x,
+                z: corner.z
+              }
+            });
             return this.$axios.post(
               'https://api.jaoafa.com/v1/cities/create',
               JSON.stringify({
@@ -160,7 +167,7 @@ export default {
                 regionName: this.inputs.cityNameEnglish.value,
                 summary: this.inputs.summary.value,
                 origin: this.inputs.origin.value,
-                corners: this.inputs.corners.value,
+                corners: corners,
                 count: this.inputs.count.value,
                 reason: this.inputs.reason.value,
                 remarks: this.inputs.remarks.value,
