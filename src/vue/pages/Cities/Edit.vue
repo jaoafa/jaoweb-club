@@ -1,5 +1,6 @@
 <template>
   <div class="Edit">
+    <prev-link />
     <content-box
       :heading="'自治体情報変更申請'">
       <div class="Edit__Form">
@@ -60,6 +61,7 @@
 import ContentBox   from '@/vue/components/Common/ContentBox';
 import InputRegion  from '@/vue/components/Common/InputRegion';
 import InputString  from '@/vue/components/Common/InputString';
+import PrevLink     from '@/vue/components/Common/PrevLink';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
@@ -189,6 +191,7 @@ export default {
     ContentBox,
     InputRegion,
     InputString,
+    PrevLink,
     SubmitButton
   }
 }

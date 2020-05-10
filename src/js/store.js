@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     //   mcid: 'Hirotaisou2012',
     //   uuid: '39cf878b-ef0b-44fc-a2c6-de3d540a4728',
     //   nickname: 'ひらたけ',
-    //   permission: 'Regular'
+    //   permission: 'Admin'
     // },
     user: {
       token: '',

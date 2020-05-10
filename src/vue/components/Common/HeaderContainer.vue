@@ -1,6 +1,6 @@
 <template>
   <header class="HeaderContainer">
-    <router-link class="HeaderContainer__Logo" to="/">
+    <router-link class="HeaderContainer__Logo" :to="{ name: 'home' }">
       <logo />
     </router-link>
     <div class="HeaderContainer__Login">

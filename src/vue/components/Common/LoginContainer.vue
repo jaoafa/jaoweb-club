@@ -2,12 +2,12 @@
   <div class="LoginContainer">
     <router-link 
       class="LoginContainer__SignUp LoginContainer__Button"
-      to="/signup">
+      :to="{ name: 'signup' }">
       新規登録
     </router-link>
     <router-link 
       class="LoginContainer__SignIn LoginContainer__Button"
-      to="/signin">
+      :to="{ name: 'signin' }">
       ログイン
     </router-link>
   </div>

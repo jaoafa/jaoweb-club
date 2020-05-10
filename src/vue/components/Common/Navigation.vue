@@ -8,7 +8,7 @@
           <router-link
             class="Navigation__Link"
             :class="{'_current': currentPath[0] === route.group}"
-            :to="'/'+route.to">
+            :to="{ name: route.name }">
             <i class="Navigation__Icon fas" :class="'fa-'+route.icon"></i>
             <span class="Navigation__Text">{{ route.label }}</span>
           </router-link>
@@ -31,8 +31,7 @@ export default {
           icon: route.meta.icon,
           label: route.meta.label,
           name: route.name,
-          path: route.path.split('/').filter( ( item ) => { return ( item !== '' ) }),
-          to: route.path
+          path: route.path.split('/').filter( ( item ) => { return ( item !== '' ) })
         };
       }).filter( ( route ) => {
         return ( route.path.length > 0 );
@@ -57,8 +56,7 @@ export default {
           return {
             group: item.group,
             label: item.label,
-            name: item.name,
-            to: item.to
+            name: item.name
           }
         });
         return {
@@ -66,8 +64,7 @@ export default {
           group: route.group,
           icon: route.icon,
           label: route.label,
-          name: route.name,
-          to: route.to
+          name: route.name
         }
       });
     },

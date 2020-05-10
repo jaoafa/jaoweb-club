@@ -6,7 +6,7 @@
         <template v-for="( item ) in list">
           <router-link
             class="Cities__Item Cities__Item--Edit"
-            :to="'/cities/edit/'+item.id"
+            :to="{ name: 'cities_edit', params: { id: item.id } }"
             :key="'cities_'+item.id">
             <h3 class="Cities__ItemHeader">
               <span>{{ item.name }}</span>
@@ -17,7 +17,7 @@
         </template>
         <router-link
           class="Cities__Item Cities__Item--Create"
-          :to="'/cities/create'">
+          :to="{ name: 'cities_create' }">
           <h3>新しい自治体を申請</h3>
           <i class="fas fa-plus"></i>
         </router-link>

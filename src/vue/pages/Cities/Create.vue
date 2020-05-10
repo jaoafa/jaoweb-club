@@ -1,5 +1,6 @@
 <template>
   <div class="Create">
+    <prev-link />
     <content-box
       :heading="'新規自治体申請'">
       <div class="Create__Form">
@@ -65,7 +66,7 @@
             :label="'申請する'"
             :status="button.status"
             @click="postRequest" />
-          </div>
+        </div>
       </div>
     </content-box>
   </div>
@@ -76,6 +77,7 @@
 import ContentBox   from '@/vue/components/Common/ContentBox';
 import InputRegion  from '@/vue/components/Common/InputRegion';
 import InputString  from '@/vue/components/Common/InputString';
+import PrevLink     from '@/vue/components/Common/PrevLink';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
 
 export default {
@@ -176,7 +178,7 @@ export default {
           })
           .catch( ( error ) => {
             this.button.status = 'default';
-            if( error.response.status === 401 ) {
+            if( error.response && error.response.status === 401 ) {
               this.$store.dispatch( 'addPopup', {
                 type: 'error',
                   title: '申請失敗',
@@ -184,9 +186,10 @@ export default {
               });
             }
             else {
-              let message = error.response.data.message;
-              if( error.response.data.message_ja ) {
-                message = error.response.data.message_ja;
+              let message = '新規自治体の申請に失敗しました。\nもう一度お試しください。';
+              if( error.response ) {
+                let data = error.response.data;
+                message = data.message_ja ? data.message_ja : data.message;
               }
               this.$store.dispatch( 'addPopup', {
                 type: 'error',
@@ -268,6 +271,7 @@ export default {
     ContentBox,
     InputRegion,
     InputString,
+    PrevLink,
     SubmitButton
   }
 }

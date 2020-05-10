@@ -29,6 +29,12 @@ export default {
 
   &__Main {
     padding: $size-base*4 $size-base*5;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: auto;
+    grid-auto-flow: row;
+    gap: $size-base*4;
+    align-content: start;
   }
 }
 </style>
