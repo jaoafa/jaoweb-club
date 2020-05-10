@@ -18,7 +18,7 @@
             :type="'text'"
             v-model="inputs.verificationCode" />
           <input-string
-            :label="'Password'"
+            :label="'パスワード'"
             :required="true"
             :type="'password'"
             v-model="inputs.password" />
