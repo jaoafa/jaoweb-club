@@ -20,6 +20,14 @@
             :type="'text'"
             v-model="inputs.cityNameKana.value" />
           <input-string
+            :error="inputs.cityNameEnglish.error"
+            :label="'自治体名称（英語）'"
+            :placeholder="'（例）bakushinchi'"
+            :required="true"
+            :text="'※ WorldGuardの保護名として使用されます。\n※ 半角小文字英字のみで入力してください。'"
+            :type="'text'"
+            v-model="inputs.cityNameEnglish.value" />
+          <input-string
             :error="inputs.origin.error"
             :label="'自治体名称の由来'"
             :placeholder="'（例）爆発の始まり。爆発の根源。中心地。つまり爆心地。新しいので爆新地。'"
@@ -47,9 +55,16 @@
           <input-string
             :error="inputs.remarks.error"
             :label="'備考'"
-            :required="true"
+            :required="false"
             :type="'textarea'"
             v-model="inputs.remarks.value" />
+        </div>
+        <div class="Create__FormFooter">
+          <submit-button
+            :disabled="!validateInputs()"
+            :label="'申請する'"
+            :status="button.status"
+            @click="postRequest" />
         </div>
       </div>
     </content-box>
@@ -70,12 +85,19 @@ import store        from '@/js/store.js';
 export default {
   data() {
     return {
+      button: {
+        status: 'default'
+      },
       inputs: {
         cityName: {
           error: '',
           value: ''
         },
         cityNameKana: {
+          error: '',
+          value: ''
+        },
+        cityNameEnglish: {
           error: '',
           value: ''
         },
@@ -140,10 +162,10 @@ export default {
         });
         vm.inputs.cityName.value = data.name ? data.name : '';
         vm.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+        vm.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
         vm.inputs.origin.value = data.name_origin ? data.name_origin : '';
         vm.inputs.summary.value = data.summary ? data.summary : '';
         vm.inputs.reason.value = data.reason ? data.reason : '';
-        vm.inputs.remarks.value = data.remarks ? data.remarks : '';
       });
     })
     .catch( ( error ) => {
@@ -198,10 +220,10 @@ export default {
       });
       this.inputs.cityName.value = data.name ? data.name : '';
       this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+      this.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
       this.inputs.origin.value = data.name_origin ? data.name_origin : '';
       this.inputs.summary.value = data.summary ? data.summary : '';
       this.inputs.reason.value = data.reason ? data.reason : '';
-      this.inputs.remarks.value = data.remarks ? data.remarks : '';
       next();
     })
     .catch( ( error ) => {
@@ -252,6 +274,72 @@ export default {
   methods: {
     setCount( value ) {
       this.inputs.count.value = value;
+    },
+    postRequest() {},
+    validateInputs() {
+      let result = true;
+      // 自治体名称
+      if( this.inputs.cityName.value === '' ) {
+        this.inputs.cityName.error = '自治体名称が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.cityName.error = '';
+      }
+      // 自治体名称（かな）
+      if( this.inputs.cityNameKana.value === '' ) {
+        this.inputs.cityNameKana.error = '自治体名称（かな）が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.cityNameKana.error = '';
+      }
+      // 自治体名称（英語）
+      if( this.inputs.cityNameEnglish.value === '' ) {
+        this.inputs.cityNameEnglish.error = '自治体名称（英語）が入力されていません。';
+        result = false;
+      }
+      else if( this.inputs.cityNameEnglish.value.search(/^[A-Za-z]+$/)) {
+        this.inputs.cityNameEnglish.error = '英字以外の文字が入力されています。';
+        result = false;
+      }
+      else if( this.inputs.cityNameEnglish.value.search(/^[a-z]+$/)) {
+        this.inputs.cityNameEnglish.error = '小文字英字のみで入力してください。';
+        result = false;
+      }
+      else {
+        this.inputs.cityNameEnglish.error = '';
+      }
+      // 自治体名称の由来
+      if( this.inputs.origin.value === '' ) {
+        this.inputs.origin.error = '自治体名称の由来が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.origin.error = '';
+      }
+      // 自治体概要
+      if( this.inputs.summary.value === '' ) {
+        this.inputs.summary.error = '自治体概要が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.summary.error = '';
+      }
+      // 自治体範囲
+      if( this.inputs.count.value === 0 ) {
+        result = false;
+      }
+      // 規定ブロック数を超える理由
+      if( ( this.inputs.count.value > 250000 ) &&
+          ( this.inputs.reason.value === '' ) ) {
+        this.inputs.reason.error = '規定ブロック数を超える理由が入力されていません。';
+        result = false;
+      }
+      else {
+        this.inputs.reason.error = '';
+      }
+      return result;
     }
   },
   components: {
