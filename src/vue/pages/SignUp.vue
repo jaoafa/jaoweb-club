@@ -30,6 +30,15 @@
             :label="'アカウントを作成'"
             :status="button.status"
             @click="doRegister" />
+          <div class="SignUp__Link">
+            <a
+              class="SignUp__LinkText" 
+              href="https://jaoafa.com/rule/clubjaoafa"
+              target="_blank"
+              rel="noopener">
+              登録前にこちらの説明をお読みください。
+            </a>
+          </div>
         </div>
       </div>
       <div class="SignUp__Visual"></div>
