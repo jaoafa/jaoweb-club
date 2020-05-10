@@ -36,7 +36,7 @@
           <input-region
             :label="'自治体範囲'"
             :required="true"
-            v-model="inputs.region.value"
+            v-model="inputs.corners.value"
             @count="setCount" />
           <input-string
             :error="inputs.reason.error"
@@ -64,6 +64,9 @@ import InputString  from '@/vue/components/Common/InputString';
 import PrevLink     from '@/vue/components/Common/PrevLink';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
 
+import axios        from 'axios';
+import store        from '@/js/store.js';
+
 export default {
   data() {
     return {
@@ -84,7 +87,7 @@ export default {
           error: '',
           value: ''
         },
-        region: {
+        corners: {
           error: '',
           value: []
         },
@@ -106,8 +109,67 @@ export default {
   title() {
     return this.pageTitle;
   },
-  created() {
-    // 自治体情報取得
+  beforeRouteEnter( to, from, next ) {
+    axios.get(
+      'https://api.jaoafa.com/cities/'+to.params.id,
+      {
+        params: {
+          usertoken: store.getters.me.usertoken
+        }
+      }
+    )
+    .then( ( res ) => {
+      let data        = res.data.data;
+      let permission  = store.getters.me.permission;
+      if( ( permission !== 'Admin' ) &&
+          ( permission !== 'Moderator' ) &&
+          ( store.getters.me.uuid !== data.uuid ) ) {
+        store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: '編集しようとした自治体を編集する権限がありません。'
+        });
+        next({ name: 'cities' });
+      }
+      next( ( vm ) => {
+        vm.inputs.corners.value.splice( 0 );
+        data.corners.forEach( ( item ) => {
+          item.x = item.x + '';
+          item.z = item.z + '';
+          vm.inputs.corners.value.push( item );
+        });
+        vm.inputs.cityName.value = data.name ? data.name : '';
+        vm.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
+        vm.inputs.origin.value = data.name_origin ? data.name_origin : '';
+        vm.inputs.summary.value = data.summary ? data.summary : '';
+        vm.inputs.reason.value = data.reason ? data.reason : '';
+        vm.inputs.remarks.value = data.remarks ? data.remarks : '';
+      });
+    })
+    .catch( ( error ) => {
+      if( error.response && error.response.status === 401 ) {
+        store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: '自治体情報の取得に失敗しました。\n一度ログアウトし、再度ログインをしてからもう一度お試しください。'
+        });
+      }
+      else {
+        let message = '自治体情報の取得に失敗しました。\nもう一度お試しください。';
+        if( error.response ) {
+          let data = error.response.data;
+          message = data.message_ja ? data.message_ja : data.message;
+        }
+        store.dispatch( 'addPopup', {
+          type: 'error',
+          title: '取得失敗',
+          text: message
+        });
+      }
+      next({ name: 'cities' });
+    })
+  },
+  beforeRouteUpdate( to, from, next ) {
     this.$axios.get(
       'https://api.jaoafa.com/cities/'+this.id,
       {
@@ -116,8 +178,7 @@ export default {
         }
       }
     )
-    .then( res => {
-      // 表示確認
+    .then( ( res ) => {
       let data = res.data.data;
       if( ( this.permission !== 'Admin' ) &&
           ( this.permission !== 'Moderator' ) &&
@@ -127,14 +188,13 @@ export default {
           title: '取得失敗',
           text: '編集しようとした自治体を編集する権限がありません。'
         });
-        this.$router.push({ name: 'cities' });
+        next({ name: 'cities' });
       }
-      // 初期値設定
-      this.inputs.region.value.splice( 0 );
+      this.inputs.corners.value.splice( 0 );
       data.corners.forEach( ( item ) => {
         item.x = item.x + '';
         item.z = item.z + '';
-        this.inputs.region.value.push( item );
+        this.inputs.corners.value.push( item );
       });
       this.inputs.cityName.value = data.name ? data.name : '';
       this.inputs.cityNameKana.value = data.namekana ? data.namekana : '';
@@ -142,9 +202,10 @@ export default {
       this.inputs.summary.value = data.summary ? data.summary : '';
       this.inputs.reason.value = data.reason ? data.reason : '';
       this.inputs.remarks.value = data.remarks ? data.remarks : '';
+      next();
     })
-    .catch( error => {
-      if( error.response.status === 401 ) {
+    .catch( ( error ) => {
+      if( error.response && error.response.status === 401 ) {
         this.$store.dispatch( 'addPopup', {
           type: 'error',
           title: '取得失敗',
@@ -152,12 +213,18 @@ export default {
         });
       }
       else {
+        let message = '自治体情報の取得に失敗しました。\nもう一度お試しください。';
+        if( error.response ) {
+          let data = error.response.data;
+          message = data.message_ja ? data.message_ja : data.message;
+        }
         this.$store.dispatch( 'addPopup', {
           type: 'error',
           title: '取得失敗',
-          text: '自治体情報の取得に失敗しました。\nもう一度お試しください。'
+          text: message
         });
       }
+      next({ name: 'cities' });
     })
   },
   props: {
