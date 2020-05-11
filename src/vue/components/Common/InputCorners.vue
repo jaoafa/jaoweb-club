@@ -1,49 +1,50 @@
 <template>
-  <div class="InputRegion">
+  <div class="InputCorners">
     <template v-if="label">
-      <div class="InputRegion__Header">
-        <label class="InputRegion__Label">
+      <div class="InputCorners__Header">
+        <label class="InputCorners__Label">
           {{ label }}
           <template v-if="required">
-            <abbr class="InputRegion__Required" title="(必須)">*</abbr>
+            <abbr class="InputCorners__Required" title="(必須)">*</abbr>
           </template>
         </label>
       </div>
     </template>
 
-    <ul class="InputRegion__Body">
+    <ul class="InputCorners__Body">
       <li
-        class="InputRegion__PointContainer"
+        class="InputCorners__PointContainer"
         v-for="( point, index ) in inputValue"
-        :key="'regionPoint_'+point.id">
-        <label class="InputRegion__PointLabel">#</label>
+        :key="'point_'+point.id">
+        <label class="InputCorners__PointLabel">#</label>
         <input-point
           :error="point.error"
           :initValue="point"
           @value="updatePoint" />
         <button
-          class="InputRegion__Remove"
+          class="InputCorners__Remove"
           aria-label="座標を削除する"
           @click="removePoint( index )">
           <i class="fas fa-times-circle"></i>
         </button>
-        <template v-if="point.error">
-          <p class="InputRegion__Error">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>{{ point.error }}</span>
-          </p>
-        </template>
+        <p class="InputCorners__Error" v-show="point.error">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>{{ point.error }}</span>
+        </p>
       </li>
     </ul>
 
-    <div class="InputRegion__Footer">
+    <div class="InputCorners__Footer">
       <span
-        class="InputRegion__Counter"
-        :class="{'_over': countBlocks > 250000}">
-        {{ countBlocks.toLocaleString() }} Blocks
+        class="InputCorners__Loading"
+        v-show="loading"></span>
+      <span
+        class="InputCorners__Counter"
+        :class="{'_over': count > 250000}">
+        {{ count.toLocaleString() }} Blocks
       </span>
       <button
-        class="InputRegion__Add"
+        class="InputCorners__Add"
         type="button"
         @click="addPoint('0','0')">
         <i class="fas fa-plus-circle"></i>
@@ -57,15 +58,19 @@
 // Components
 import InputPoint from '@/vue/components/Common/InputPoint';
 
+import throttle   from 'lodash/throttle';
+
 export default {
-  created() {
-    if( this.initValue.length === 0 ) {
-      this.addPoint( '0', '0' );
+  data() {
+    return {
+      count: 0,
+      inputValue: [],
+      loading: false
     }
   },
   model: {
     prop: 'initValue',
-    event: 'points'
+    event: 'corners'
   },
   props: {
     initValue: {
@@ -87,63 +92,41 @@ export default {
       default: false
     }
   },
-  computed: {
-    countBlocks() {
-      let count = 0;
-      if( this.validateInputs( this.inputValue ).result ) {
-        let size  = 0;
-        let side  = 0;
-        this.inputValue.reduce( ( a, b ) => {
-          size += ( (a.x-0) * (b.z-0) ) - ( (b.x-0) * (a.z-0) );
-          side += Math.abs( (a.x-0) - (b.x-0) ) + Math.abs( (a.z-0) - (b.z-0) );
-          return b;
-        }, this.inputValue.slice(-1)[0] );
-        count = Math.abs( size / 2 ) + ( side / 2 ) + 1;
-      }
-      this.$emit( 'count', count );
-      return count;
-    },
-    inputValue: {
-      get() {
-        return this.initValue;
-      },
-      set( value ) {
-        let validate  = this.validateInputs( value );
-        this.$emit( 'points', validate.value );
-      }
-    }
-  },
   methods: {
     addPoint( x, z ) {
-      let points = this.inputValue.slice();
-      let max = points.reduce( ( a, b ) => {
+      let max = this.inputValue.reduce( ( a, b ) => {
         return a.id > b.id ? a : b;
       }, { id: 0 } );
-      points.push({
+      this.inputValue.push({
         error: '',
         id: ( max.id + 1 ),
         x: x,
         z: z
       });
-      this.inputValue = points;
     },
     removePoint( index ) {
-      let points = this.inputValue.slice();
-      points.splice( index, 1 );
-      this.inputValue = points;
+      this.inputValue.splice( index, 1 );
     },
     updatePoint( value ) {
-      let points = this.inputValue.map( ( point ) => {
-        if( point.id === value.id ) {
-          return value;
-        }
-        else {
-          return point;
-        }
-      });
-      this.inputValue = points;
+      let index = this.inputValue.findIndex( ( point ) => ( point.id === value.id ) );
+      this.inputValue.splice( index, 1, value );
     },
-    validateInputs( points ) {
+    countBlocks( value, validate ) {
+      let count = 0;
+      let size  = 0;
+      let side  = 0;
+      if( validate ) {
+        value.reduce( ( a, b ) => {
+          size += ( (a.x-0) * (b.z-0) ) - ( (b.x-0) * (a.z-0) );
+          side += Math.abs( (a.x-0) - (b.x-0) ) + Math.abs( (a.z-0) - (b.z-0) );
+          return b;
+        }, value.slice(-1)[0] );
+        count = Math.abs( size / 2 ) + ( side / 2 ) + 1;
+      }
+      return count;
+    },
+    validateInputs( value ) {
+      let corners = JSON.parse( JSON.stringify( value ) );
       let result = true;
       let rotation = true;
       const message = {
@@ -151,67 +134,102 @@ export default {
         rotationError: '時計回りもしくは反時計回りとなるように座標を入力してください。',
         samePointError: '同じ座標が入力されています。'
       };
-      if( points.length < 4 ) {
+      if( corners.length < 4 ) {
         // 座標の数が 4 未満
         result = false;
       }
-      else if( points.length % 2 !== 0 ) {
+      else if( corners.length % 2 !== 0 ) {
         // 座標の数が奇数
         result = false;
       }
-      points.reduce( ( prev, current, index ) => {
+      corners.reduce( ( prev, current, index ) => {
         if( ( current.x.search(/^[-]?([1-9]\d*|0)$/) < 0 ) || 
             ( current.z.search(/^[-]?([1-9]\d*|0)$/) < 0 ) ) {
           // 数値以外の文字が入力されている もしくは 何も入力されていない
-          points[index].error = message.inputTypeError;
+          corners[index].error = message.inputTypeError;
           result = false;
         }
         else if( index > 0 ) {
           if( ( prev.x === current.x ) && ( prev.z === current.z ) ) {
             // 同じ座標が入力されている
-            points[index].error = message.samePointError;
+            corners[index].error = message.samePointError;
             result = false;
           }
           else if( ( prev.x !== current.x ) && ( prev.z !== current.z ) ) {
             // X, Z の両方が異なっている
-            points[index].error = message.rotationError;
+            corners[index].error = message.rotationError;
             result = false;
           }
           else {
             if( index === 1 ) {
               rotation = ( prev.x === current.x ) ? false : true;
-              points[index].error = '';
+              corners[index].error = '';
             }
             else if(( !rotation && ( prev.x !== current.x ) ) ||
                     (  rotation && ( prev.z !== current.z ) )) {
               // 時計回りもしくは反時計回りではない
-              points[index].error = message.rotationError;
+              corners[index].error = message.rotationError;
               result = false;
             }
-            else if(( points.length >= 4 ) &&
-                    ( points.length % 2 === 0 ) &&
-                    ( index + 1 === points.length ) &&
-                    ( (  rotation && ( current.x !== points[0].x ) ) ||
-                      ( !rotation && ( current.z !== points[0].z ) ) ) ) {
+            else if(( corners.length >= 4 ) &&
+                    ( corners.length % 2 === 0 ) &&
+                    ( index + 1 === corners.length ) &&
+                    ( (  rotation && ( current.x !== corners[0].x ) ) ||
+                      ( !rotation && ( current.z !== corners[0].z ) ) ) ) {
               // 時計回りもしくは反時計回りではない
-              points[index].error = message.rotationError;
+              corners[index].error = message.rotationError;
               result = false;
             }
             else {
-              points[index].error = '';
+              corners[index].error = '';
             }
           }
         }
         else {
-          points[index].error = '';
+          corners[index].error = '';
         }
         rotation = !rotation;
         return current;
       }, { id: 0, x: '0', z: '0' });
       return {
-        value: points,
+        value: corners,
         result: result
       };
+    }
+  },
+  watch: {
+    initValue: {
+      handler( newValue, oldValue ) {
+        let inputValue = JSON.stringify( this.inputValue );
+        if( inputValue !== JSON.stringify( newValue ) ) {
+          inputValue = JSON.parse( inputValue );
+          newValue.forEach( ( item ) => {
+            let index = inputValue.findIndex( ( point ) => ( point.id === item.id ) );
+            if( index < 0 ) {
+              this.addPoint( ( item.x + '' ), ( item.z + '' ) );
+            }
+            else {
+              this.updatePoint( item );
+            }
+          });
+        }
+        this.loading = false;
+      },
+      deep: true,
+      immediate: true
+    },
+    inputValue: {
+      handler: throttle( function( newValue, oldValue ) {
+        if( !this.loading ) {
+          this.loading = true;
+          let validate = this.validateInputs( newValue );
+          this.$emit( 'corners', validate.value );
+          let count   = this.countBlocks( validate.value, validate.result );
+          this.count  = count;
+          this.$emit( 'count', count );
+        }
+      }, 500 ),
+      deep: true
     }
   },
   components: {
@@ -221,7 +239,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.InputRegion {
+.InputCorners {
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: auto;
@@ -238,13 +256,13 @@ export default {
     grid-auto-flow: row;
     gap: $size-base*1;
     list-style: none;
-    counter-reset: regionPoint;
+    counter-reset: corners-count;
   }
 
   &__Footer {
     padding: $size-base*1 $size-base*2;
     display: grid;
-    grid-template-columns: repeat( 2, auto ) 1fr;
+    grid-template-columns: repeat( 3, auto ) 1fr;
     grid-template-rows: auto;
     gap: $size-base*2;
     align-items: center;
@@ -324,6 +342,27 @@ export default {
     &._over {
       color: $color-error;
     }
+  }
+
+  &__Loading {
+    width: $size-base*2;
+    height: $size-base*2;
+    display: block;
+    border: solid 2px $color-gray-3;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: loading .75s 0s linear infinite;
+  }
+}
+@keyframes loading {
+  0% {
+    transform: rotate(0) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(.8);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
   }
 }
 </style>

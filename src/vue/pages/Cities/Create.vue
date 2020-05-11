@@ -41,7 +41,7 @@
             :required="true"
             :type="'textarea'"
             v-model="inputs.summary.value" />
-          <input-region
+          <input-corners
             :label="'自治体範囲'"
             :required="true"
             v-model="inputs.corners.value"
@@ -75,7 +75,7 @@
 <script>
 // Components
 import ContentBox   from '@/vue/components/Common/ContentBox';
-import InputRegion  from '@/vue/components/Common/InputRegion';
+import InputCorners  from '@/vue/components/Common/InputCorners';
 import InputString  from '@/vue/components/Common/InputString';
 import PrevLink     from '@/vue/components/Common/PrevLink';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
@@ -276,7 +276,7 @@ export default {
   },
   components: {
     ContentBox,
-    InputRegion,
+    InputCorners,
     InputString,
     PrevLink,
     SubmitButton

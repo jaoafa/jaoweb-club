@@ -9,14 +9,12 @@ import router from './router';
 import store  from './store';
 import mixin  from './mixin';
 import axios  from 'axios';
-import lodash from 'lodash';
 import { VueReCaptcha } from 'vue-recaptcha-v3';
 
 require( '@/sass/_reset.scss' );
 require( '@/sass/_base.scss' );
 
 Vue.prototype.$axios  = axios;
-Vue.prototype.$lodash = lodash;
 Vue.use(
   VueReCaptcha,
   {

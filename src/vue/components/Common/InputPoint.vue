@@ -44,7 +44,17 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
+
 export default {
+  data() {
+    return {
+      inputValue: {
+        x: 0,
+        z: 0
+      }
+    }
+  },
   model: {
     prop: 'initValue',
     event: 'value'
@@ -86,14 +96,31 @@ export default {
       default: false
     }
   },
-  computed: {
-    inputValue: {
-      get() {
-        return this.initValue;
+  watch: {
+    initValue: {
+      handler( newValue, oldValue ) {
+        if( ( newValue.x !== this.inputValue.x ) || ( newValue.z !== this.inputValue.z ) ) {
+          this.inputValue.x = newValue.x;
+          this.inputValue.z = newValue.z;
+        }
       },
-      set( value ) {
+      deep: true,
+      immediate: true
+    },
+    inputValue: {
+      handler: debounce( function( newValue, oldValue ) {
+        let value = {
+          x: newValue.x,
+          z: newValue.z
+        };
+        Object.keys( this.initValue ).forEach( ( key ) => {
+          if( key !== 'x' && key !== 'z' ) {
+            value[key] = this.initValue[key];
+          }
+        });
         this.$emit( 'value', value );
-      }
+      }, 200 ),
+      deep: true
     }
   }
 }
