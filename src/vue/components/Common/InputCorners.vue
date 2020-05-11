@@ -12,26 +12,13 @@
     </template>
 
     <ul class="InputCorners__Body">
-      <li
-        class="InputCorners__PointContainer"
+      <input-corners-item
         v-for="( point, index ) in inputValue"
-        :key="'point_'+point.id">
-        <label class="InputCorners__PointLabel">#</label>
-        <input-point
-          :error="point.error"
-          :initValue="point"
-          @value="updatePoint" />
-        <button
-          class="InputCorners__Remove"
-          aria-label="座標を削除する"
-          @click="removePoint( index )">
-          <i class="fas fa-times-circle"></i>
-        </button>
-        <p class="InputCorners__Error" v-show="point.error">
-          <i class="fas fa-exclamation-triangle"></i>
-          <span>{{ point.error }}</span>
-        </p>
-      </li>
+        :index="index"
+        :point="point"
+        :key="'point_'+point.id"
+        @update="updatePoint"
+        @remove="removePoint" />
     </ul>
 
     <div class="InputCorners__Footer">
@@ -56,7 +43,7 @@
 
 <script>
 // Components
-import InputPoint from '@/vue/components/Common/InputPoint';
+import InputCornersItem from '@/vue/components/Common/InputCornersItem';
 
 import throttle   from 'lodash/throttle';
 
@@ -233,7 +220,7 @@ export default {
     }
   },
   components: {
-    InputPoint
+    InputCornersItem
   }
 }
 </script>
@@ -273,29 +260,6 @@ export default {
     font-size: $font-size-s1;
   }
 
-  &__PointContainer {
-    display: grid;
-    grid-template-columns: $size-base*5 $size-base*43 $size-base*2 1fr;
-    grid-template-rows: $size-base*7 auto;
-    gap: 0 $size-base*3;
-    align-items: center;
-    counter-increment: regionPoint;
-  }
-
-  &__PointLabel {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: $color-gray-5;
-    font-size: $font-size-s2;
-
-    &::after {
-      content: counter( regionPoint );
-    }
-  }
-
   &__Add {
     padding: $size-base*1/2 $size-base*2;
     display: flex;
@@ -314,28 +278,6 @@ export default {
     span {
       padding-left: $size-base*1;
     }
-  }
-
-  &__Remove {
-    color: $color-gray-4;
-    font-size: $font-size-s1;
-    transition-duration: $transition-duration-base;
-
-    &:hover {
-      color: $color-error;
-    }
-  }
-
-  &__Error {
-    grid-column: 2 / 5;
-    grid-row: 2 / 3;
-    display: grid;
-    grid-template-columns: $size-base*2 1fr;
-    grid-template-rows: auto;
-    gap: $size-base*1;
-    align-items: baseline;
-    color: $color-error;
-    font-size: $font-size-s2;
   }
 
   &__Counter {
