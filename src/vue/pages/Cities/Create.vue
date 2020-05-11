@@ -75,10 +75,10 @@
 <script>
 // Components
 import ContentBox   from '@/vue/components/Common/ContentBox';
-import InputCorners  from '@/vue/components/Common/InputCorners';
-import InputString  from '@/vue/components/Common/InputString';
 import PrevLink     from '@/vue/components/Common/PrevLink';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
+import InputCorners  from '@/vue/components/Input/InputCorners';
+import InputString  from '@/vue/components/Input/InputString';
 
 export default {
   data() {

@@ -41,10 +41,5 @@
     "dev": "gulp dev",
     "build": "gulp build",
     "server": "gulp server"
-  },
-  "browserslist": [
-    "last 2 versions",
-    "not ie < 12",
-    "not dead"
-  ]
+  }
 }

@@ -43,7 +43,7 @@
 
 <script>
 // Components
-import InputCornersItem from '@/vue/components/Common/InputCornersItem';
+import InputCornersItem from '@/vue/components/Input/InputCornersItem';
 
 import throttle   from 'lodash/throttle';
 

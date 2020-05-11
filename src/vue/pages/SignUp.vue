@@ -48,8 +48,8 @@
 
 <script>
 // Components
-import InputString  from '@/vue/components/Common/InputString';
 import SubmitButton from '@/vue/components/Common/SubmitButton';
+import InputString  from '@/vue/components/Input/InputString';
 
 export default {
   data() {

@@ -20,7 +20,7 @@
 
 <script>
 // Components
-import InputPoint from '@/vue/components/Common/InputPoint';
+import InputPoint from '@/vue/components/Input/InputPoint';
 
 export default {
   props: {
