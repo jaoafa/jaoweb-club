@@ -2,7 +2,7 @@
   <li class="InputCornersItem">
     <label class="InputCornersItem__Label">#{{ index + 1 }}</label>
     <input-point
-      :error="point.error"
+      :error="inputError"
       :initValue="point"
       @value="updatePoint" />
     <button
@@ -11,10 +11,6 @@
       @click="removePoint( index )">
       <i class="fas fa-times-circle"></i>
     </button>
-    <p class="InputCornersItem__Error" v-show="point.error">
-      <i class="fas fa-exclamation-triangle"></i>
-      <span>{{ point.error }}</span>
-    </p>
   </li>
 </template>
 
@@ -23,7 +19,18 @@
 import InputPoint from '@/vue/components/Input/InputPoint';
 
 export default {
+  data() {
+    return {
+      empty: false
+    }
+  },
   props: {
+    error: {
+      // エラー
+      type: Boolean,
+      required: false,
+      default: false
+    },
     index: {
       // インデックス
       type: Number,
@@ -48,8 +55,34 @@ export default {
       }
     },
   },
+  computed: {
+    inputError() {
+      if( this.error || this.empty ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  },
   methods: {
     updatePoint( value ) {
+      let error = {
+        x: value.x.search(/^[-]?([1-9]\d*|0)$/),
+        z: value.z.search(/^[-]?([1-9]\d*|0)$/)
+      }
+      if( ( error.x < 0 ) || ( error.z < 0 ) ) {
+        this.empty = true;
+        if( error.x < 0 ) {
+          value.x = '';
+        }
+        if( error.z < 0 ) {
+          value.z = '';
+        }
+      }
+      else {
+        this.empty = false;
+      }
       this.$emit( 'update', value );
     },
     removePoint( value ) {

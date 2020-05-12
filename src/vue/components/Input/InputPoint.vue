@@ -14,7 +14,7 @@
     <div class="InputPoint__Body">
       <span
         class="InputPoint__InputGroup"
-        :class="{'_error': error!==''}">
+        :class="{'_error':error}">
         <span class="InputPoint__InputLabel">X</span>
         <input
           class="InputPoint__Input"
@@ -23,7 +23,7 @@
       </span>
       <span
         class="InputPoint__InputGroup"
-        :class="{'_error': error!==''}">
+        :class="{'_error':error}">
         <span class="InputPoint__InputLabel">Z</span>
         <input
           class="InputPoint__Input"
@@ -61,10 +61,10 @@ export default {
   },
   props: {
     error: {
-      // エラーメッセージ
-      type: String,
+      // エラー
+      type: Boolean,
       required: false,
-      default: ''
+      default: false
     },
     initValue: {
       // 初期値
