@@ -22,7 +22,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              sourceMap: true
+              sourceMap: false
             }
           }
         ]
@@ -40,13 +40,13 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              sourceMap: true
+              sourceMap: false
             }
           },
           {
             loader: "postcss-loader",
             options: {
-              sourceMap: true,
+              sourceMap: false,
               plugins: [
                 require( 'autoprefixer' )({
                   grid: true
@@ -57,13 +57,13 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
-              sourceMap: true
+              sourceMap: false
             }
           },
           {
             loader: "sass-resources-loader",
             options: {
-              sourceMap: true,
+              sourceMap: false,
               resources: [
                 path.resolve( __dirname, "./src/sass/_colors.scss" ),
                 path.resolve( __dirname, "./src/sass/_variables.scss" ),
