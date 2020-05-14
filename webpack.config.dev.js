@@ -9,6 +9,7 @@ const { VueLoaderPlugin } = require( "vue-loader" );
 module.exports = {
   mode: "development",
   entry: "./src/js/main.js",
+  devtool: '#inline-source-map',
   output: {
     path: __dirname + "/build/js",
     filename: "main.js"

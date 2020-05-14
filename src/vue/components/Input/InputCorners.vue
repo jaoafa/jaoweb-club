@@ -128,10 +128,6 @@ export default {
         // 座標の数が 4 未満
         result = false;
       }
-      else if( corners.length % 2 !== 0 ) {
-        // 座標の数が奇数
-        result = false;
-      }
       corners.reduce( ( prev, current, index ) => {
         error.push( false );
         if( ( current.x === '' ) || ( current.z === '' ) ) {

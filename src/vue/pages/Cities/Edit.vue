@@ -47,13 +47,6 @@
             v-model="inputs.corners.value"
             @count="setCount" />
           <input-string
-            :error="inputs.reason.error"
-            :label="'規定ブロック数を超える理由'"
-            :required="true"
-            :type="'textarea'"
-            v-show="inputs.count.value > 250000"
-            v-model="inputs.reason.value" />
-          <input-string
             :error="inputs.remarks.error"
             :label="'備考'"
             :required="false"
@@ -123,11 +116,6 @@ export default {
           error: '',
           value: 0
         },
-        reason: {
-          error: '',
-          original: '',
-          value: ''
-        },
         remarks: {
           error: '',
           value: ''
@@ -177,8 +165,6 @@ export default {
         vm.inputs.origin.original = data.name_origin ? data.name_origin : '';
         vm.inputs.summary.value     = data.summary ? data.summary : '';
         vm.inputs.summary.original  = data.summary ? data.summary : '';
-        vm.inputs.reason.value    = data.reason ? data.reason : '';
-        vm.inputs.reason.original = data.reason ? data.reason : '';
       });
     })
     .catch( ( error ) => {
@@ -241,8 +227,6 @@ export default {
       this.inputs.origin.original = data.name_origin ? data.name_origin : '';
       this.inputs.summary.value     = data.summary ? data.summary : '';
       this.inputs.summary.original  = data.summary ? data.summary : '';
-      this.inputs.reason.value    = data.reason ? data.reason : '';
-      this.inputs.reason.original = data.reason ? data.reason : '';
       next();
     })
     .catch( ( error ) => {
@@ -334,10 +318,6 @@ export default {
           }
           if( this.inputs.summary.value !== this.inputs.summary.original ) {
             send.summary = this.inputs.summary.value;
-            change.info = true;
-          }
-          if( this.inputs.reason.value !== this.inputs.reason.original ) {
-            send.reason = this.inputs.reason.value;
             change.info = true;
           }
           if( change.corners && change.info ) {
@@ -456,15 +436,6 @@ export default {
       // 自治体範囲
       if( this.inputs.count.value === 0 ) {
         result = false;
-      }
-      // 規定ブロック数を超える理由
-      if( ( this.inputs.count.value > 250000 ) &&
-          ( this.inputs.reason.value === '' ) ) {
-        this.inputs.reason.error = '規定ブロック数を超える理由が入力されていません。';
-        result = false;
-      }
-      else {
-        this.inputs.reason.error = '';
       }
       return result;
     }
