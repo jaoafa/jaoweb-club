@@ -33,7 +33,7 @@
           <div class="SignUp__Link">
             <a
               class="SignUp__LinkText" 
-              href="https://jaoafa.com/rule/clubjaoafa"
+              href="https://jaoafa.com/rule/management/clubjaoafa"
               target="_blank"
               rel="noopener">
               登録前にこちらの説明をお読みください。
