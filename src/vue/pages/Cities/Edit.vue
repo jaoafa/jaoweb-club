@@ -281,7 +281,9 @@ export default {
     postRequest() {
       if( this.validateInputs() && this.button.status === 'default' ) {
         this.button.status = 'loading';
-        let send = {};
+        let send = {
+          remarks: this.inputs.remarks.value
+        };
         new Promise( ( resolve, reject ) => {
           let change = {
             corners: false,
@@ -327,6 +329,17 @@ export default {
                 data: {
                   message: '',
                   message_ja: '情報変更と範囲変更を同時に申請することはできません。'
+                }
+              }
+            });
+          }
+          else if( !change.corners && !change.info ) {
+            reject({
+              response: {
+                status: 418,
+                data: {
+                  message: '',
+                  message_ja: '変更したい項目の内容を変更して申請してください。'
                 }
               }
             });
