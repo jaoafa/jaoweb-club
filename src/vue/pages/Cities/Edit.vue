@@ -95,6 +95,7 @@ export default {
         },
         cityNameEnglish: {
           error: '',
+          original: '',
           value: ''
         },
         origin: {
@@ -161,6 +162,7 @@ export default {
         vm.inputs.cityNameKana.value    = data.namekana ? data.namekana : '';
         vm.inputs.cityNameKana.original = data.namekana ? data.namekana : '';
         vm.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
+        vm.inputs.cityNameEnglish.original = data.regionname ? data.regionname : '';
         vm.inputs.origin.value    = data.name_origin ? data.name_origin : '';
         vm.inputs.origin.original = data.name_origin ? data.name_origin : '';
         vm.inputs.summary.value     = data.summary ? data.summary : '';
@@ -223,6 +225,7 @@ export default {
       this.inputs.cityNameKana.value    = data.namekana ? data.namekana : '';
       this.inputs.cityNameKana.original = data.namekana ? data.namekana : '';
       this.inputs.cityNameEnglish.value = data.regionname ? data.regionname : '';
+      this.inputs.cityNameEnglish.original = data.regionname ? data.regionname : '';
       this.inputs.origin.value    = data.name_origin ? data.name_origin : '';
       this.inputs.origin.original = data.name_origin ? data.name_origin : '';
       this.inputs.summary.value     = data.summary ? data.summary : '';
@@ -312,6 +315,10 @@ export default {
           }
           if( this.inputs.cityNameKana.value !== this.inputs.cityNameKana.original ) {
             send.cityNameKana = this.inputs.cityNameKana.value;
+            change.info = true;
+          }
+          if( this.inputs.cityNameEnglish.value !== this.inputs.cityNameEnglish.original ) {
+            send.regionName = this.inputs.cityNameEnglish.value;
             change.info = true;
           }
           if( this.inputs.origin.value !== this.inputs.origin.original ) {
