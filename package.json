@@ -19,7 +19,7 @@
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-pngquant": "^8.0.0",
     "node-gyp": "^6.1.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
